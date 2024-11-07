@@ -1,96 +1,111 @@
-<div align="center"> <a href="https://github.com/anncwb/vue-vben-admin"> <img alt="VbenAdmin Logo" width="215" src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp"> </a> <br> <br>
-
-[![license](https://img.shields.io/github/license/anncwb/vue-vben-admin.svg)](LICENSE)
-
-<h1>Vue Vben Admin</h1>
+<div align="center"> 
+<img src="https://i.postimg.cc/nh8mVKkf/logo.png" width="300px" height="300px"/>
+<h1>Simple Admin Vben5 UI</h1>
 </div>
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vbenjs_vue-vben-admin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vbenjs_vue-vben-admin) ![codeql](https://github.com/vbenjs/vue-vben-admin/actions/workflows/codeql.yml/badge.svg) ![build](https://github.com/vbenjs/vue-vben-admin/actions/workflows/build.yml/badge.svg) ![ci](https://github.com/vbenjs/vue-vben-admin/actions/workflows/ci.yml/badge.svg) ![deploy](https://github.com/vbenjs/vue-vben-admin/actions/workflows/deploy.yml/badge.svg)
-
-**中文** | [English](./README.md) | [日本語](./README.ja-JP.md)
+**中文** | [English](./README.En.md)
 
 ## 简介
 
-Vue Vben Admin 是 Vue Vben Admin 的升级版本。作为一个免费开源的中后台模板，它采用了最新的 Vue 3、Vite、TypeScript 等主流技术开发，开箱即用，可用于中后台前端开发，也适合学习参考。
+Simple Admin UI 是基于 vue-vben-admin v5 二次开发的为 Simple Admin 专门开发的后台管理界面，基于 Vue3 和 TypeScript 开发， 提供后台错误统一处理，国际化等功能，本项目完全免费，可用于学习和商用
 
-## 升级提示
+## 中文文档地址 [点击查看](https://doc.vben.pro/)
 
-该版本为最新版本`5.0`, 与其他版本不兼容，如果你是新项目，建议使用最新版本。如果你想查看旧版本，请使用 [v2 分支](https://github.com/vbenjs/vue-vben-admin/tree/v2)
+### 在线预览
+
+#### [免费版在线预览](https://preview.ryansu.tech/)
+
+- 账号 **admin**
+- 密码 **simple-admin**
+
+#### [多租户版在线预览](https://tenant-preview.ryansu.tech/)
+
+- 管理员租户账号
+
+  - 企业： **admin**
+  - 账号: **admin**
+  - 密码: **simple-admin**
+
+- 租户账号
+  - 企业: **测试企业**
+  - 账号: **admin**
+  - 密码: **simple-admin**
+
+> 只读，不可修改和注册
 
 ## 特性
 
-- **最新技术栈**：使用 Vue3/vite 等前端前沿技术开发
-- **TypeScript**: 应用程序级 JavaScript 的语言
-- **主题**：提供多套主题色彩，可配置自定义主题
+- **最新技术栈**：基于 Vue3/vite5 等最新技术开发
+- **TypeScript**: 采用 Typescript 的语言
+- **主题**：可配置的主题
 - **国际化**：内置完善的国际化方案
-- **权限** 内置完善的动态路由权限生成方案
+- **Mock 数据** 内置 Mock 数据测试方案
+- **权限** 支持动态路由权限
+- **组件** 二次封装了多个常用的组件
+- **Remeda**: 使用 remeda 作为数据处理工具
+
+## 支持功能
+
+- 用户管理：管理系统用户数据
+- 部门管理：管理所属部门
+- 岗位管理：配置系统用户所属担任职务
+- 菜单管理：配置系统菜单，树形展示
+- 角色管理：管理角色权限，支持多角色
+- 字典管理：维护数据字典，方便前端使用
+- 接口文档：根据业务代码自动生成相关的api接口文档
+- 代码生成：自动生成 CRUD 代码，快捷生成自定义逻辑
+- 令牌管理：管理 token 状态，支持拉黑 token
+
+## 项目规划进度
+
+[RoadMap](https://github.com/suyuan32/simple-admin-core/issues/63)
 
 ## 预览
 
-- [Vben Admin](https://vben.pro/) - 完整版中文站点
+![pic](https://i.postimg.cc/qqPNR02x/register-zh-cn.png) ![pic](https://i.postimg.cc/PxczkCr6/dashboard-zh-cn.png)
 
-测试账号: vben/123456
-
-<p align="center">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview1.png">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview2.png">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview3.png">
-</p>
-
-### 使用 Gitpod
-
-在 Gitpod（适用于 GitHub 的免费在线开发环境）中打开项目，并立即开始编码.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vbenjs/vue-vben-admin)
+[更多预览](https://suyuan32.github.io/simple-admin-core/#/simple-admin/zh-cn/docs/screenshot)
 
 ## 文档
 
-[文档地址](https://doc.vben.pro/)
+[文档](https://doc.vben.pro/)
 
-## 安装使用
+- ant-design-vue [地址](https://antdv.com/components/overview)
 
-- 获取项目代码
+## 准备
 
-```bash
-git clone https://github.com/vbenjs/vue-vben-admin.git
-```
+- [node](http://nodejs.org/) 和 [git](https://git-scm.com/) -项目开发环境
+- [Vite](https://vitejs.dev/) - 熟悉 vite 特性
+- [Vue3](https://v3.vuejs.org/) - 熟悉 Vue 基础语法
+- [TypeScript](https://www.typescriptlang.org/) - 熟悉`TypeScript`基本语法
+- [Es6+](http://es6.ruanyifeng.com/) - 熟悉 es6 基本语法
+- [Vue-Router-Next](https://next.router.vuejs.org/) - 熟悉 vue-router 基本使用
+- [Ant-Design-Vue](https://2x.antdv.com/docs/vue/introduce-cn/) - ui 基本使用
+- [Mock.js](https://github.com/nuysoft/Mock) - mockjs 基本语法
 
-- 安装依赖
+## 快速开始
 
-```bash
-cd vue-vben-admin
-
-corepack enable
-
-pnpm install
-```
-
-- 运行
-
-```bash
-pnpm dev
-```
-
-- 打包
-
-```bash
-pnpm build
-```
+[快速开始文档](https://doc.ryansu.pro/zh/guide/basic-config/env_setting.html)
 
 ## 更新日志
 
-[CHANGELOG](https://github.com/vbenjs/vue-vben-admin/releases)
+[CHANGELOG](./CHANGELOG.md)
+
+## 项目地址
+
+- [Simple-Admin-ui](https://github.com/suyuan32/Simple-Admin-ui)
+- [Simple-Admin](https://github.com/suyuan32/Simple-Admin)
 
 ## 如何贡献
 
-非常欢迎你的加入！[提一个 Issue](https://github.com/anncwb/vue-vben-admin/issues/new/choose) 或者提交一个 Pull Request。
+非常欢迎你的加入！[提一个 Issue](https://github.com/suyuan32/Simple-Admin-ui/issues/new/choose) 或者提交一个 Pull Request。
 
 **Pull Request:**
 
 1. Fork 代码!
-2. 创建自己的分支: `git checkout -b feature/xxxx`
+2. 创建自己的分支: `git checkout -b feat/xxxx`
 3. 提交你的修改: `git commit -am 'feat(function): add xxxxx'`
-4. 推送您的分支: `git push origin feature/xxxx`
+4. 推送您的分支: `git push origin feat/xxxx`
 5. 提交`pull request`
 
 ## Git 贡献提交规范
@@ -106,6 +121,7 @@ pnpm build
   - `test` 测试相关
   - `docs` 文档/注释
   - `chore` 依赖更新/脚手架配置修改等
+  - `workflow` 工作流改进
   - `ci` 持续集成
   - `types` 类型定义文件更改
   - `wip` 开发中
@@ -120,33 +136,22 @@ pnpm build
 | :-: | :-: | :-: | :-: | :-: |
 | not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
+## 相关仓库
+
+如果这些插件对你有帮助，可以给一个 star 支持下
+
+- [vite-plugin-mock](https://github.com/anncwb/vite-plugin-mock) - 用于本地及开发环境数据 mock
+- [vite-plugin-html](https://github.com/anncwb/vite-plugin-html) - 用于 html 模版转换及压缩
+- [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import) - 用于组件库样式按需引入
+- [vite-plugin-theme](https://github.com/anncwb/vite-plugin-theme) - 用于在线切换主题色等颜色相关配置
+- [vite-plugin-imagemin](https://github.com/anncwb/vite-plugin-imagemin) - 用于打包压缩图片资源
+- [vite-plugin-compression](https://github.com/anncwb/vite-plugin-compression) - 用于打包输出.gz|.brotil 文件
+- [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) - 用于快速生成 svg 雪碧图
+
 ## 维护者
 
-[@Vben](https://github.com/anncwb)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=vbenjs/vue-vben-admin&type=Date)](https://star-history.com/#vbenjs/vue-vben-admin&Date)
-
-## 捐赠
-
-如果你觉得这个项目对你有帮助，你可以帮作者买一杯咖啡表示支持!
-
-![donate](https://unpkg.com/@vbenjs/static-source@0.1.7/source/sponsor.png)
-
-<a style="display: block;width: 100px;height: 50px;line-height: 50px; color: #fff;text-align: center; background: #408aed;border-radius: 4px;" href="https://www.paypal.com/paypalme/cvvben">Paypal Me</a>
-
-## Contributor
-
-<a href="https://github.com/vbenjs/vue-vben-admin/graphs/contributors">
-  <img alt="Contributors"
-        src="https://opencollective.com/vbenjs/contributors.svg?button=false" />
-</a>
-
-## Discord
-
-- [Github Discussions](https://github.com/anncwb/vue-vben-admin/discussions)
+[@Ryan Su](https://github.com/suyuan32)
 
 ## License
 
-[MIT © Vben-2020](./LICENSE)
+[Apache2.0 © Ryan-present](.originallicense/LICENSE)

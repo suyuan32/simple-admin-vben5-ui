@@ -1,89 +1,104 @@
-<div align="center"> <a href="https://github.com/anncwb/vue-vben-admin"> <img alt="VbenAdmin Logo" width="215" src="https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp"> </a> <br> <br>
-
-[![license](https://img.shields.io/github/license/anncwb/vue-vben-admin.svg)](LICENSE)
-
-<h1>Vue Vben Admin</h1>
+<div align="center">
+<img src="https://i.postimg.cc/nh8mVKkf/logo.png" width="300px" height="300px"/>
+<h1>Simple Admin Vben5 UI</h1>
 </div>
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=vbenjs_vue-vben-admin&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=vbenjs_vue-vben-admin) ![codeql](https://github.com/vbenjs/vue-vben-admin/actions/workflows/codeql.yml/badge.svg) ![build](https://github.com/vbenjs/vue-vben-admin/actions/workflows/build.yml/badge.svg) ![ci](https://github.com/vbenjs/vue-vben-admin/actions/workflows/ci.yml/badge.svg) ![deploy](https://github.com/vbenjs/vue-vben-admin/actions/workflows/deploy.yml/badge.svg)
-
-**English** | [中文](./README.zh-CN.md) | [日本語](./README.ja-JP.md)
+**English** | [中文](./README.zh-CN.md)
 
 ## Introduction
 
-Vue Vben Admin is a free and open source middle and back-end template. Using the latest `vue3`, `vite`, `TypeScript` and other mainstream technology development, the out-of-the-box middle and back-end front-end solutions can also be used for learning reference.
+Simple Admin Vben5 UI is a modern UI for Simple Admin. It is based on vue-vben-admin and supports several advanced features. It can help you developing a distributed backend management system in a short time.
 
-## Upgrade Notice
+## Document [Click here](https://vben.ryansu.tech/)
 
-This is the latest version, 5.0, and it is not compatible with previous versions. If you are starting a new project, it is recommended to use the latest version. If you wish to view the old version, please use the [v2 branch](https://github.com/vbenjs/vue-vben-admin/tree/v2).
+### Online Preview
+
+#### [Free Edition Online Preview](https://preview.ryansu.tech/)
+
+- Account **admin**
+- Password **simple-admin**
+
+#### [Multi-tenant Edition Online Preview](https://tenant-preview.ryansu.tech/)
+
+- Administrator Tenant Account
+
+  - Enterprise: **admin**
+  - Account: **admin**
+  - Password: **simple-admin**
+
+- Tenant Account
+  - Enterprise: **测试企业**
+  - Account: **admin**
+  - Password: **simple-admin**
+
+> Read-only, cannot be modified or registered
 
 ## Feature
 
-- **Latest Technology Stack**: Developed with cutting-edge front-end technologies like Vue 3 and Vite
-- **TypeScript**: A language for application-scale JavaScript
-- **Themes**: Multiple theme colors available with customizable options
-- **Internationalization**: Comprehensive built-in internationalization support
-- **Permissions**: Built-in solution for dynamic route-based permission generation
+- **Latest technology stack**: Developed based on the latest technologies such as Vue3/vite5
+- **TypeScript**: Uses Typescript language
+- **Theme**: Configurable themes
+- **Internationalization**: Built-in complete internationalization solution
+- **Mock data** Built-in Mock data testing solution
+- **Permission** Supports dynamic routing permissions
+- **Component** Secondary encapsulation of multiple commonly used components
+- **Remeda**: Use remeda as a data processing tool
 
-## Preview
+## Support functions
 
-- [Vben Admin](https://vben.pro/) - Full version Chinese site
+- User management: manage system user data
+- Department management: manage the department to which you belong
+- Post management: configure the positions held by system users
+- Menu management: configure system menus, tree display
+- Role management: manage role permissions, support multiple roles
+- Dictionary management: maintain data dictionary, convenient for front-end use
+- Interface document: automatically generate related api interface documents according to business code
+- Code generation: automatically generate CRUD code, quickly generate custom logic
+- Token management: manage token status, support blacklisting token
 
-Test Account: vben/123456
+## Project Planning Progress
 
-<p align="center">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview1.png">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview2.png">
-    <img alt="VbenAdmin Logo" width="100%" src="https://anncwb.github.io/anncwb/images/preview3.png">
-</p>
+[RoadMap](https://github.com/suyuan32/simple-admin-core/issues/63)
 
-### Use Gitpod
+### Preview
 
-Open the project in Gitpod (free online dev environment for GitHub) and start coding immediately.
+![pic](https://i.postimg.cc/qqPNR02x/register-zh-cn.png) ![pic](https://i.postimg.cc/PxczkCr6/dashboard-zh-cn.png)
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/vbenjs/vue-vben-admin)
+[More](https://suyuan32.github.io/simple-admin-core/#/simple-admin/zh-cn/docs/screenshot)
 
 ## Documentation
 
-[Document](https://doc.vben.pro/)
+[Simple Admin Documentation](https://doc.vben.pro/)
 
-## Install and use
+- ant-design-vue [Document](https://antdv.com/components/overview)
 
-- Get the project code
+## Preparation
 
-```bash
-git clone https://github.com/vbenjs/vue-vben-admin.git
-```
+- [node](http://nodejs.org/) and [git](https://git-scm.com/) - Project development environment
+- [Vite](https://vitejs.dev/) - Familiar with vite features
+- [Vue3](https://v3.vuejs.org/) - Familiar with Vue basic syntax
+- [TypeScript](https://www.typescriptlang.org/) - Familiar with the basic syntax of `TypeScript`
+- [Es6+](http://es6.ruanyifeng.com/) - Familiar with es6 basic syntax
+- [Vue-Router-Next](https://next.router.vuejs.org/) - Familiar with the basic use of vue-router
+- [Ant-Design-Vue](https://2x.antdv.com/docs/vue/introduce-cn/) - ui basic use
+- [Mock.js](https://github.com/nuysoft/Mock) - mockjs basic syntax
 
-- Installation dependencies
+## Quick Start
 
-```bash
-cd vue-vben-admin
-
-corepack enable
-
-pnpm install
-```
-
-- run
-
-```bash
-pnpm dev
-```
-
-- build
-
-```bash
-pnpm build
-```
+[Quick Start Document](https://doc.ryansu.pro/en/guide/basic-config/env_setting.html)
 
 ## Change Log
 
-[CHANGELOG](https://github.com/vbenjs/vue-vben-admin/releases)
+[CHANGELOG](./CHANGELOG.md)
+
+## Project
+
+- [Simple-Admin-ui](https://github.com/suyuan32/Simple-Admin-ui)
+- [Simple-Admin](https://github.com/suyuan32/Simple-Admin)
 
 ## How to contribute
 
-You are very welcome to join！[Raise an issue](https://github.com/anncwb/vue-vben-admin/issues/new/choose) Or submit a Pull Request。
+You are very welcome to join！[Raise an issue](https://github.com/suyuan32/Simple-Admin-ui/issues/new/choose) Or submit a Pull Request。
 
 **Pull Request:**
 
@@ -106,9 +121,22 @@ You are very welcome to join！[Raise an issue](https://github.com/anncwb/vue-vb
   - `test` Test related
   - `docs` Documentation/notes
   - `chore` Dependency update/scaffolding configuration modification etc.
+  - `workflow` Workflow improvements
   - `ci` Continuous integration
   - `types` Type definition file changes
   - `wip` In development
+
+## Related warehouse
+
+If these plugins are helpful to you, you can give a star support
+
+- [vite-plugin-mock](https://github.com/anncwb/vite-plugin-mock) - Used for local and development environment data mock
+- [vite-plugin-html](https://github.com/anncwb/vite-plugin-html) - Used for html template conversion and compression
+- [vite-plugin-style-import](https://github.com/anncwb/vite-plugin-style-import) - Used for component library style introduction on demand
+- [vite-plugin-theme](https://github.com/anncwb/vite-plugin-theme) - Used for online switching of theme colors and other color-related configurations
+- [vite-plugin-imagemin](https://github.com/anncwb/vite-plugin-imagemin) - Used to pack compressed image resources
+- [vite-plugin-compression](https://github.com/anncwb/vite-plugin-compression) - Used to pack input .gz|.brotil files
+- [vite-plugin-svg-icons](https://github.com/anncwb/vite-plugin-svg-icons) - Used to quickly generate svg sprite
 
 ## Browser support
 
@@ -122,31 +150,8 @@ Support modern browsers, not IE
 
 ## Maintainer
 
-[@Vben](https://github.com/anncwb)
-
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=vbenjs/vue-vben-admin&type=Date)](https://star-history.com/#vbenjs/vue-vben-admin&Date)
-
-## Donate
-
-If you think this project is helpful to you, you can help the author buy a cup of coffee to show your support!
-
-![donate](https://unpkg.com/@vbenjs/static-source@0.1.7/source/sponsor.png)
-
-<a style="display: block;width: 100px;height: 50px;line-height: 50px; color: #fff;text-align: center; background: #408aee;border-radius: 4px;" href="https://www.paypal.com/paypalme/cvvben">Paypal Me</a>
-
-## Contributor
-
-<a href="https://github.com/vbenjs/vue-vben-admin/graphs/contributors">
-  <img alt="Contributors"
-        src="https://opencollective.com/vbenjs/contributors.svg?button=false" />
-</a>
-
-## Discord
-
-- [Github Discussions](https://github.com/anncwb/vue-vben-admin/discussions)
+[@Ryan Su](https://github.com/suyuan32)
 
 ## License
 
-[MIT © Vben-2020](./LICENSE)
+[Apache2.0 © Ryan-2022](.originallicense/LICENSE)
