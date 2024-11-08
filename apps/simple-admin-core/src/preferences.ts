@@ -9,5 +9,11 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     name: import.meta.env.VITE_APP_TITLE,
+    defaultAvatar:
+      'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
+  },
+  logo: {
+    enable: true,
+    source: 'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
   },
 });

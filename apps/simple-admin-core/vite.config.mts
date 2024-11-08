@@ -1,16 +1,9 @@
-import * as path from 'node:path';
-
 import { defineConfig } from '@vben/vite-config';
 
 export default defineConfig(async () => {
   return {
     application: {},
     vite: {
-      resolve: {
-        alias: {
-          '#': path.resolve(import.meta.dirname, 'src'),
-        },
-      },
       server: {
         proxy: {
           '/api': {

@@ -197,7 +197,7 @@ const formSchema = computed((): VbenFormSchema[] => {
   ];
 });
 
-async function handleLogin(values) {
+async function handleLogin(values: any) {
   switch (values.selectLoginType) {
     case 'captcha': {
       authStore

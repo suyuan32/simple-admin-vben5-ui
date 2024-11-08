@@ -10,7 +10,7 @@ const defaultPreferences: Preferences = {
     compact: false,
     contentCompact: 'wide',
     defaultAvatar:
-      'https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp',
+      'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
     dynamicTitle: true,
     enableCheckUpdates: true,
     enablePreferences: true,
@@ -31,8 +31,8 @@ const defaultPreferences: Preferences = {
     styleType: 'normal',
   },
   copyright: {
-    companyName: 'Vben',
-    companySiteLink: 'https://www.vben.pro',
+    companyName: 'Simple Admin',
+    companySiteLink: 'https://doc.ryansu.tech/zh/',
     date: '2024',
     enable: true,
     icp: '',
@@ -50,7 +50,7 @@ const defaultPreferences: Preferences = {
   },
   logo: {
     enable: true,
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    source: `https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png`,
   },
   navigation: {
     accordion: true,

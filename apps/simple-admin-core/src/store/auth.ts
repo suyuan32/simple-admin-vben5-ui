@@ -1,11 +1,17 @@
-import type { UserInfo } from '@vben/types';
-
-import type { LoginReq } from '#/api/sys/model/userModel';
+import type { BaseDataResp } from '#/api/model/baseModel';
+import type {
+  GetUserInfoModel,
+  LoginByEmailReq,
+  LoginBySmsReq,
+  LoginReq,
+  LoginResp,
+} from '#/api/sys/model/userModel';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
+import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { notification } from 'ant-design-vue';
@@ -30,31 +36,36 @@ export const useAuthStore = defineStore('auth', () => {
    * @param onSuccess
    */
   async function authLogin(
-    params: LoginReq,
+    params: LoginByEmailReq | LoginBySmsReq | LoginReq,
     loginType: 'captcha' | 'email' | 'mobile',
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
-    let userInfo: null | UserInfo = null;
+    let userInfo: GetUserInfoModel = {
+      avatar: '',
+      homePath: '',
+      nickname: '',
+      roleName: [],
+      userId: '',
+      username: '',
+    };
+
     try {
       loginLoading.value = true;
 
-      let resp: LoginResp;
+      let resp: BaseDataResp<LoginResp>;
 
       switch (loginType) {
         case 'captcha': {
-          resp = await login(params);
-
+          resp = await login(params as LoginReq);
           break;
         }
         case 'email': {
-          resp = await loginByEmail(params);
-
+          resp = await loginByEmail(params as LoginByEmailReq);
           break;
         }
         case 'mobile': {
-          resp = await loginBySms(params);
-
+          resp = await loginBySms(params as LoginBySmsReq);
           break;
         }
         // No default
@@ -74,7 +85,6 @@ export const useAuthStore = defineStore('auth', () => {
 
         userInfo = fetchUserInfoResult;
 
-        userStore.setUserInfo(userInfo);
         accessStore.setAccessCodes(accessCodes);
 
         if (accessStore.loginExpired) {
@@ -82,12 +92,12 @@ export const useAuthStore = defineStore('auth', () => {
         } else {
           onSuccess
             ? await onSuccess?.()
-            : await router.push(userInfo.homePath || DEFAULT_HOME_PATH);
+            : await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
         }
 
-        if (userInfo?.realName) {
+        if (userInfo?.nickname) {
           notification.success({
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.nickname}`,
             duration: 3,
             message: $t('authentication.loginSuccess'),
           });
@@ -123,9 +133,18 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function fetchUserInfo() {
-    let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfo();
-    userStore.setUserInfo(userInfo);
+    let userInfo: GetUserInfoModel;
+    const result = await getUserInfo();
+    // eslint-disable-next-line prefer-const
+    userInfo = result.data;
+    if (
+      userInfo.avatar === undefined ||
+      userInfo.avatar === null ||
+      userInfo.avatar === ''
+    ) {
+      userInfo.avatar = preferences.app.defaultAvatar;
+    }
+    userStore.setUserInfo(userInfo as any);
     return userInfo;
   }
 
