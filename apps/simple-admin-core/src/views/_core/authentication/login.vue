@@ -227,7 +227,9 @@ async function handleLogin(values: any) {
           'email',
         )
         .then(() => {})
-        .catch(() => {});
+        .catch(() => {
+          getCaptchaData();
+        });
 
       break;
     }
@@ -238,10 +240,12 @@ async function handleLogin(values: any) {
             captcha: values.captchaVerified,
             phoneNumber: values.target,
           },
-          'sms',
+          'mobile',
         )
         .then(() => {})
-        .catch(() => {});
+        .catch(() => {
+          getCaptchaData();
+        });
 
       break;
     }

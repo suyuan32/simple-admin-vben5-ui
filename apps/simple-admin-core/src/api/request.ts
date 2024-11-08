@@ -85,7 +85,7 @@ function createRequestClient(baseURL: string) {
 
         switch (status) {
           case 400: {
-            errMessage = t(msg);
+            errMessage = $t(msg);
             break;
           }
           // 401: Not logged in
@@ -176,7 +176,10 @@ function createRequestClient(baseURL: string) {
       // 如果没有错误信息，则会根据状态码进行提示
       if (responseData?.code !== 0) {
         message.error(responseData?.msg);
+        return;
       }
+
+      message.error(msg);
     }),
   );
 

@@ -39,7 +39,7 @@ interface HttpResponse<T = any> {
    */
   code: number;
   data: T;
-  message: string;
+  msg: string;
 }
 
 export type {
