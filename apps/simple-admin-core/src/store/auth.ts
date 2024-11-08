@@ -17,8 +17,14 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, logoutApi } from '#/api';
-import { getUserInfo, login, loginByEmail, loginBySms } from '#/api/sys/user';
+import { logoutApi } from '#/api';
+import {
+  getPermCode,
+  getUserInfo,
+  login,
+  loginByEmail,
+  loginBySms,
+} from '#/api/sys/user';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -80,12 +86,12 @@ export const useAuthStore = defineStore('auth', () => {
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
           fetchUserInfo(),
-          getAccessCodesApi(),
+          getPermCode(),
         ]);
 
         userInfo = fetchUserInfoResult;
 
-        accessStore.setAccessCodes(accessCodes);
+        accessStore.setAccessCodes(accessCodes.data);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
