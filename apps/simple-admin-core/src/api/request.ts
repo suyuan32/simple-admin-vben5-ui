@@ -1,10 +1,9 @@
+import { useAppConfig } from '@vben/hooks';
+import { $t } from '@vben/locales';
+import { preferences } from '@vben/preferences';
 /**
  * 该文件可自行根据业务逻辑进行调整
  */
-import type { HttpResponse } from '@vben/request';
-
-import { useAppConfig } from '@vben/hooks';
-import { preferences } from '@vben/preferences';
 import {
   authenticateResponseInterceptor,
   errorMessageResponseInterceptor,
@@ -70,13 +69,87 @@ function createRequestClient(baseURL: string) {
   });
 
   // response数据解构
-  client.addResponseInterceptor<HttpResponse>({
+  client.addResponseInterceptor<any>({
     fulfilled: (response) => {
       const { data: responseData, status } = response;
 
-      const { code, data } = responseData;
-      if (status >= 200 && status < 400 && code === 0) {
-        return data;
+      const { code, msg } = responseData;
+      if (code !== undefined && code !== 0) {
+        message.error(msg);
+      }
+
+      if (status === 200) {
+        return responseData;
+      } else {
+        let errMessage = '';
+
+        switch (status) {
+          case 400: {
+            errMessage = t(msg);
+            break;
+          }
+          // 401: Not logged in
+          // Jump to the login page if not logged in, and carry the path of the current page
+          // Return to the current page after successful login. This step needs to be operated on the login page.
+          case 401: {
+            // userStore.setToken(undefined);
+            // if (msg != null && msg != '' && msg != undefined) {
+            //   errMessage = t(msg);
+            // } else {
+            //   errMessage = t('sys.api.errMsg401');
+            // }
+            // if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
+            //   userStore.setSessionTimeout(true);
+            // } else {
+            //   userStore.logout(true);
+            // }
+            break;
+          }
+          case 403: {
+            errMessage = $t('sys.api.errMsg403');
+            break;
+          }
+          // 404请求不存在
+          case 404: {
+            errMessage = $t('sys.api.errMsg404');
+            break;
+          }
+          case 405: {
+            errMessage = $t('sys.api.errMsg405');
+            break;
+          }
+          case 408: {
+            errMessage = $t('sys.api.errMsg408');
+            break;
+          }
+          case 500: {
+            errMessage = $t('sys.api.errMsg500');
+            break;
+          }
+          case 501: {
+            errMessage = $t('sys.api.errMsg501');
+            break;
+          }
+          case 502: {
+            errMessage = $t('sys.api.errMsg502');
+            break;
+          }
+          case 503: {
+            errMessage = $t('sys.api.errMsg503');
+            break;
+          }
+          case 504: {
+            errMessage = $t('sys.api.errMsg504');
+            break;
+          }
+          case 505: {
+            errMessage = $t('sys.api.errMsg505');
+            break;
+          }
+          default:
+        }
+
+        message.error(errMessage);
       }
 
       throw Object.assign({}, response, { response });
@@ -100,9 +173,10 @@ function createRequestClient(baseURL: string) {
       // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
       // 当前mock接口返回的错误字段是 error 或者 message
       const responseData = error?.response?.data ?? {};
-      const errorMessage = responseData?.error ?? responseData?.message ?? '';
       // 如果没有错误信息，则会根据状态码进行提示
-      message.error(errorMessage || msg);
+      if (responseData?.code !== 0) {
+        message.error(responseData?.msg);
+      }
     }),
   );
 

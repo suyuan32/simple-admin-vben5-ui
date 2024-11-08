@@ -1,4 +1,6 @@
-import type { Recordable, UserInfo } from '@vben/types';
+import type { UserInfo } from '@vben/types';
+
+import type { LoginReq } from '#/api/sys/model/userModel';
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -9,7 +11,8 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { getAccessCodesApi, logoutApi } from '#/api';
+import { getUserInfo, login, loginByEmail, loginBySms } from '#/api/sys/user';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
@@ -23,21 +26,45 @@ export const useAuthStore = defineStore('auth', () => {
    * 异步处理登录操作
    * Asynchronously handle the login process
    * @param params 登录表单数据
+   * @param loginType
    * @param onSuccess
    */
   async function authLogin(
-    params: Recordable<any>,
+    params: LoginReq,
+    loginType: 'captcha' | 'email' | 'mobile',
     onSuccess?: () => Promise<void> | void,
   ) {
     // 异步处理用户登录操作并获取 accessToken
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+
+      let resp: LoginResp;
+
+      switch (loginType) {
+        case 'captcha': {
+          resp = await login(params);
+
+          break;
+        }
+        case 'email': {
+          resp = await loginByEmail(params);
+
+          break;
+        }
+        case 'mobile': {
+          resp = await loginBySms(params);
+
+          break;
+        }
+        // No default
+      }
+
+      const { data } = resp;
 
       // 如果成功获取到 accessToken
-      if (accessToken) {
-        accessStore.setAccessToken(accessToken);
+      if (data.token) {
+        accessStore.setAccessToken(data.token);
 
         // 获取用户信息并存储到 accessStore 中
         const [fetchUserInfoResult, accessCodes] = await Promise.all([
@@ -97,7 +124,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function fetchUserInfo() {
     let userInfo: null | UserInfo = null;
-    userInfo = await getUserInfoApi();
+    userInfo = await getUserInfo();
     userStore.setUserInfo(userInfo);
     return userInfo;
   }
