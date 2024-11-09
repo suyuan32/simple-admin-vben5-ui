@@ -11,6 +11,7 @@ export const overridesPreferences = defineOverridesPreferences({
     name: import.meta.env.VITE_APP_TITLE,
     defaultAvatar:
       'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
+    accessMode: 'backend',
   },
   logo: {
     enable: true,
