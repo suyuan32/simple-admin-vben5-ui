@@ -1,4 +1,4 @@
-import { BaseListResp } from '@/api/model/baseModel';
+import { type BaseListResp } from '../../model/baseModel';
 
 /**
  *  @description: Department info response
