@@ -50,9 +50,9 @@ export const MOCK_CODES = [
 
 const dashboardMenus = [
   {
-    component: 'BasicLayout',
+    component: 'LAYOUT',
     meta: {
-      order: -1,
+      sort: -1,
       title: 'page.dashboard.title',
     },
     name: 'Dashboard',
@@ -113,11 +113,11 @@ const createDemosMenus = (role: 'admin' | 'super' | 'user') => {
 
   return [
     {
-      component: 'BasicLayout',
+      component: 'LAYOUT',
       meta: {
         icon: 'ic:baseline-view-in-ar',
         keepAlive: true,
-        order: 1000,
+        sort: 1000,
         title: 'demos.title',
       },
       name: 'Demos',

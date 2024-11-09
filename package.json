@@ -28,7 +28,7 @@
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
     "build:analyze": "turbo build:analyze",
-    "build:antd": "pnpm run build --filter=@vben/simple-admin-core",
+    "build:simple-admin-core": "pnpm run build --filter=@vben/simple-admin-core",
     "build:docker": "./scripts/deploy/build-local-docker-image.sh",
     "changeset": "pnpm exec changeset",
     "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type && pnpm check:cspell",

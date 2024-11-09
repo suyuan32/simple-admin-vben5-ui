@@ -47,7 +47,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: 'home-icon',
         name: '首页',
-        order: undefined,
+        sort: undefined,
         parent: undefined,
         parents: undefined,
         path: '/home',
@@ -60,7 +60,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: 'about-icon',
         name: '关于',
-        order: undefined,
+        sort: undefined,
         parent: undefined,
         parents: undefined,
         path: '/about',
@@ -76,7 +76,7 @@ describe('generateMenus', () => {
   it('includes additional meta properties in menu items', async () => {
     const mockRoutesWithMeta = [
       {
-        meta: { icon: 'user-icon', order: 1, title: 'Profile' },
+        meta: { icon: 'user-icon', sort: 1, title: 'Profile' },
         name: 'profile',
         path: '/profile',
       },
@@ -90,7 +90,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: 'user-icon',
         name: 'Profile',
-        order: 1,
+        sort: 1,
         parent: undefined,
         parents: undefined,
         path: '/profile',
@@ -117,7 +117,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: 'details-icon',
         name: 'User Details',
-        order: undefined,
+        sort: undefined,
         parent: undefined,
         parents: undefined,
         path: '/users/:userId',
@@ -153,7 +153,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: undefined,
         name: 'redirectedRoute',
-        order: undefined,
+        sort: undefined,
         parent: undefined,
         parents: undefined,
         path: '/old-path',
@@ -166,7 +166,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: 'path-icon',
         name: 'New Path',
-        order: undefined,
+        sort: undefined,
         parent: undefined,
         parents: undefined,
         path: '/new-path',
@@ -178,12 +178,12 @@ describe('generateMenus', () => {
 
   const routes: any = [
     {
-      meta: { order: 2, title: 'Home' },
+      meta: { sort: 2, title: 'Home' },
       name: 'home',
       path: '/',
     },
     {
-      meta: { order: 1, title: 'About' },
+      meta: { sort: 1, title: 'About' },
       name: 'about',
       path: '/about',
     },
@@ -194,7 +194,7 @@ describe('generateMenus', () => {
     routes,
   });
 
-  it('should generate menu list with correct order', async () => {
+  it('should generate menu list with correct sort', async () => {
     const menus = await generateMenus(routes, router);
     const expectedMenus = [
       {
@@ -203,7 +203,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: undefined,
         name: 'About',
-        order: 1,
+        sort: 1,
         parent: undefined,
         parents: undefined,
         path: '/about',
@@ -216,7 +216,7 @@ describe('generateMenus', () => {
         badgeVariants: undefined,
         icon: undefined,
         name: 'Home',
-        order: 2,
+        sort: 2,
         parent: undefined,
         parents: undefined,
         path: '/',

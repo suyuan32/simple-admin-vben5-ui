@@ -1,14 +1,14 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import { BasicLayout } from '#/layouts';
+import { LAYOUT } from '#/layouts';
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
   {
-    component: BasicLayout,
+    component: LAYOUT,
     meta: {
       icon: 'lucide:layout-dashboard',
-      order: -1,
+      sort: -1,
       title: $t('page.dashboard.title'),
     },
     name: 'Dashboard',
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'Workspace',
         path: '/dashboard',
-        component: () => import('#/views/dashboard/workspace/index.vue'),
+        component: () => import('#/views/dashboard/workbench/index.vue'),
         meta: {
           icon: 'carbon:workspace',
           title: $t('page.dashboard.workspace'),

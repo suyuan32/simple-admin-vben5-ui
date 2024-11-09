@@ -52,10 +52,6 @@ interface MenuRecordRaw extends MenuRecordBadgeRaw {
    */
   name: string;
   /**
-   * 排序号
-   */
-  order?: number;
-  /**
    * 父级路径
    */
   parent?: string;
@@ -72,6 +68,10 @@ interface MenuRecordRaw extends MenuRecordBadgeRaw {
    * @default true
    */
   show?: boolean;
+  /**
+   * 排序号
+   */
+  sort?: number;
 }
 
 export type { ExRouteRecordRaw, MenuRecordBadgeRaw, MenuRecordRaw };

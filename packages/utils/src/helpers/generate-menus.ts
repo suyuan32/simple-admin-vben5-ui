@@ -32,7 +32,7 @@ async function generateMenus(
       hideChildrenInMenu = false,
       icon,
       link,
-      order,
+      sort,
       title = '',
     } = meta || {};
 
@@ -59,7 +59,7 @@ async function generateMenus(
       badgeVariants,
       icon,
       name,
-      order,
+      sort,
       parent: route.parent,
       parents: route.parents,
       path: resultPath as string,
@@ -69,7 +69,7 @@ async function generateMenus(
   });
 
   // 对菜单进行排序
-  menus = menus.sort((a, b) => (a.order || 999) - (b.order || 999));
+  menus = menus.sort((a, b) => (a.sort || 999) - (b.sort || 999));
 
   const finalMenus = filterTree(menus, (menu) => {
     return !!menu.show;

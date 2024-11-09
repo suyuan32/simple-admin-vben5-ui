@@ -3,6 +3,8 @@ import type { RouteMeta } from 'vue-router';
 import { type BaseListResp } from '../../model/baseModel';
 
 export interface RouteItem {
+  id?: number;
+  parentId?: number;
   path: string;
   component: any;
   meta: RouteMeta;
