@@ -23,7 +23,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['change', 'optionsChange']);
+const emits = defineEmits(['update:value', 'optionsChange']);
 const state = useVModel(props, 'value', emits, {
   defaultValue: props.value,
   passive: true,
@@ -41,19 +41,11 @@ const getOptions = computed((): OptionsItem[] => {
 
   return options.map((item) => ({ label: item, value: item })) as OptionsItem[];
 });
-
-function handleClick(...args: any) {
-  emits('change', ...args);
-}
 </script>
 <template>
   <RadioGroup v-model:value="state" button-style="solid">
     <template v-for="item in getOptions" :key="`${item.value}`">
-      <RadioButton
-        :disabled="item.disabled"
-        :value="item.value"
-        @click="handleClick(item)"
-      >
+      <RadioButton :disabled="item.disabled" :value="item.value">
         {{ item.label }}
       </RadioButton>
     </template>

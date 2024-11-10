@@ -84,7 +84,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['change', 'optionsChange']);
+const emits = defineEmits(['update:value', 'optionsChange']);
 const state = useVModel(props, 'value', emits, {
   defaultValue: props.value,
   passive: true,
@@ -207,10 +207,6 @@ async function handleFetch(visible: boolean) {
 function emitChange() {
   emits('optionsChange', unref(getOptions));
 }
-
-function handleChange(...args: any) {
-  emits('change', ...args);
-}
 </script>
 <template>
   <Select
@@ -224,7 +220,6 @@ function handleChange(...args: any) {
     :show-arrow="false"
     :show-search="true"
     class="w-full"
-    @change="handleChange"
     @search="searchFun"
   >
     <template v-for="item in Object.keys($slots)" #[item]="data">

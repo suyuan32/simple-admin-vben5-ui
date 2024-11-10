@@ -54,7 +54,7 @@ const props = defineProps({
   defaultValue: { type: Object, default: undefined },
 });
 
-const emits = defineEmits(['change', 'optionsChange']);
+const emits = defineEmits(['update:value', 'optionsChange']);
 const state = useVModel(props, 'value', emits, {
   defaultValue: props.value,
   passive: true,
@@ -63,10 +63,6 @@ const state = useVModel(props, 'value', emits, {
 const treeData = ref<Recordable<any>[]>([]);
 const isFirstLoaded = ref<Boolean>(false);
 const loading = ref(false);
-
-function handleChange(...args: any) {
-  emits('change', ...args);
-}
 
 watch(
   () => props.params,
@@ -123,7 +119,6 @@ async function fetch() {
     v-model:value="state"
     :multiple="$props.multiple"
     class="w-full"
-    @change="handleChange"
     @dropdown-visible-change="fetch"
   >
     <template v-for="item in Object.keys($slots)" #[item]="data">
