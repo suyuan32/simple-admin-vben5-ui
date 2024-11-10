@@ -26,6 +26,7 @@
     "#/*": "./src/*"
   },
   "dependencies": {
+    "@ant-design/icons-vue": "catalog:",
     "@axolo/tree-array": "catalog:",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
@@ -45,8 +46,8 @@
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
+    "remeda": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:",
-    "remeda": "catalog:"
+    "vue-router": "catalog:"
   }
 }

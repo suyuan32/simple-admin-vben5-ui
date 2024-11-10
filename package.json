@@ -39,7 +39,7 @@
     "clean": "node ./scripts/clean.mjs",
     "commit": "czg",
     "dev": "turbo-run dev",
-    "dev:antd": "pnpm -F @vben/simple-admin-core run dev",
+    "dev:simple-admin-core": "pnpm -F @vben/simple-admin-core run dev",
     "format": "vsh lint --format",
     "lint": "vsh lint",
     "postinstall": "pnpm -r run stub --if-present",

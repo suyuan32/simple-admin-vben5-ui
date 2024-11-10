@@ -11,7 +11,7 @@ import { message } from 'ant-design-vue';
 
 import { getMenuListByRole } from '#/api/sys/menu';
 import { ParentIdEnum } from '#/enums/common';
-import { IFrame, LAYOUT } from '#/layouts';
+import { BasicLayout, IFrame } from '#/layouts';
 import { $t } from '#/locales';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
@@ -20,7 +20,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
   const pageMap: ComponentRecordType = import.meta.glob('../views/**/*.vue');
 
   const layoutMap: ComponentRecordType = {
-    LAYOUT,
+    BasicLayout,
     IFrame,
   };
 
@@ -32,9 +32,14 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         duration: 1.5,
       });
       const menuData = await getMenuListByRole();
+      menuData.data.data.forEach((val, _idx, _arr) => {
+        if (val.component === 'LAYOUT') {
+          val.component = '';
+        }
+      });
       menuData.data.data.push({
         id: ParentIdEnum.DEFAULT,
-        component: 'LAYOUT',
+        component: 'BasicLayout',
         meta: {
           icon: 'ic:baseline-view-in-ar',
           keepAlive: true,
@@ -42,6 +47,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
           title: $t('sys.menu.managementCenter'),
         },
         path: '/',
+        name: 'Root',
       });
       return array2tree(menuData.data.data);
     },
