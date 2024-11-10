@@ -1,0 +1,243 @@
+<script lang="ts" setup>
+import type { SelectValue } from 'ant-design-vue/es/select';
+
+import { computed, type PropType, ref, unref, watch } from 'vue';
+
+import { $t } from '@vben/locales';
+
+import { LoadingOutlined } from '@ant-design/icons-vue';
+import { useVModel } from '@vueuse/core';
+import { Select } from 'ant-design-vue';
+import {
+  type DefaultOptionType,
+  type FilterFunc,
+} from 'ant-design-vue/lib/vc-select/Select';
+import { isFunction, omit } from 'remeda';
+
+import { get } from '#/utils/object';
+
+type OptionsItem = {
+  [name: string]: any;
+  disabled?: boolean;
+  label?: string;
+  value?: string;
+};
+
+const props = defineProps({
+  value: {
+    type: [Array, Object, String, Number] as PropType<SelectValue>,
+    default: undefined,
+  },
+  numberToString: {
+    type: Boolean,
+  },
+  api: {
+    type: Function as PropType<(arg?: any) => Promise<any>>,
+    default: null,
+  },
+  // api params
+  params: {
+    type: Object,
+    default: () => {},
+  },
+  // support xxx.xxx.xx
+  resultField: {
+    type: String,
+    default: '',
+  },
+  labelField: {
+    type: String,
+    default: 'label',
+  },
+  valueField: {
+    type: String,
+    default: 'value',
+  },
+  immediate: {
+    type: Boolean,
+    default: true,
+  },
+  alwaysLoad: {
+    type: Boolean,
+    default: false,
+  },
+  options: {
+    type: Array<OptionsItem>,
+    default: [],
+  },
+  // search
+  isSearch: {
+    type: Boolean,
+    default: false,
+  },
+  searchField: {
+    type: String,
+    default: '',
+  },
+  optionFilterProp: {
+    type: String,
+    default: 'label',
+  },
+  multiple: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emits = defineEmits(['change', 'optionsChange']);
+const state = useVModel(props, 'value', emits, {
+  defaultValue: props.value,
+  passive: true,
+});
+
+const optionsData = ref<OptionsItem[]>([]);
+const loading = ref(false);
+// 首次是否加载过了
+const isFirstLoaded = ref(false);
+const useSearch = props.isSearch;
+const searchFun = ref<any>();
+const filterOption = ref<boolean | FilterFunc<DefaultOptionType> | undefined>();
+const optionFilterProps = ref<string>();
+const mode = props.multiple ? 'multiple' : 'tags';
+
+if (useSearch) {
+  searchFun.value = searchFetch;
+  filterOption.value = false;
+} else {
+  filterOption.value = true;
+  optionFilterProps.value = props.optionFilterProp;
+}
+
+const getOptions = computed(() => {
+  const { labelField, valueField, numberToString } = props;
+  const res: OptionsItem[] = [];
+  optionsData.value.forEach((item: any) => {
+    const value = item[valueField];
+    res.push({
+      ...omit(item, [labelField, valueField]),
+      label: item[labelField],
+      value: numberToString ? `${value}` : value,
+      disabled: item.disabled || false,
+    });
+  });
+  return res;
+});
+
+watch(
+  () => props.params,
+  () => {
+    if (!useSearch) {
+      !unref(isFirstLoaded) && fetch();
+    }
+  },
+  { deep: true, immediate: props.immediate },
+);
+
+async function fetch() {
+  const api = props.api;
+  if (!api || !isFunction(api) || loading.value) return;
+  optionsData.value = [];
+  try {
+    loading.value = true;
+
+    const res = await api(props.params);
+    isFirstLoaded.value = true;
+    if (Array.isArray(res)) {
+      optionsData.value = res;
+      emitChange();
+      return;
+    }
+    if (props.resultField) {
+      optionsData.value = get(res, props.resultField) || [];
+    }
+    emitChange();
+  } catch (error) {
+    console.warn(error);
+    // reset status
+    isFirstLoaded.value = false;
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function searchFetch(value: string) {
+  const api = props.api;
+  if (!api || !isFunction(api) || loading.value) return;
+  optionsData.value = [];
+  try {
+    loading.value = true;
+
+    const searchParam: any = {};
+
+    if (props.searchField !== undefined) {
+      searchParam[props.searchField] = value;
+    }
+
+    searchParam.page = 1;
+    searchParam.pageSize = 10;
+
+    const res = await api(searchParam);
+    if (Array.isArray(res)) {
+      optionsData.value = res;
+      emitChange();
+      return;
+    }
+    if (props.resultField) {
+      optionsData.value = get(res, props.resultField) || [];
+    }
+
+    emitChange();
+  } catch (error) {
+    console.warn(error);
+  } finally {
+    loading.value = false;
+  }
+}
+
+async function handleFetch(visible: boolean) {
+  if (visible && !useSearch) {
+    if (props.alwaysLoad) {
+      await fetch();
+    } else if (!props.immediate && !unref(isFirstLoaded)) {
+      await fetch();
+    }
+  }
+}
+
+function emitChange() {
+  emits('optionsChange', unref(getOptions));
+}
+
+function handleChange(...args: any) {
+  emits('change', ...args);
+}
+</script>
+<template>
+  <Select
+    @dropdown-visible-change="handleFetch"
+    v-bind="$attrs"
+    v-model:value="state"
+    :filter-option="filterOption"
+    :mode="mode"
+    :option-filter-prop="optionFilterProps"
+    :options="getOptions"
+    :show-arrow="false"
+    :show-search="true"
+    class="w-full"
+    @change="handleChange"
+    @search="searchFun"
+  >
+    <template v-for="item in Object.keys($slots)" #[item]="data">
+      <slot :name="item" v-bind="data || {}"></slot>
+    </template>
+    <template v-if="loading" #suffixIcon>
+      <LoadingOutlined spin />
+    </template>
+    <template v-if="loading" #notFoundContent>
+      <span>
+        <LoadingOutlined class="mr-1" spin />
+        {{ $t('component.form.apiSelectNotFound') }}
+      </span>
+    </template>
+  </Select>
+</template>

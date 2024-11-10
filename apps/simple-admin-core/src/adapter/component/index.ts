@@ -36,6 +36,8 @@ import {
   Upload,
 } from 'ant-design-vue';
 
+import { ApiSelect, ApiTreeSelect, RadioButtonGroup } from '#/components/form';
+
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
@@ -48,6 +50,8 @@ const withDefaultPlaceholder = <T extends Component>(
 
 // 这里需要自行根据业务组件库进行适配，需要用到的组件都需要在这里类型说明
 export type ComponentType =
+  | 'ApiSelect'
+  | 'ApiTreeSelect'
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
@@ -60,6 +64,7 @@ export type ComponentType =
   | 'Mentions'
   | 'PrimaryButton'
   | 'Radio'
+  | 'RadioButtonGroup'
   | 'RadioGroup'
   | 'RangePicker'
   | 'Rate'
@@ -77,11 +82,13 @@ async function initComponentAdapter() {
     // 如果你的组件体积比较大，可以使用异步加载
     // Button: () =>
     // import('xxx').then((res) => res.Button),
-
+    ApiSelect,
+    ApiTreeSelect,
     AutoComplete,
     Checkbox,
     CheckboxGroup,
     DatePicker,
+    RadioButtonGroup,
     // 自定义默认按钮
     DefaultButton: (props, { attrs, slots }) => {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
