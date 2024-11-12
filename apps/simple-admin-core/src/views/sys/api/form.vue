@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { UserInfo } from '#/api/sys/model/userModel';
+import type { ApiInfo } from '#/api/sys/model/apiModel';
 
 import { ref } from 'vue';
 
@@ -9,12 +9,12 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { updateUser } from '#/api/sys/user';
+import { updateApi } from '#/api/sys/api';
 
 import { dataFormSchemas } from './schema';
 
 defineOptions({
-  name: 'UserForm',
+  name: 'ApiForm',
 });
 
 const record = ref();
@@ -22,7 +22,7 @@ const isUpdate = ref(false);
 const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
-  const result = await updateUser(values as UserInfo);
+  const result = await updateApi(values as ApiInfo);
   if (result.code === 0) {
     message.success(result.msg);
   }
@@ -51,7 +51,7 @@ const [Modal, modalApi] = useVbenModal({
       formApi.setValues(record.value);
     }
     modalApi.setState({
-      title: isUpdate.value ? $t('sys.user.editUser') : $t('sys.user.addUser'),
+      title: isUpdate.value ? $t('sys.apis.editApi') : $t('sys.apis.addApi'),
     });
   },
 });

@@ -2,53 +2,25 @@
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { UserInfo } from '#/api/sys/model/userModel';
 
-import { h, onMounted, ref } from 'vue';
+import { h, ref } from 'vue';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Button, Card, Col, message, Modal, Row, Tree } from 'ant-design-vue';
+import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getDepartmentList } from '#/api/sys/department';
-import { deleteUser, getUserList } from '#/api/sys/user';
+import { deleteApi, getApiList } from '#/api/sys/api';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
-import { buildDataNode } from '#/utils/tree';
 
-import UserForm from './form.vue';
+import ApiForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schema';
-
-// ------------ department -------------------
-
-const treeData = ref();
-const selectedDepartmentId = ref();
-
-async function fetchDepartmentData() {
-  const deptData = await getDepartmentList({ page: 1, pageSize: 1000 });
-  treeData.value = buildDataNode(deptData.data.data, {
-    labelField: 'trans',
-    valueField: 'id',
-    idKeyField: 'id',
-    childrenKeyField: 'children',
-    parentKeyField: 'parentId',
-  });
-}
-
-function selectDepartment(data: any) {
-  selectedDepartmentId.value = data[0];
-  // eslint-disable-next-line no-use-before-define
-  gridApi.reload();
-}
-
-onMounted(() => {
-  fetchDepartmentData();
-});
 
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: UserForm,
+  connectedComponent: ApiForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -62,8 +34,6 @@ const gridEvents: VxeGridListeners<any> = {
   },
 };
 
-// ------------- table --------------------
-
 const formOptions: VbenFormProps = {
   // 默认展开
   collapsed: false,
@@ -73,6 +43,8 @@ const formOptions: VbenFormProps = {
   // 按下回车时是否提交表单
   submitOnEnter: false,
 };
+
+// ------------- table --------------------
 
 const gridOptions: VxeGridProps<UserInfo> = {
   checkboxConfig: {
@@ -102,24 +74,13 @@ const gridOptions: VxeGridProps<UserInfo> = {
                 onClick: openFormModal.bind(null, row),
               },
               {
-                icon: 'bx:log-out-circle',
-                type: 'link',
-                color: 'error',
-                tooltip: $t('sys.user.forceLoggingOut'),
-                popConfirm: {
-                  title: $t('sys.user.forceLoggingOut'),
-                  placement: 'left',
-                  // confirm: handleLogout.bind(null, row),
-                },
-              },
-              {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
                 color: 'error',
                 popConfirm: {
                   title: $t('common.deleteConfirm'),
                   placement: 'left',
-                  confirm: batchDelete.bind(null, [row]),
+                  // confirm: handleDelete.bind(null, record),
                 },
               },
             ] as ActionItem[],
@@ -133,10 +94,9 @@ const gridOptions: VxeGridProps<UserInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getUserList({
+        const res = await getApiList({
           page: page.currentPage,
           pageSize: page.pageSize,
-          departmentId: selectedDepartmentId.value,
           ...formValues,
         });
         return res.data;
@@ -172,12 +132,6 @@ function handleBatchDelete() {
   Modal.confirm({
     title: $t('common.deleteConfirm'),
     async onOk() {
-      const rowData = gridApi.grid.getCheckboxRecords();
-      if (rowData.some((row) => row.nickname === 'admin')) {
-        message.warn($t('common.notAllowDeleteAdminData'));
-        return;
-      }
-
       const ids = gridApi.grid.getCheckboxRecords().map((item: any) => item.id);
 
       batchDelete(ids);
@@ -186,7 +140,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteUser({
+  const result = await deleteApi({
     ids,
   });
   if (result.code === 0) {
@@ -197,36 +151,25 @@ async function batchDelete(ids: any[]) {
 </script>
 
 <template>
-  <Row>
-    <Col :span="5">
-      <Page auto-content-height>
-        <Card :title="$t('sys.department.userDepartment')" style="height: 100%">
-          <Tree :tree-data="treeData" block-node @select="selectDepartment" />
-        </Card>
-      </Page>
-    </Col>
-    <Col :span="19">
-      <Page auto-content-height>
-        <FormModal />
-        <Grid>
-          <template #toolbar-buttons>
-            <Button
-              v-show="showDeleteButton"
-              danger
-              type="primary"
-              @click="handleBatchDelete"
-            >
-              {{ $t('common.delete') }}
-            </Button>
-          </template>
+  <Page auto-content-height>
+    <FormModal />
+    <Grid>
+      <template #toolbar-buttons>
+        <Button
+          v-show="showDeleteButton"
+          danger
+          type="primary"
+          @click="handleBatchDelete"
+        >
+          {{ $t('common.delete') }}
+        </Button>
+      </template>
 
-          <template #toolbar-tools>
-            <Button type="primary" @click="openFormModal">
-              {{ $t('sys.user.addUser') }}
-            </Button>
-          </template>
-        </Grid>
-      </Page>
-    </Col>
-  </Row>
+      <template #toolbar-tools>
+        <Button type="primary" @click="openFormModal">
+          {{ $t('sys.apis.addApi') }}
+        </Button>
+      </template>
+    </Grid>
+  </Page>
 </template>
