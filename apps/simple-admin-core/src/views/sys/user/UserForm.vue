@@ -15,7 +15,9 @@ defineOptions({
   name: 'UserForm',
 });
 
+const record = ref();
 const isUpdate = ref(false);
+const gridApi = ref();
 
 function onSubmit(values: Record<string, any>) {
   message.info(JSON.stringify(values)); // 只会执行一次
@@ -151,18 +153,17 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onOpenChange(isOpen: boolean) {
+    isUpdate.value = modalApi.getData()?.isUpdate ?? false;
+    record.value = isOpen ? modalApi.getData()?.record || {} : {};
+    gridApi.value = isOpen ? modalApi.getData()?.gridApi : null;
     if (isOpen) {
-      const { values } = modalApi.getData<Record<string, any>>();
-      if (values) {
-        formApi.setValues(values);
-        isUpdate.value = true;
-      } else {
-        isUpdate.value = false;
-      }
+      formApi.setValues(record.value);
     }
   },
   title: isUpdate.value ? $t('sys.user.editUser') : $t('sys.user.addUser'),
 });
+
+defineExpose(modalApi);
 </script>
 <template>
   <Modal>

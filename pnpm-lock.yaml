@@ -607,6 +607,9 @@ importers:
       '@axolo/tree-array':
         specifier: 'catalog:'
         version: 0.6.0
+      '@iconify/vue':
+        specifier: ^4.1.2
+        version: 4.1.2(vue@3.5.12(typescript@5.6.3))
       '@vben/access':
         specifier: workspace:*
         version: link:../../packages/effects/access

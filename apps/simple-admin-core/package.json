@@ -28,6 +28,7 @@
   "dependencies": {
     "@ant-design/icons-vue": "catalog:",
     "@axolo/tree-array": "catalog:",
+    "@iconify/vue": "catalog:",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
