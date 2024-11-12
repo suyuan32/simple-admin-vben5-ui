@@ -2,18 +2,50 @@
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { UserInfo } from '#/api/sys/model/userModel';
 
-import { h, ref } from 'vue';
+import { h, onMounted, ref } from 'vue';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Button, message, Modal, Switch } from 'ant-design-vue';
+import { Button, Card, Col, message, Modal, Row, Tree } from 'ant-design-vue';
+import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getRoleList } from '#/api/sys/role';
-import { deleteUser, getUserList, updateUser } from '#/api/sys/user';
+import { getDepartmentList } from '#/api/sys/department';
+import { deleteUser, getUserList } from '#/api/sys/user';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
+import { buildDataNode } from '#/utils/tree';
 import UserForm from '#/views/sys/user/UserForm.vue';
+
+import { searchFormSchemas, tableColumns } from './schema';
+
+// ------------ department -------------------
+
+const treeData = ref();
+const selectedDepartmentId = ref();
+
+async function fetchDepartmentData() {
+  const deptData = await getDepartmentList({ page: 1, pageSize: 1000 });
+  treeData.value = buildDataNode(deptData.data.data, {
+    labelField: 'trans',
+    valueField: 'id',
+    idKeyField: 'id',
+    childrenKeyField: 'children',
+    parentKeyField: 'parentId',
+  });
+}
+
+function selectDepartment(data: any) {
+  selectedDepartmentId.value = data[0];
+  // eslint-disable-next-line no-use-before-define
+  gridApi.reload();
+}
+
+onMounted(() => {
+  fetchDepartmentData();
+});
+
+// ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
   connectedComponent: UserForm,
@@ -33,44 +65,7 @@ const gridEvents: VxeGridListeners<any> = {
 const formOptions: VbenFormProps = {
   // 默认展开
   collapsed: false,
-  schema: [
-    {
-      fieldName: 'username',
-      label: $t('sys.login.username'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'nickname',
-      label: $t('sys.user.nickname'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'roleIds',
-      label: $t('sys.role.roleTitle'),
-      component: 'ApiSelect',
-      componentProps: {
-        api: getRoleList,
-        params: {
-          page: 1,
-          pageSize: 100,
-        },
-        resultField: 'data.data',
-        labelField: 'trans',
-        valueField: 'id',
-        multiple: true,
-      },
-    },
-    {
-      fieldName: 'mobile',
-      label: $t('sys.login.mobile'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'email',
-      label: $t('sys.login.email'),
-      component: 'Input',
-    },
-  ],
+  schema: [...(searchFormSchemas.schema as any)],
   // 控制表单是否显示折叠按钮
   showCollapseButton: true,
   // 按下回车时是否提交表单
@@ -88,48 +83,7 @@ const gridOptions: VxeGridProps<UserInfo> = {
     },
   },
   columns: [
-    {
-      type: 'checkbox',
-      width: 60,
-    },
-    {
-      title: $t('sys.login.username'),
-      field: 'username',
-    },
-    {
-      title: $t('sys.user.nickname'),
-      field: 'nickname',
-    },
-    {
-      title: $t('sys.login.email'),
-      field: 'email',
-    },
-    {
-      title: $t('common.status'),
-      field: 'status',
-      slots: {
-        default: (e) =>
-          h(Switch, {
-            checked: e.row.status === 1,
-            onClick: () => {
-              if (e.row.username === 'admin') {
-                message.warn($t('sys.role.adminStatusChangeForbidden'));
-                return;
-              }
-
-              const newStatus = e.row.status === 1 ? 2 : 1;
-              updateUser({ id: e.row.id, status: newStatus }).then(() => {
-                e.row.status = newStatus;
-              });
-            },
-          }),
-      },
-    },
-    {
-      title: $t('common.createTime'),
-      field: 'createdAt',
-      formatter: 'formatDateTime',
-    },
+    ...(tableColumns.columns as any),
     {
       title: $t('common.action'),
       fixed: 'right',
@@ -180,6 +134,7 @@ const gridOptions: VxeGridProps<UserInfo> = {
         const res = await getUserList({
           page: page.currentPage,
           pageSize: page.pageSize,
+          departmentId: selectedDepartmentId.value,
           ...formValues,
         });
         return res.data;
@@ -195,10 +150,16 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 function openFormModal(record: any) {
-  if (record) {
+  if (isPlainObject(record)) {
     formModalApi.setData({
       record,
       isUpdate: true,
+      gridApi,
+    });
+  } else {
+    formModalApi.setData({
+      record: null,
+      isUpdate: false,
       gridApi,
     });
   }
@@ -230,25 +191,36 @@ function batchDelete() {
 </script>
 
 <template>
-  <Page auto-content-height>
-    <FormModal />
-    <Grid @checkbox-change="openFormModal">
-      <template #toolbar-buttons>
-        <Button
-          v-show="showDeleteButton"
-          danger
-          type="primary"
-          @click="batchDelete"
-        >
-          {{ $t('common.delete') }}
-        </Button>
-      </template>
+  <Row>
+    <Col :span="5">
+      <Page auto-content-height>
+        <Card :title="$t('sys.department.userDepartment')" style="height: 100%">
+          <Tree :tree-data="treeData" block-node @select="selectDepartment" />
+        </Card>
+      </Page>
+    </Col>
+    <Col :span="19">
+      <Page auto-content-height>
+        <FormModal />
+        <Grid>
+          <template #toolbar-buttons>
+            <Button
+              v-show="showDeleteButton"
+              danger
+              type="primary"
+              @click="batchDelete"
+            >
+              {{ $t('common.delete') }}
+            </Button>
+          </template>
 
-      <template #toolbar-tools>
-        <Button type="primary" @click="openFormModal">
-          {{ $t('sys.user.addUser') }}
-        </Button>
-      </template>
-    </Grid>
-  </Page>
+          <template #toolbar-tools>
+            <Button type="primary" @click="openFormModal">
+              {{ $t('sys.user.addUser') }}
+            </Button>
+          </template>
+        </Grid>
+      </Page>
+    </Col>
+  </Row>
 </template>
