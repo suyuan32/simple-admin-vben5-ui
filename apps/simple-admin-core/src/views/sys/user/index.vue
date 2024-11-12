@@ -15,7 +15,7 @@ import { getDepartmentList } from '#/api/sys/department';
 import { deleteUser, getUserList } from '#/api/sys/user';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 import { buildDataNode } from '#/utils/tree';
-import UserForm from '#/views/sys/user/UserForm.vue';
+import UserForm from '#/views/sys/user/form.vue';
 
 import { searchFormSchemas, tableColumns } from './schema';
 
