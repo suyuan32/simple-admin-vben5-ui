@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { UserInfo } from '#/api/sys/model/userModel';
+import type { ApiInfo } from '#/api/sys/model/apiModel';
 
 import { h, ref } from 'vue';
 
@@ -46,10 +46,9 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<UserInfo> = {
+const gridOptions: VxeGridProps<ApiInfo> = {
   checkboxConfig: {
     highlight: true,
-    labelField: 'name',
   },
   toolbarConfig: {
     slots: {
@@ -80,7 +79,7 @@ const gridOptions: VxeGridProps<UserInfo> = {
                 popConfirm: {
                   title: $t('common.deleteConfirm'),
                   placement: 'left',
-                  // confirm: handleDelete.bind(null, record),
+                  confirm: batchDelete.bind(null, [row]),
                 },
               },
             ] as ActionItem[],
