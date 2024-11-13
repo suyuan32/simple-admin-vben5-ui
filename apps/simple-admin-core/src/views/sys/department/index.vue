@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { ConfigurationInfo } from '#/api/sys/model/configurationModel';
+import type { DepartmentInfo } from '#/api/sys/model/departmentModel';
 
 import { h, ref } from 'vue';
 
@@ -11,10 +11,7 @@ import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  deleteConfiguration,
-  getConfigurationList,
-} from '#/api/sys/configuration';
+import { deleteDepartment, getDepartmentList } from '#/api/sys/department';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import ApiForm from './form.vue';
@@ -49,7 +46,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<ConfigurationInfo> = {
+const gridOptions: VxeGridProps<DepartmentInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -96,7 +93,7 @@ const gridOptions: VxeGridProps<ConfigurationInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getConfigurationList({
+        const res = await getDepartmentList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -142,7 +139,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteConfiguration({
+  const result = await deleteDepartment({
     ids,
   });
   if (result.code === 0) {
@@ -169,7 +166,7 @@ async function batchDelete(ids: any[]) {
 
       <template #toolbar-tools>
         <Button type="primary" @click="openFormModal">
-          {{ $t('sys.configuration.addConfiguration') }}
+          {{ $t('sys.department.addDepartment') }}
         </Button>
       </template>
     </Grid>
