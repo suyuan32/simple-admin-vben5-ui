@@ -5,7 +5,7 @@ import { h } from 'vue';
 import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { message, Switch } from 'ant-design-vue';
+import { Switch } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
 import { getDepartmentList, updateDepartment } from '#/api/sys/department';
@@ -33,11 +33,6 @@ export const tableColumns: VxeGridProps = {
           h(Switch, {
             checked: e.row.status === 1,
             onClick: () => {
-              if (e.row.username === 'admin') {
-                message.warn($t('sys.role.adminStatusChangeForbidden'));
-                return;
-              }
-
               const newStatus = e.row.status === 1 ? 2 : 1;
               updateDepartment({ id: e.row.id, status: newStatus }).then(() => {
                 e.row.status = newStatus;
