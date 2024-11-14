@@ -18,7 +18,7 @@ import {
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import ApiForm from './form.vue';
-import { searchFormSchemas, tableColumns } from './schema';
+import { searchFormSchemas, tableColumns } from './schemas';
 
 // ---------------- form -----------------
 

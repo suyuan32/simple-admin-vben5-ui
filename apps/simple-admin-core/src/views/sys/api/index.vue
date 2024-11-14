@@ -15,7 +15,7 @@ import { deleteApi, getApiList } from '#/api/sys/api';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import ApiForm from './form.vue';
-import { searchFormSchemas, tableColumns } from './schema';
+import { searchFormSchemas, tableColumns } from './schemas';
 
 // ---------------- form -----------------
 

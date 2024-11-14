@@ -11,7 +11,7 @@ import { message } from 'ant-design-vue';
 import { useVbenForm } from '#/adapter/form';
 import { updateApi } from '#/api/sys/api';
 
-import { dataFormSchemas } from './schema';
+import { dataFormSchemas } from './schemas';
 
 defineOptions({
   name: 'ConfigurationForm',

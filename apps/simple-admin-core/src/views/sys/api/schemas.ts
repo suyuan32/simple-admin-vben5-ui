@@ -87,7 +87,7 @@ export const searchFormSchemas: VbenFormProps = {
       fieldName: 'description',
       label: $t('sys.apis.description'),
       component: 'Input',
-      rules: z.string().max(100).optional(),
+      rules: z.onumber(),
     },
     {
       fieldName: 'method',
