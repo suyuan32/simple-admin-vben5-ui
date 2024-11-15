@@ -9,7 +9,14 @@ import { useAccess } from '@vben/access';
 import { isBoolean, isFunction } from '@vben/utils';
 
 import { Icon } from '@iconify/vue';
-import { Button, Dropdown, Menu, Popconfirm, Space } from 'ant-design-vue';
+import {
+  Button,
+  Dropdown,
+  Menu,
+  Popconfirm,
+  Space,
+  Tooltip,
+} from 'ant-design-vue';
 
 const props = defineProps({
   actions: {
@@ -102,6 +109,8 @@ const getPopConfirmProps = (attrs: PopConfirm) => {
     originAttrs.onCancel = attrs.cancel;
     delete originAttrs.cancel;
   }
+
+  delete originAttrs.tooltip;
   return originAttrs;
 };
 const getButtonProps = (action: ActionItem) => {
@@ -121,13 +130,14 @@ const getButtonProps = (action: ActionItem) => {
     }
   }
 
-  const res = {
+  const btnProps = {
     type: action.type || 'primary',
     ...action,
     class: colorClass,
   };
-  delete res.icon;
-  return res;
+  delete btnProps.icon;
+  delete btnProps.tooltip;
+  return btnProps;
 };
 const handleMenuClick = (e: any) => {
   const action = getDropdownList.value[e.key];
@@ -144,23 +154,30 @@ const handleMenuClick = (e: any) => {
         <Popconfirm
           v-if="action.popConfirm"
           v-bind="getPopConfirmProps(action.popConfirm)"
+          title=""
         >
           <template v-if="action.popConfirm.icon" #icon>
-            <Icon :icon="action.popConfirm.icon" />
+            <Tooltip :title="action.tooltip">
+              <Icon :icon="action.popConfirm.icon" />
+            </Tooltip>
           </template>
-          <Button v-bind="getButtonProps(action)" :style="{}">
+          <Tooltip :title="action.tooltip">
+            <Button :style="{}" title="" v-bind="getButtonProps(action)">
+              <template v-if="action.icon" #icon>
+                <Icon :icon="action.icon" />
+              </template>
+              {{ action.label }}
+            </Button>
+          </Tooltip>
+        </Popconfirm>
+        <Tooltip v-else :title="action.tooltip">
+          <Button v-bind="getButtonProps(action)" @click="action.onClick">
             <template v-if="action.icon" #icon>
               <Icon :icon="action.icon" />
             </template>
             {{ action.label }}
           </Button>
-        </Popconfirm>
-        <Button v-else v-bind="getButtonProps(action)" @click="action.onClick">
-          <template v-if="action.icon" #icon>
-            <Icon :icon="action.icon" />
-          </template>
-          {{ action.label }}
-        </Button>
+        </Tooltip>
       </template>
     </Space>
 
@@ -214,7 +231,7 @@ const handleMenuClick = (e: any) => {
     text-align: center;
     text-transform: none;
     vertical-align: -0.125em;
-    text-rendering: optimizelegibility;
+    //text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
