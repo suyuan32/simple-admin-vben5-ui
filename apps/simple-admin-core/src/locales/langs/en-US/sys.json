@@ -313,4 +313,14 @@
     "editConfiguration": "Edit Configuration",
     "configurationList": "Configuration List"
   }
-}
+,  "dictionaryDetail": {
+    "status": "Status",
+    "title": "Title",
+    "key": "Key",
+    "value": "Value",
+    "dictionaryId": "DictionaryId",
+    "sort": "Sort",
+    "addDictionaryDetail": "Add DictionaryDetail",
+    "editDictionaryDetail": "Edit DictionaryDetail",
+    "dictionaryDetailList": "DictionaryDetail List",
+  }}

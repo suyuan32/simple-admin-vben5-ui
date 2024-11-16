@@ -9,7 +9,7 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { updateApi } from '#/api/sys/api';
+import { createApi, updateApi } from '#/api/sys/api';
 
 import { dataFormSchemas } from './schemas';
 
@@ -22,9 +22,12 @@ const isUpdate = ref(false);
 const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
-  const result = await updateApi(values as ApiInfo);
+  const result = isUpdate.value
+    ? await updateApi(values as ApiInfo)
+    : await createApi(values as ApiInfo);
   if (result.code === 0) {
     message.success(result.msg);
+    gridApi.value.reload();
   }
 }
 

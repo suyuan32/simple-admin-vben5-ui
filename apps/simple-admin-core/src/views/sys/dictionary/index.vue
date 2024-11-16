@@ -1,8 +1,9 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { ConfigurationInfo } from '#/api/sys/model/configurationModel';
+import type { DictionaryInfo } from '#/api/sys/model/dictionaryModel';
 
 import { h, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -11,19 +12,24 @@ import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import {
-  deleteConfiguration,
-  getConfigurationList,
-} from '#/api/sys/configuration';
+import { deleteDictionary, getDictionaryList } from '#/api/sys/dictionary';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
-import ApiForm from './form.vue';
+import DictionaryDetailModal from './detail.vue';
+import DictionaryForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
+
+const route = useRouter();
+
+// ------------------------ detail modal --------------------------
+const [DetailModal, detailModalApi] = useVbenModal({
+  connectedComponent: DictionaryDetailModal,
+});
 
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: ApiForm,
+  connectedComponent: DictionaryForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -49,7 +55,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<ConfigurationInfo> = {
+const gridOptions: VxeGridProps<DictionaryInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -70,9 +76,16 @@ const gridOptions: VxeGridProps<ConfigurationInfo> = {
             actions: [
               {
                 type: 'link',
-                icon: 'clarity:note-edit-line',
                 tooltip: $t('common.edit'),
+                icon: 'clarity:note-edit-line',
                 onClick: openFormModal.bind(null, row),
+              },
+              {
+                type: 'link',
+                color: 'success',
+                icon: 'material-symbols:dictionary',
+                tooltip: $t('sys.dictionary.editDictionaryDetail'),
+                onClick: openDictionaryDetail.bind(null, row),
               },
               {
                 icon: 'ant-design:delete-outlined',
@@ -96,7 +109,7 @@ const gridOptions: VxeGridProps<ConfigurationInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getConfigurationList({
+        const res = await getDictionaryList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -142,7 +155,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteConfiguration({
+  const result = await deleteDictionary({
     ids,
   });
   if (result.code === 0) {
@@ -150,11 +163,21 @@ async function batchDelete(ids: any[]) {
     showDeleteButton.value = false;
   }
 }
+
+function openDictionaryDetail(record: any) {
+  if (isPlainObject(record)) {
+    detailModalApi.setData({
+      id: record.id,
+    });
+  }
+  detailModalApi.open();
+}
 </script>
 
 <template>
   <Page auto-content-height>
     <FormModal />
+    <DetailModal />
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -169,7 +192,7 @@ async function batchDelete(ids: any[]) {
 
       <template #toolbar-tools>
         <Button type="primary" @click="openFormModal">
-          {{ $t('sys.configuration.addConfiguration') }}
+          {{ $t('sys.dictionary.addDictionary') }}
         </Button>
       </template>
     </Grid>

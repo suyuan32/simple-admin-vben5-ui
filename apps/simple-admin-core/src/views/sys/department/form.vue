@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ApiInfo } from '#/api/sys/model/apiModel';
+import type { DepartmentInfo } from '#/api/sys/model/departmentModel';
 
 import { ref } from 'vue';
 
@@ -9,7 +9,7 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { updateApi } from '#/api/sys/api';
+import { createDepartment, updateDepartment } from '#/api/sys/department';
 
 import { dataFormSchemas } from './schemas';
 
@@ -22,9 +22,12 @@ const isUpdate = ref(false);
 const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
-  const result = await updateApi(values as ApiInfo);
+  const result = isUpdate.value
+    ? await updateDepartment(values as DepartmentInfo)
+    : await createDepartment(values as DepartmentInfo);
   if (result.code === 0) {
     message.success(result.msg);
+    gridApi.value.reload();
   }
 }
 

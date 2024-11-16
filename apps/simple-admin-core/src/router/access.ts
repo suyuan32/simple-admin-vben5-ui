@@ -3,6 +3,8 @@ import type {
   GenerateMenuAndRoutesOptions,
 } from '@vben/types';
 
+import type { RouteItem } from '#/api/sys/model/menuModel';
+
 import { generateAccessible } from '@vben/access';
 import { preferences } from '@vben/preferences';
 
@@ -32,24 +34,41 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         duration: 1.5,
       });
       const menuData = await getMenuListByRole();
+
+      // 兼容旧版本，将 dashboard 添加目录, 未来将移除
+      menuData.data.data.push({
+        id: -1,
+        component: 'BasicLayout',
+        meta: {
+          icon: 'ic:baseline-view-in-ar',
+          keepAlive: false,
+          sort: -1,
+          title: $t('sys.menu.managementCenter'),
+        },
+        path: '/dashboard_dir',
+        name: 'DashBoardDir',
+        parentId: ParentIdEnum.DEFAULT,
+      });
+
       menuData.data.data.forEach((val, _idx, _arr) => {
         if (val.component === 'LAYOUT') {
           val.component = '';
         }
+
+        if (val.name === 'Dashboard') {
+          val.parentId = -1;
+        }
       });
-      menuData.data.data.push({
-        id: ParentIdEnum.DEFAULT,
-        component: 'BasicLayout',
-        meta: {
-          icon: 'ic:baseline-view-in-ar',
-          keepAlive: true,
-          sort: -1,
-          title: $t('sys.menu.managementCenter'),
-        },
-        path: '/',
-        name: 'Root',
+
+      const treeData: RouteItem[] = array2tree(
+        menuData.data.data,
+      ) as RouteItem[];
+      treeData.forEach((val, idx, arr) => {
+        if (val.component === '' && arr[idx]) {
+          arr[idx].component = 'BasicLayout';
+        }
       });
-      return array2tree(menuData.data.data);
+      return treeData;
     },
     // 可以指定没有权限跳转403页面
     forbiddenComponent,

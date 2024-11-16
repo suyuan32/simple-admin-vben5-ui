@@ -117,15 +117,19 @@ const getButtonProps = (action: ActionItem) => {
   let colorClass = '';
   switch (action.color) {
     case 'error': {
-      colorClass = 'text-red-500 hover:!text-red-700';
+      colorClass = 'text-red-500 hover:!text-red-400';
       break;
     }
     case 'success': {
-      colorClass = 'text-green-500 hover:!text-green-700';
+      colorClass = 'text-green-500 hover:!text-green-400';
       break;
     }
     case 'warning': {
-      colorClass = 'text-yellow-500 hover:!text-yellow-700';
+      colorClass = 'text-yellow-500 hover:!text-yellow-400';
+      break;
+    }
+    default: {
+      colorClass = 'text-blue-500 hover:!text-blue-400';
       break;
     }
   }
@@ -154,7 +158,6 @@ const handleMenuClick = (e: any) => {
         <Popconfirm
           v-if="action.popConfirm"
           v-bind="getPopConfirmProps(action.popConfirm)"
-          title=""
         >
           <template v-if="action.popConfirm.icon" #icon>
             <Tooltip :title="action.tooltip">
@@ -231,7 +234,7 @@ const handleMenuClick = (e: any) => {
     text-align: center;
     text-transform: none;
     vertical-align: -0.125em;
-    //text-rendering: optimizelegibility;
+    text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }

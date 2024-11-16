@@ -66,7 +66,12 @@ async function generateRoutes(
    */
   resultRoutes = mapTree(resultRoutes, (route) => {
     // 如果有redirect或者没有子路由，则直接返回
-    if (route.redirect || !route.children || route.children.length === 0) {
+    if (
+      route.redirect ||
+      !route.children ||
+      route.children.length === 0 ||
+      (route.meta?.hideChildrenInMenu === true && route.path !== '')
+    ) {
       return route;
     }
     const firstChild = route.children[0];

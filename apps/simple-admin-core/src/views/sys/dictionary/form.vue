@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { ConfigurationInfo } from '#/api/sys/model/configurationModel';
+import type { DictionaryInfo } from '#/api/sys/model/dictionaryModel';
 
 import { ref } from 'vue';
 
@@ -9,12 +9,12 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { updateConfiguration } from '#/api/sys/configuration';
+import { createDictionary, updateDictionary } from '#/api/sys/dictionary';
 
 import { dataFormSchemas } from './schemas';
 
 defineOptions({
-  name: 'ConfigurationForm',
+  name: 'DictionaryForm',
 });
 
 const record = ref();
@@ -23,8 +23,8 @@ const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
   const result = isUpdate.value
-    ? await updateConfiguration(values as ConfigurationInfo)
-    : await createConfiguration(values as ConfigurationInfo);
+    ? await updateDictionary(values as DictionaryInfo)
+    : await createDictionary(values as DictionaryInfo);
   if (result.code === 0) {
     message.success(result.msg);
     gridApi.value.reload();
@@ -55,8 +55,8 @@ const [Modal, modalApi] = useVbenModal({
     }
     modalApi.setState({
       title: isUpdate.value
-        ? $t('sys.configuration.editConfiguration')
-        : $t('sys.configuration.addConfiguration'),
+        ? $t('sys.dictionary.editDictionary')
+        : $t('sys.dictionary.addDictionary'),
     });
   },
 });

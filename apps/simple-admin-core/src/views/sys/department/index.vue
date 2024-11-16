@@ -66,16 +66,16 @@ const gridOptions: VxeGridProps<DepartmentInfo> = {
           h(TableAction, {
             actions: [
               {
-                label: '',
                 type: 'link',
-                size: 'small',
                 icon: 'clarity:note-edit-line',
+                tooltip: $t('common.edit'),
                 onClick: openFormModal.bind(null, row),
               },
               {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
                 color: 'error',
+                tooltip: $t('common.delete'),
                 popConfirm: {
                   title: $t('common.deleteConfirm'),
                   placement: 'left',

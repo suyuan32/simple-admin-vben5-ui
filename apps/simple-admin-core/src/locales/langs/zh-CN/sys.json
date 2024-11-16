@@ -325,5 +325,16 @@
     "addConfiguration": "添加参数配置",
     "editConfiguration": "编辑参数配置",
     "configurationList": "参数配置列表"
+  },
+  "dictionaryDetail": {
+    "status": "Status",
+    "title": "Title",
+    "key": "Key",
+    "value": "Value",
+    "dictionaryId": "DictionaryId",
+    "sort": "Sort",
+    "addDictionaryDetail": "添加 DictionaryDetail",
+    "editDictionaryDetail": "编辑 DictionaryDetail",
+    "dictionaryDetailList": "DictionaryDetail 列表"
   }
 }

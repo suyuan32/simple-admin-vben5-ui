@@ -11,6 +11,8 @@ export interface DictionaryDetailInfo {
   title?: string;
   key?: string;
   value?: string;
+  dictionaryId?: number;
+  sort?: number;
 }
 
 /**
@@ -18,10 +20,3 @@ export interface DictionaryDetailInfo {
  */
 
 export type DictionaryDetailListResp = BaseListResp<DictionaryDetailInfo>;
-
-/**
- *  @description: Dictionary name request
- */
-export interface DictionaryNameReq {
-  name: string;
-}

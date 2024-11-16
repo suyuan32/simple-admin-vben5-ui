@@ -10,13 +10,11 @@ import { requestClient } from '#/api/request';
 import {
   type DictionaryDetailInfo,
   type DictionaryDetailListResp,
-  type DictionaryNameReq,
 } from './model/dictionaryDetailModel';
 
 enum Api {
   CreateDictionaryDetail = '/sys-api/dictionary_detail/create',
   DeleteDictionaryDetail = '/sys-api/dictionary_detail/delete',
-  GetDictionaryDetailByDictionaryName = '/sys-api/dict',
   GetDictionaryDetailById = '/sys-api/dictionary_detail',
   GetDictionaryDetailList = '/sys-api/dictionary_detail/list',
   UpdateDictionaryDetail = '/sys-api/dictionary_detail/update',
@@ -61,16 +59,5 @@ export const getDictionaryDetailById = (params: BaseIDReq) => {
   return requestClient.post<BaseDataResp<DictionaryDetailInfo>>(
     Api.GetDictionaryDetailById,
     params,
-  );
-};
-
-/**
- *  @description: Get dictionary detail By Dictionary name
- */
-export const GetDictionaryDetailByDictionaryName = (
-  params: DictionaryNameReq,
-) => {
-  return requestClient.get<BaseDataResp<DictionaryDetailListResp>>(
-    `${Api.GetDictionaryDetailByDictionaryName}/${params.name}`,
   );
 };

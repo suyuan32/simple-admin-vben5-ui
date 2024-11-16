@@ -16,6 +16,9 @@ import {
   VxeInput,
   VxeLoading,
   VxeModal,
+  // VxeSwitch,
+  // VxeTextarea,
+  VxeNumberInput,
   VxePager,
   // VxeList,
   // VxeModal,
@@ -29,8 +32,6 @@ import {
   VxeTooltip,
   VxeUI,
   VxeUpload,
-  // VxeSwitch,
-  // VxeTextarea,
 } from 'vxe-pc-ui';
 import enUS from 'vxe-pc-ui/lib/language/en-US';
 
@@ -94,6 +95,9 @@ export function initVxeTable() {
   // VxeUI.component(VxeTextarea);
   VxeUI.component(VxeTooltip);
   VxeUI.component(VxeUpload);
+  VxeUI.component(VxeNumberInput);
+
+  console.log('init comp');
 
   isInit = true;
 }
