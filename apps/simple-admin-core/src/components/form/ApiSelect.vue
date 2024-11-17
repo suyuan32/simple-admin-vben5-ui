@@ -3,9 +3,6 @@ import type { SelectValue } from 'ant-design-vue/es/select';
 
 import { computed, type PropType, ref, unref, watch } from 'vue';
 
-import { $t } from '@vben/locales';
-
-import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useVModel } from '@vueuse/core';
 import { Select } from 'ant-design-vue';
 import {
@@ -221,18 +218,5 @@ function emitChange() {
     :show-search="true"
     class="w-full"
     @search="searchFun"
-  >
-    <template v-for="item in Object.keys($slots)" #[item]="data">
-      <slot :name="item" v-bind="data || {}"></slot>
-    </template>
-    <template v-if="loading" #suffixIcon>
-      <LoadingOutlined spin />
-    </template>
-    <template v-if="loading" #notFoundContent>
-      <span>
-        <LoadingOutlined class="mr-1" spin />
-        {{ $t('component.form.apiSelectNotFound') }}
-      </span>
-    </template>
-  </Select>
+  />
 </template>
