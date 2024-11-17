@@ -4,7 +4,6 @@ import type { SelectValue } from 'ant-design-vue/es/select';
 
 import { onMounted, type PropType, ref, unref, watch } from 'vue';
 
-import { LoadingOutlined } from '@ant-design/icons-vue';
 import { useVModel } from '@vueuse/core';
 import { TreeSelect } from 'ant-design-vue';
 import { isArray, isFunction } from 'remeda';
@@ -118,14 +117,8 @@ async function fetch() {
   <TreeSelect
     v-model:value="state"
     :multiple="$props.multiple"
+    :tree-data="treeData"
     class="w-full"
     @dropdown-visible-change="fetch"
-  >
-    <template v-for="item in Object.keys($slots)" #[item]="data">
-      <slot :name="item" v-bind="data || {}"></slot>
-    </template>
-    <template v-if="loading" #suffixIcon>
-      <LoadingOutlined spin />
-    </template>
-  </TreeSelect>
+  />
 </template>
