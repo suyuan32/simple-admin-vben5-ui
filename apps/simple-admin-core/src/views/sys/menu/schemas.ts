@@ -4,10 +4,11 @@ import { h } from 'vue';
 
 import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+
 import { Icon } from '@iconify/vue';
+import { Tag } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
-import { Tag } from 'ant-design-vue';
 import { getMenuList } from '#/api/sys/menu';
 import { ParentIdEnum } from '#/enums/common';
 
@@ -25,10 +26,11 @@ export const tableColumns: VxeGridProps = {
         default: (data) => {
           return h(Icon, {
             icon: data.row.icon,
+            width: 20,
           });
         },
       },
-      width: 60,
+      width: 50,
     },
     {
       title: $t('sys.apis.serviceName'),
@@ -41,6 +43,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('sys.menu.order'),
       field: 'sort',
+      width: 50,
     },
     {
       title: $t('common.status'),
@@ -48,18 +51,17 @@ export const tableColumns: VxeGridProps = {
       slots: {
         default: (record) => {
           let resultText = '';
-          resultText = !record.row.disabled
-            ? $t('common.on')
-            : $t('common.off');
+          resultText = record.row.disabled ? $t('common.off') : $t('common.on');
           return h(
             Tag,
             {
-              color: !record.row.disabled ? 'green' : 'red',
+              color: record.row.disabled ? 'red' : 'green',
             },
             () => resultText,
           );
         },
       },
+      width: 80,
     },
     {
       title: $t('sys.menu.isHidden'),
@@ -78,6 +80,7 @@ export const tableColumns: VxeGridProps = {
           );
         },
       },
+      width: 80,
     },
     {
       title: $t('common.createTime'),
@@ -162,9 +165,8 @@ export const dataFormSchemas: VbenFormProps = {
       component: 'Input',
       help: $t('sys.menu.pathHelp'),
       formItemClass: 'col-span-2 items-baseline',
-      rules: z
-        .string()
-        .regex(/^(\/?(\:)?[0-9A-Za-z_-]+)*$/gm, $t('common.wrongFormat')),
+      // eslint-disable-next-line regexp/no-super-linear-backtracking
+      rules: z.string().regex(/^(\/?(:)?[\w-]+)*$/gm, $t('common.wrongFormat')),
       dependencies: {
         triggerFields: ['menuType'],
         show(_values, formApi) {
@@ -180,10 +182,7 @@ export const dataFormSchemas: VbenFormProps = {
       formItemClass: 'col-span-2 items-baseline',
       rules: z
         .string()
-        .regex(
-          /^(\/[0-9A-Za-z_-]+)*(LAYOUT|IFrame)?$/gm,
-          $t('common.wrongFormat'),
-        ),
+        .regex(/^(\/[\w-]+)*(LAYOUT|IFrame)?$/gm, $t('common.wrongFormat')),
       dependencies: {
         triggerFields: ['menuType'],
         show(_values, formApi) {
@@ -231,7 +230,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'sort',
       label: $t('sys.menu.order'),
       component: 'InputNumber',
-      rules: z.number().max(10000),
+      rules: z.number().max(10_000),
       defaultValue: 1,
       formItemClass: 'col-span-1',
     },
