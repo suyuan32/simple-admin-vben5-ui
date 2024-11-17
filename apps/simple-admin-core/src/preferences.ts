@@ -17,4 +17,8 @@ export const overridesPreferences = defineOverridesPreferences({
     enable: true,
     source: 'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
   },
+  tabbar: {
+    keepAlive: true,
+    persist: true,
+  },
 });

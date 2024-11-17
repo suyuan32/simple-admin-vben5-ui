@@ -9,7 +9,10 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { updateConfiguration } from '#/api/sys/configuration';
+import {
+  createConfiguration,
+  updateConfiguration,
+} from '#/api/sys/configuration';
 
 import { dataFormSchemas } from './schemas';
 
@@ -35,6 +38,7 @@ const [Form, formApi] = useVbenForm({
   handleSubmit: onSubmit,
   schema: [...(dataFormSchemas.schema as any)],
   showDefaultActions: false,
+  layout: 'vertical',
 });
 
 const [Modal, modalApi] = useVbenModal({

@@ -58,6 +58,10 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         if (val.name === 'Dashboard') {
           val.parentId = -1;
         }
+
+        val.meta.hideInMenu = val.meta.hideMenu as any;
+        val.meta.hideInTab = val.meta.hideTab as any;
+        val.meta.hideInBreadcrumb = val.meta.hideBreadcrumb as any;
       });
 
       const treeData: RouteItem[] = array2tree(

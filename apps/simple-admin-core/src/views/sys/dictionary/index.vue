@@ -3,8 +3,6 @@ import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { DictionaryInfo } from '#/api/sys/model/dictionaryModel';
 
 import { h, ref } from 'vue';
-import { useRouter } from 'vue-router';
-
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
@@ -19,7 +17,9 @@ import DictionaryDetailModal from './detail.vue';
 import DictionaryForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
 
-const route = useRouter();
+defineOptions({
+  name: 'DictionaryManagement',
+});
 
 // ------------------------ detail modal --------------------------
 const [DetailModal, detailModalApi] = useVbenModal({

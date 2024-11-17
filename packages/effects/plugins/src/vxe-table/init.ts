@@ -97,8 +97,6 @@ export function initVxeTable() {
   VxeUI.component(VxeUpload);
   VxeUI.component(VxeNumberInput);
 
-  console.log('init comp');
-
   isInit = true;
 }
 

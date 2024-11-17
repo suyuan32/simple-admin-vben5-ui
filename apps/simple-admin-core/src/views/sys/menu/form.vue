@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { DepartmentInfo } from '#/api/sys/model/departmentModel';
+import type { MenuInfoPlain } from '#/api/sys/model/menuModel';
 
 import { ref } from 'vue';
 
@@ -9,12 +9,12 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { createDepartment, updateDepartment } from '#/api/sys/department';
+import { createMenu, updateMenu } from '#/api/sys/menu';
 
 import { dataFormSchemas } from './schemas';
 
 defineOptions({
-  name: 'ApiForm',
+  name: 'MenuForm',
 });
 
 const record = ref();
@@ -23,8 +23,8 @@ const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
   const result = isUpdate.value
-    ? await updateDepartment(values as DepartmentInfo)
-    : await createDepartment(values as DepartmentInfo);
+    ? await updateMenu(values as MenuInfoPlain)
+    : await createMenu(values as MenuInfoPlain);
   if (result.code === 0) {
     message.success(result.msg);
     gridApi.value.reload();
@@ -36,6 +36,13 @@ const [Form, formApi] = useVbenForm({
   schema: [...(dataFormSchemas.schema as any)],
   showDefaultActions: false,
   layout: 'vertical',
+  commonConfig: {
+    // 所有表单项
+    componentProps: {
+      class: 'w-full',
+    },
+  },
+  wrapperClass: 'grid-cols-2',
 });
 
 const [Modal, modalApi] = useVbenModal({
@@ -55,7 +62,7 @@ const [Modal, modalApi] = useVbenModal({
       formApi.setValues(record.value);
     }
     modalApi.setState({
-      title: isUpdate.value ? $t('sys.apis.editApi') : $t('sys.apis.addApi'),
+      title: isUpdate.value ? $t('sys.menu.editMenu') : $t('sys.menu.addMenu'),
     });
   },
 });
@@ -63,7 +70,7 @@ const [Modal, modalApi] = useVbenModal({
 defineExpose(modalApi);
 </script>
 <template>
-  <Modal>
+  <Modal class="w-1/2">
     <Form />
   </Modal>
 </template>
