@@ -62,6 +62,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         val.meta.hideInMenu = val.meta.hideMenu as any;
         val.meta.hideInTab = val.meta.hideTab as any;
         val.meta.hideInBreadcrumb = val.meta.hideBreadcrumb as any;
+        val.meta.keepAlive = !val.meta.ignoreKeepAlive as boolean;
       });
 
       const treeData: RouteItem[] = array2tree(
