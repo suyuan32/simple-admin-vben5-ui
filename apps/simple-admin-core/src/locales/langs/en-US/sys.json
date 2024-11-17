@@ -170,8 +170,8 @@
   },
   "authority": {
     "authorityManagement": "Authorization Management",
-    "menuAuthority": "Menu",
-    "apiAuthority": "API"
+    "menuAuthority": "Menu Authorization",
+    "apiAuthority": "API Authorization"
   },
   "user": {
     "userList": "User List",

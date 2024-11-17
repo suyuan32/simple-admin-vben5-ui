@@ -170,8 +170,8 @@
   },
   "authority": {
     "authorityManagement": "权限管理",
-    "menuAuthority": "菜单",
-    "apiAuthority": "接口"
+    "menuAuthority": "菜单权限",
+    "apiAuthority": "接口权限"
   },
   "user": {
     "userList": "用户列表",
