@@ -16,6 +16,10 @@ import { type ActionItem, TableAction } from '#/components/table/table-action';
 import MenuForm from './form.vue';
 import { tableColumns } from './schemas';
 
+defineOptions({
+  name: 'MenuManagement',
+});
+
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({

@@ -1,22 +1,29 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { TokenInfo } from '#/api/sys/model/tokenModel';
+import type { OauthProviderInfo } from '#/api/sys/model/oauthProviderModel';
 
 import { h, ref } from 'vue';
 
-import { Page, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Button, Modal } from 'ant-design-vue';
+import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteToken, getTokenList } from '#/api/sys/token';
+import {
+  deleteOauthProvider,
+  getOauthProviderList,
+} from '#/api/sys/oauthProvider';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
+import OauthProviderForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
 
-defineOptions({
-  name: 'TokenManagement',
+// ---------------- form -----------------
+
+const [FormModal, formModalApi] = useVbenModal({
+  connectedComponent: OauthProviderForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -42,7 +49,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<TokenInfo> = {
+const gridOptions: VxeGridProps<OauthProviderInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -62,6 +69,13 @@ const gridOptions: VxeGridProps<TokenInfo> = {
           h(TableAction, {
             actions: [
               {
+                type: 'link',
+                size: 'small',
+                icon: 'clarity:note-edit-line',
+                tooltip: $t('common.edit'),
+                onClick: openFormModal.bind(null, row),
+              },
+              {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
                 color: 'error',
@@ -72,7 +86,7 @@ const gridOptions: VxeGridProps<TokenInfo> = {
                   confirm: batchDelete.bind(null, [row]),
                 },
               },
-            ] as unknown as ActionItem[],
+            ] as ActionItem[],
           }),
       },
     },
@@ -83,7 +97,7 @@ const gridOptions: VxeGridProps<TokenInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getTokenList({
+        const res = await getOauthProviderList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -100,6 +114,23 @@ const [Grid, gridApi] = useVbenVxeGrid({
   gridEvents,
 });
 
+function openFormModal(record: any) {
+  if (isPlainObject(record)) {
+    formModalApi.setData({
+      record,
+      isUpdate: true,
+      gridApi,
+    });
+  } else {
+    formModalApi.setData({
+      record: null,
+      isUpdate: false,
+      gridApi,
+    });
+  }
+  formModalApi.open();
+}
+
 function handleBatchDelete() {
   Modal.confirm({
     title: $t('common.deleteConfirm'),
@@ -112,7 +143,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteToken({
+  const result = await deleteOauthProvider({
     ids,
   });
   if (result.code === 0) {
@@ -124,6 +155,7 @@ async function batchDelete(ids: any[]) {
 
 <template>
   <Page auto-content-height>
+    <FormModal />
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -133,6 +165,12 @@ async function batchDelete(ids: any[]) {
           @click="handleBatchDelete"
         >
           {{ $t('common.delete') }}
+        </Button>
+      </template>
+
+      <template #toolbar-tools>
+        <Button type="primary" @click="openFormModal">
+          {{ $t('sys.oauth.addProvider') }}
         </Button>
       </template>
     </Grid>

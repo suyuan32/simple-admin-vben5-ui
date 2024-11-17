@@ -17,6 +17,10 @@ import { type ActionItem, TableAction } from '#/components/table/table-action';
 import PositionForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
 
+defineOptions({
+  name: 'PositionManagement',
+});
+
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({

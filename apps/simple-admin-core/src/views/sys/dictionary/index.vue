@@ -3,6 +3,7 @@ import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { DictionaryInfo } from '#/api/sys/model/dictionaryModel';
 
 import { h, ref } from 'vue';
+
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 

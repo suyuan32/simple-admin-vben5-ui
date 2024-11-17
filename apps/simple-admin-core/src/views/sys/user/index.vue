@@ -19,6 +19,10 @@ import { buildDataNode } from '#/utils/tree';
 import UserForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schema';
 
+defineOptions({
+  name: 'UserManagement',
+});
+
 // ------------ department -------------------
 
 const treeData = ref();

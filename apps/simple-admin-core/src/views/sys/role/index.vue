@@ -19,6 +19,10 @@ import MenuAuthorityModal from '#/views/sys/role/menu-authority.vue';
 import RoleForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
 
+defineOptions({
+  name: 'RoleManagement',
+});
+
 // ------------ api authority --------------
 const [ApiModal, apiModalApi] = useVbenModal({
   connectedComponent: ApiAuthorityModal,
