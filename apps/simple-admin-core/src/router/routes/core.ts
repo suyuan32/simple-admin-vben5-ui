@@ -5,6 +5,7 @@ import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 import { AuthPageLayout } from '#/layouts';
 import { $t } from '#/locales';
 import Login from '#/views/_core/authentication/login.vue';
+import InitializationPage from '#/views/sys/initialize/index.vue';
 
 /** 全局404页面 */
 const fallbackNotFoundRoute: RouteRecordRaw = {
@@ -28,6 +29,14 @@ const coreRoutes: RouteRecordRaw[] = [
     name: 'Root',
     path: '/',
     redirect: DEFAULT_HOME_PATH,
+  },
+  {
+    meta: {
+      title: 'Init Page',
+    },
+    name: 'Initialization Page',
+    path: '/init',
+    component: InitializationPage,
   },
   {
     component: AuthPageLayout,
