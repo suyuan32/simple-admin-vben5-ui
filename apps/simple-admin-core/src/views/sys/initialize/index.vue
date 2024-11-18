@@ -8,10 +8,10 @@ import {
   Button,
   Card,
   Col,
-  Divider,
   Input,
   message,
   Row,
+  TypographyTitle,
 } from 'ant-design-vue';
 
 import { initializeFileDatabase } from '#/api/fms/initialize';
@@ -26,9 +26,6 @@ import {
 defineOptions({
   name: 'InitializationPage',
 });
-const ACard = Card;
-const ACol = Col;
-const ARow = Row;
 const coreInitButtonLoading = ref<boolean>(false);
 const fileInitButtonLoading = ref<boolean>(false);
 const mmsInitButtonLoading = ref<boolean>(false);
@@ -104,119 +101,143 @@ async function initMcmsDatabase() {
 </script>
 <template>
   <Page>
-    <ARow :gutter="[16, 16]">
-      <ACol :span="6">
-        <ACard :hoverable="true" :title="$t('sys.init.initCoreDatabase')">
-          <p>
-            <a href="https://github.com/suyuan32/simple-admin-core">
-              Core Github
-            </a>
-          </p>
+    <Row :gutter="[16, 16]">
+      <Col :span="6">
+        <Card :hoverable="true" :title="$t('sys.init.initCoreDatabase')">
+          <Button
+            class="w-full"
+            href="https://github.com/suyuan32/simple-admin-core"
+            type="link"
+          >
+            Core Github
+          </Button>
+
           <Button
             :loading="coreInitButtonLoading"
+            class="w-full"
             type="primary"
             @click="initCoreDatabase"
           >
             {{ $t('common.start') }}
           </Button>
-        </ACard>
-      </ACol>
-      <ACol :span="6">
-        <ACard :hoverable="true" :title="$t('sys.init.initFileDatabase')">
-          <p>
-            <a href="https://github.com/suyuan32/simple-admin-file">
-              File Manager Github
-            </a>
-          </p>
+        </Card>
+      </Col>
+      <Col :span="6">
+        <Card :hoverable="true" :title="$t('sys.init.initFileDatabase')">
+          <Button
+            class="w-full"
+            href="https://github.com/suyuan32/simple-admin-file"
+            type="link"
+          >
+            File Manager Github
+          </Button>
           <Button
             :loading="fileInitButtonLoading"
+            class="w-full"
             type="primary"
             @click="initFileDatabase"
           >
             {{ $t('common.start') }}
           </Button>
-        </ACard>
-      </ACol>
-      <ACol :span="6">
-        <ACard :hoverable="true" :title="$t('sys.init.initMMSDatabase')">
-          <p>
-            <a href="https://github.com/suyuan32/simple-admin-member-api">
-              Member Github
-            </a>
-          </p>
+        </Card>
+      </Col>
+      <Col :span="6">
+        <Card :hoverable="true" :title="$t('sys.init.initMMSDatabase')">
+          <Button
+            class="w-full"
+            href="https://github.com/suyuan32/simple-admin-member-api"
+            type="link"
+          >
+            Member Github
+          </Button>
           <Button
             :loading="mmsInitButtonLoading"
+            class="w-full"
             type="primary"
             @click="initMMSDatabase"
           >
             {{ $t('common.start') }}
           </Button>
-        </ACard>
-      </ACol>
-      <ACol :span="6">
-        <ACard :hoverable="true" :title="$t('sys.init.initJobDatabase')">
-          <p>
-            <a href="https://github.com/suyuan32/simple-admin-job">
-              Job Github
-            </a>
-          </p>
+        </Card>
+      </Col>
+      <Col :span="6">
+        <Card :hoverable="true" :title="$t('sys.init.initJobDatabase')">
+          <Button
+            class="w-full"
+            href="https://github.com/suyuan32/simple-admin-job"
+            type="link"
+          >
+            Job Github
+          </Button>
           <Button
             :loading="jobInitButtonLoading"
+            class="w-full"
             type="primary"
             @click="initJobDatabase"
           >
             {{ $t('common.start') }}
           </Button>
-        </ACard>
-      </ACol>
-      <ACol :span="6">
-        <ACard :hoverable="true" :title="$t('sys.init.initMcmsDatabase')">
-          <p>
-            <a href="https://github.com/suyuan32/simple-admin-message-center">
-              Mcms Github
-            </a>
-          </p>
+        </Card>
+      </Col>
+      <Col :span="6">
+        <Card :hoverable="true" :title="$t('sys.init.initMcmsDatabase')">
+          <Button
+            class="w-full"
+            href="https://github.com/suyuan32/simple-admin-message-center"
+            type="link"
+          >
+            Mcms Github
+          </Button>
           <Button
             :loading="mcmsInitButtonLoading"
+            class="w-full"
             type="primary"
             @click="initMcmsDatabase"
           >
             {{ $t('common.start') }}
           </Button>
-        </ACard>
-      </ACol>
-    </ARow>
-    <Divider />
-    <ARow>
-      <ACol :span="12">
-        <ACard :hoverable="true" :title="$t('sys.init.initCustom')">
-          <p>{{ $t('sys.init.initUrl') }}</p>
+        </Card>
+      </Col>
+    </Row>
+    <Row class="pt-2">
+      <Col :span="12">
+        <Card :hoverable="true" :title="$t('sys.init.initCustom')">
+          <TypographyTitle :level="5">
+            {{ $t('sys.init.initUrl') }}
+          </TypographyTitle>
           <p>
             <Input v-model:value="customInitUrl" />
           </p>
-          <p>{{ $t('sys.init.initPort') }}</p>
+          <TypographyTitle :level="5">
+            {{ $t('sys.init.initPort') }}
+          </TypographyTitle>
           <p>
             <Input v-model:value="customInitPort" />
           </p>
-          <p>{{ $t('sys.init.initService') }}</p>
+          <TypographyTitle :level="5">
+            {{ $t('sys.init.initService') }}
+          </TypographyTitle>
           <p>
             <Input
               v-model:value="customInitService"
               :placeholder="$t('sys.init.initOptional')"
             />
           </p>
-          <p>{{ $t('sys.init.initRedirect') }}</p>
+          <TypographyTitle :level="5">
+            {{ $t('sys.init.initRedirect') }}
+          </TypographyTitle>
           <p>
             <Button
               :loading="customInitButtonLoading"
+              class="w-full"
               type="primary"
               @click="initCustomDatabase"
             >
               {{ $t('common.start') }}
             </Button>
           </p>
-        </ACard>
-      </ACol>
-    </ARow>
+        </Card>
+      </Col>
+    </Row>
   </Page>
 </template>
