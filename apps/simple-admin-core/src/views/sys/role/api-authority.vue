@@ -58,7 +58,7 @@ const [Modal, modalApi] = useVbenModal({
       getApiData();
     }
   },
-  title: $t('sys.authority.menuAuthority'),
+  title: $t('sys.authority.apiAuthority'),
 });
 
 async function getApiData() {
