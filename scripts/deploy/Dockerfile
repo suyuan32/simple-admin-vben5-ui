@@ -25,7 +25,7 @@ COPY --from=builder /app/playground/dist /usr/share/nginx/html
 
 COPY --from=builder /app/scripts/deploy/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8080
+EXPOSE 80
 
 # start nginx
 CMD ["nginx", "-g", "daemon off;"]
