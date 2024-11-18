@@ -54,6 +54,7 @@ export const useAuthStore = defineStore('auth', () => {
       roleName: [],
       userId: '',
       username: '',
+      departmentName: '',
     };
 
     try {

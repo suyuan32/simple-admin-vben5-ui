@@ -185,7 +185,8 @@
     "editUser": "Edit User",
     "changePassword": "Change Password",
     "forceLoggingOut": "Force logging out",
-    "changeAvatar": "Change Avatar"
+    "changeAvatar": "Change Avatar",
+    "profile": "Profile Setting"
   },
   "init": {
     "initTitle": "Initialize database",

@@ -179,9 +179,15 @@ if (enableShortcutKey.value) {
           >
             {{ text }}
             <slot name="tagText">
-              <Badge v-if="tagText" class="ml-2 text-green-400">
-                {{ tagText }}
-              </Badge>
+              <div v-if="tagText">
+                <Badge
+                  v-for="item in tagText.split(',')"
+                  :key="item"
+                  class="ml-2 text-green-400"
+                >
+                  {{ item }}
+                </Badge>
+              </div>
             </slot>
           </div>
           <div class="text-muted-foreground text-xs font-normal">

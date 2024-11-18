@@ -6,7 +6,7 @@ export const VBEN_GITHUB_URL = 'https://github.com/vbenjs/vue-vben-admin';
 /**
  * @zh_CN 文档地址
  */
-export const VBEN_DOC_URL = 'https://doc.vben.pro';
+export const VBEN_DOC_URL = 'https://doc.ryansu.tech';
 
 /**
  * @zh_CN Vben Logo

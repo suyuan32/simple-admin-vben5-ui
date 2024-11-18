@@ -7,13 +7,17 @@ interface BasicUserInfo {
    */
   avatar: string;
   /**
+   * 部门名称
+   */
+  departmentName: string;
+  /**
    * 用户昵称
    */
   realName: string;
   /**
    * 用户角色
    */
-  roles?: string[];
+  roleName?: string[];
   /**
    * 用户id
    */
@@ -44,7 +48,7 @@ export const useUserStore = defineStore('core-user', {
       // 设置用户信息
       this.userInfo = userInfo;
       // 设置角色信息
-      const roles = userInfo?.roles ?? [];
+      const roles = userInfo?.roleName ?? [];
       this.setUserRoles(roles);
     },
     setUserRoles(roles: string[]) {

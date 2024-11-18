@@ -185,7 +185,8 @@
     "editUser": "编辑用户",
     "changePassword": "修改密码",
     "forceLoggingOut": "强制登出",
-    "changeAvatar": "更换头像"
+    "changeAvatar": "更换头像",
+    "profile": "个人信息设置"
   },
   "init": {
     "initTitle": "数据库初始化",
