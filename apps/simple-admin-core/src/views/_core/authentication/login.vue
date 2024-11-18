@@ -3,7 +3,7 @@ import type { BasicOption } from '@vben/types';
 
 import type { VbenFormSchema } from '#/adapter/form';
 
-import { computed, h, reactive, ref } from 'vue';
+import { computed, h, ref } from 'vue';
 
 import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -31,38 +31,29 @@ const loginType: BasicOption[] = [
     value: 'email',
   },
 ];
-const formData = reactive({
-  msgType: 'captcha',
-  account: '',
-  password: '',
-  captcha: '',
-  captchaId: '',
-  imgPath: '',
-  target: '',
-  captchaVerified: '',
-});
 
-const captchaImgUrl = computed(() => {
-  return formData.imgPath;
-});
+const imgPath = ref<string>('');
+const captchaId = ref<string>('');
+const msgType = ref<string>('');
+const target = ref<string>('');
 
 // get captcha
 async function getCaptchaData() {
   const captcha = await getCaptcha();
   if (captcha.code === 0) {
-    formData.captchaId = captcha.data.captchaId;
-    formData.imgPath = captcha.data.imgPath;
+    captchaId.value = captcha.data.captchaId;
+    imgPath.value = captcha.data.imgPath;
   }
 }
 
 getCaptchaData();
 
 async function handleSendCaptcha(): Promise<boolean> {
-  if (formData.msgType === 'email') {
-    const result = await getEmailCaptcha({ email: formData.target });
+  if (msgType.value === 'email') {
+    const result = await getEmailCaptcha({ email: target.value });
     return result.code === 0;
   } else {
-    const result = await getSmsCaptcha({ phoneNumber: formData.target });
+    const result = await getSmsCaptcha({ phoneNumber: target.value });
     return result.code === 0;
   }
 }
@@ -113,7 +104,7 @@ const formSchema = computed((): VbenFormSchema[] => {
               ? $t('sys.login.emailPlaceholder')
               : $t('sys.login.mobilePlaceholder');
 
-          formData.target = values.target;
+          target.value = values.target;
         },
         if(values) {
           return values.selectLoginType !== 'captcha';
@@ -165,7 +156,7 @@ const formSchema = computed((): VbenFormSchema[] => {
       fieldName: 'captchaImg',
       component: h(Image),
       componentProps: {
-        src: captchaImgUrl.value,
+        src: imgPath.value,
         width: 120,
         height: 40,
         preview: false,
@@ -221,7 +212,7 @@ async function handleLogin(values: any) {
             password: values.password,
             username: values.username,
             captcha: values.captcha,
-            captchaId: formData.captchaId,
+            captchaId: captchaId.value,
           },
           'captcha',
         )
