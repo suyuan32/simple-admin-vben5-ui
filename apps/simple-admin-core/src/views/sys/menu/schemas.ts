@@ -69,12 +69,11 @@ export const tableColumns: VxeGridProps = {
       slots: {
         default: (record) => {
           let resultText = '';
-          resultText =
-            record.row.hideMenu === 1 ? $t('common.yes') : $t('common.no');
+          resultText = record.row.hideMenu ? $t('common.yes') : $t('common.no');
           return h(
             Tag,
             {
-              color: record.row.hideMenu === 1 ? 'green' : 'red',
+              color: record.row.hideMenu ? 'green' : 'red',
             },
             () => resultText,
           );
