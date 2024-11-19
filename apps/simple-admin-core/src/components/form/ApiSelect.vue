@@ -3,6 +3,8 @@ import type { SelectValue } from 'ant-design-vue/es/select';
 
 import { computed, type PropType, ref, unref, watch } from 'vue';
 
+import { $t } from '@vben/locales';
+
 import { useVModel } from '@vueuse/core';
 import { Select } from 'ant-design-vue';
 import {
@@ -96,6 +98,11 @@ const searchFun = ref<any>();
 const filterOption = ref<boolean | FilterFunc<DefaultOptionType> | undefined>();
 const optionFilterProps = ref<string>();
 const mode = props.multiple ? 'multiple' : 'tags';
+const selectPlaceholder = ref<string>($t('common.chooseText'));
+
+if (useSearch) {
+  selectPlaceholder.value = $t('common.inputText');
+}
 
 if (useSearch) {
   searchFun.value = searchFetch;
@@ -214,6 +221,7 @@ function emitChange() {
     :mode="mode"
     :option-filter-prop="optionFilterProps"
     :options="getOptions"
+    :placeholder="selectPlaceholder"
     :show-arrow="false"
     :show-search="true"
     class="w-full"
