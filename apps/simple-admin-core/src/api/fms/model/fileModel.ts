@@ -1,4 +1,4 @@
-import { BaseListResp } from '../../model/baseModel';
+import { type BaseListResp } from '../../model/baseModel';
 
 /**
  *  author: Ryan Su

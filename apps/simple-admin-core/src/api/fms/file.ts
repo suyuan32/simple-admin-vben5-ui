@@ -19,6 +19,7 @@ enum Api {
   uploadFile = '/fms-api/upload',
 }
 
+// todo: upload files
 /**
  * @description: Upload interface
  */
@@ -44,7 +45,7 @@ export const getFileList = (params: BaseListReq) => {
  *  author: ryan
  *  @description: update file info
  */
-export const UpdateFileInfo = (params: updateFileInfoReq) => {
+export const updateFileInfo = (params: updateFileInfoReq) => {
   return requestClient.post<BaseResp>(Api.UpdateFileInfo, params);
 };
 
@@ -68,6 +69,7 @@ export const setFileStatus = (id: string, status: number) =>
  *  @description: download file
  */
 
+// todo: download files
 // export const downloadFile = (id: number) =>
 //   requestClient.get({
 //     url: Api.DownloadFile + '/' + id,
