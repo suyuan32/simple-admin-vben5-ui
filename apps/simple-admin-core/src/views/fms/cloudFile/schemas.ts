@@ -152,14 +152,12 @@ export const dataFormSchemas: VbenFormProps = {
       component: 'Input',
     },
     {
-      fieldName: 'relativeSrc',
-      label: $t('fms.cloudFile.relativeSrc'),
-      component: 'Input',
-    },
-    {
       fieldName: 'size',
       label: $t('fms.cloudFile.size'),
       component: 'InputNumber',
+      componentProps: {
+        class: 'w-full',
+      },
     },
     {
       fieldName: 'fileType',
@@ -174,6 +172,7 @@ export const dataFormSchemas: VbenFormProps = {
           { label: $t('fms.file.video'), value: 3 },
           { label: $t('fms.file.audio'), value: 4 },
         ],
+        class: 'w-full',
       },
     },
     {
@@ -198,8 +197,20 @@ export const dataFormSchemas: VbenFormProps = {
     },
     {
       fieldName: 'tagIds',
-      label: $t('fms.cloudFile.tagIds'),
-      component: 'Input',
+      label: $t('fms.tag.tag'),
+      component: 'ApiSelect',
+      componentProps: {
+        api: getCloudFileTagList,
+        params: {
+          page: 1,
+          pageSize: 1000,
+          name: '',
+        },
+        resultField: 'data.data',
+        labelField: 'name',
+        valueField: 'id',
+        multiple: true,
+      },
     },
     {
       fieldName: 'state',

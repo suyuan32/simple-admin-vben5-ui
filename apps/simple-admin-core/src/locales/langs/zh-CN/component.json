@@ -112,7 +112,9 @@
     "uploading": "上传中",
     "uploadWait": "请等待文件上传结束后操作",
     "reUploadFailed": "重新上传失败文件",
-    "pending": "等待上传"
+    "pending": "等待上传",
+    "uploadHelpMessage": "点击或拖动文件到此区域上传",
+    "supportAnyFormat": "支持任意类型的文件，支持多个文件上传"
   },
   "verify": {
     "error": "验证失败！",

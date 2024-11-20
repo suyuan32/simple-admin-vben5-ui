@@ -66,9 +66,6 @@ export const getCloudFileById = (params: BaseUUIDReq) => {
 /**
  * @description: Upload interface
  */
-// export function uploadApi(
-//   params: UploadFileParams,
-//   onUploadProgress: (progressEvent: AxiosProgressEvent) => void,
-// ) {
-//   return requestClient.upload(Api.uploadFile, params);
-// }
+export function uploadCloudFile(file: File, provider: string) {
+  return requestClient.upload(Api.uploadFile, { file, provider });
+}

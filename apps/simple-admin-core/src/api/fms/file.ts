@@ -23,12 +23,9 @@ enum Api {
 /**
  * @description: Upload interface
  */
-// export function uploadApi(params: UploadFileParams, onUploadProgress: (progressEvent: AxiosProgressEvent) => void) {
-//   return requestClient.uploadFile<BaseDataResp<UploadApiResp>>({
-//     url: Api.uploadFile,
-//     onUploadProgress
-//   }, params);
-// }
+export function uploadFile(file: File) {
+  return requestClient.upload(Api.uploadFile, { file });
+}
 
 /**
  * @description: Get file list

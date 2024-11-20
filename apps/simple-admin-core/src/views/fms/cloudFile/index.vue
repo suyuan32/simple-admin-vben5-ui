@@ -12,6 +12,8 @@ import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteCloudFile, getCloudFileList } from '#/api/fms/cloudFile';
+import { getStorageProviderList } from '#/api/fms/storageProvider';
+import { ApiSelect, UploadDragger } from '#/components/form';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import CloudFileForm from './form.vue';
@@ -20,6 +22,8 @@ import { searchFormSchemas, tableColumns } from './schemas';
 defineOptions({
   name: 'CloudFileManagement',
 });
+
+const providerName = ref<string>('');
 
 // ---------------- form -----------------
 
@@ -151,10 +155,46 @@ async function batchDelete(ids: any[]) {
     showDeleteButton.value = false;
   }
 }
+
+// ---------------- upload modal ------------------
+const [UploadModal, uploadModalApi] = useVbenModal({
+  fullscreenButton: false,
+  onCancel() {
+    uploadModalApi.close();
+  },
+  onConfirm: async () => {
+    uploadModalApi.close();
+  },
+  onOpenChange() {},
+  title: $t('component.upload.upload'),
+});
+
+function handleOptionsChange(options: any) {
+  for (const option of options) {
+    if (option.isDefault) {
+      providerName.value = option.label;
+      break;
+    }
+  }
+}
 </script>
 
 <template>
   <Page auto-content-height>
+    <UploadModal>
+      <ApiSelect
+        v-model:value="providerName"
+        :api="getStorageProviderList"
+        :multiple="false"
+        :params="{ page: 1, pageSize: 1000 }"
+        class="w-32"
+        label-field="name"
+        result-field="data.data"
+        value-field="name"
+        @options-change="handleOptionsChange"
+      />
+      <UploadDragger :provider="providerName" class="pt-2" />
+    </UploadModal>
     <FormModal />
     <Grid>
       <template #toolbar-buttons>
@@ -169,8 +209,8 @@ async function batchDelete(ids: any[]) {
       </template>
 
       <template #toolbar-tools>
-        <Button type="primary" @click="openFormModal">
-          {{ $t('fms.cloudFile.addCloudFile') }}
+        <Button type="primary" @click="uploadModalApi.open">
+          {{ $t('component.upload.upload') }}
         </Button>
       </template>
     </Grid>

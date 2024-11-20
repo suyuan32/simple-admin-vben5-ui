@@ -20,7 +20,8 @@
     "copyURL": "复制地址",
     "uploadFirst": "请先上传文件",
     "addFile": "添加文件",
-    "editFile": "编辑文件"
+    "editFile": "编辑文件",
+    "copyPathSuccess": "已成功将文件地址复制到剪贴板"
   },
   "tag": {
     "tag": "标签",

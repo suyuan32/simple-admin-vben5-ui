@@ -19,7 +19,8 @@
     "copyURLSuccess": "Copy the path successfully",
     "copyURL": "Copy URL",
     "addFile": "Add File",
-    "editFile": "Edit File"
+    "editFile": "Edit File",
+    "copyPathSuccess": "The file's URL has been successfully copied to the clipboard"
   },
   "tag": {
     "tag": "Tags",

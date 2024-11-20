@@ -11,6 +11,7 @@ import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteFile, getFileList } from '#/api/fms/file';
+import { UploadDragger } from '#/components/form';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import FileForm from './form.vue';
@@ -151,11 +152,27 @@ async function batchDelete(ids: any[]) {
     showDeleteButton.value = false;
   }
 }
+
+// ---------------- upload modal ------------------
+const [UploadModal, uploadModalApi] = useVbenModal({
+  fullscreenButton: false,
+  onCancel() {
+    uploadModalApi.close();
+  },
+  onConfirm: async () => {
+    uploadModalApi.close();
+  },
+  onOpenChange() {},
+  title: $t('component.upload.upload'),
+});
 </script>
 
 <template>
   <Page auto-content-height>
     <FormModal />
+    <UploadModal>
+      <UploadDragger />
+    </UploadModal>
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -169,8 +186,8 @@ async function batchDelete(ids: any[]) {
       </template>
 
       <template #toolbar-tools>
-        <Button type="primary" @click="openFormModal">
-          {{ $t('fms.file.addFile') }}
+        <Button type="primary" @click="uploadModalApi.open">
+          {{ $t('component.upload.upload') }}
         </Button>
       </template>
     </Grid>

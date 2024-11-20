@@ -97,7 +97,7 @@ const useSearch = props.isSearch;
 const searchFun = ref<any>();
 const filterOption = ref<boolean | FilterFunc<DefaultOptionType> | undefined>();
 const optionFilterProps = ref<string>();
-const mode = props.multiple ? 'multiple' : 'tags';
+const mode = props.multiple ? 'multiple' : undefined;
 const selectPlaceholder = ref<string>($t('common.chooseText'));
 
 if (useSearch) {

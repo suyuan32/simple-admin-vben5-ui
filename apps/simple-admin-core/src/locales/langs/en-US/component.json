@@ -112,7 +112,9 @@
     "uploading": "Uploading",
     "uploadWait": "Please wait for the file upload to finish",
     "reUploadFailed": "Re-upload failed files",
-    "pending": "Pending"
+    "pending": "Pending",
+    "uploadHelpMessage": "Click or drag file to this area to upload",
+    "supportAnyFormat": "Support any type of file, support multiple file uploads"
   },
   "verify": {
     "error": "verification failed!",
