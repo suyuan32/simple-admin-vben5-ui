@@ -55,6 +55,7 @@ export const useAuthStore = defineStore('auth', () => {
       userId: '',
       username: '',
       departmentName: '',
+      realName: '',
     };
 
     try {
@@ -151,6 +152,7 @@ export const useAuthStore = defineStore('auth', () => {
     ) {
       userInfo.avatar = preferences.app.defaultAvatar;
     }
+    userInfo.realName = userInfo.nickname;
     userStore.setUserInfo(userInfo as any);
     return userInfo;
   }
