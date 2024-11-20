@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { FileTagInfo } from '#/api/fms/model/fileTagModel';
+import type { TagInfo } from '#/api/fms/model/fileTagModel';
 
 import { ref } from 'vue';
 
@@ -9,7 +9,7 @@ import { $t } from '@vben/locales';
 import { message } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
-import { createFileTag, updateFileTag } from '#/api/fms/fileTag';
+import { createTag, updateTag } from '#/api/fms/fileTag';
 
 import { dataFormSchemas } from './schemas';
 
@@ -23,8 +23,8 @@ const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
   const result = isUpdate.value
-    ? await updateFileTag(values as FileTagInfo)
-    : await createFileTag(values as FileTagInfo);
+    ? await updateTag(values as TagInfo)
+    : await createTag(values as TagInfo);
   if (result.code === 0) {
     message.success(result.msg);
     gridApi.value.reload();

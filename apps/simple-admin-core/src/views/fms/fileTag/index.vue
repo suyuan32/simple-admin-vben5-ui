@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { FileTagInfo } from '#/api/fms/model/fileTagModel';
+import type { TagInfo } from '#/api/fms/model/fileTagModel';
 
 import { h, ref } from 'vue';
 
@@ -11,7 +11,7 @@ import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteFileTag, getFileTagList } from '#/api/fms/fileTag';
+import { deleteTag, getTagList } from '#/api/fms/fileTag';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
 import FileTagForm from './form.vue';
@@ -50,7 +50,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<FileTagInfo> = {
+const gridOptions: VxeGridProps<TagInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -97,7 +97,7 @@ const gridOptions: VxeGridProps<FileTagInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getFileTagList({
+        const res = await getTagList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -143,7 +143,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteFileTag({
+  const result = await deleteTag({
     ids,
   });
   if (result.code === 0) {
