@@ -6,7 +6,7 @@ import { useAccessStore, useUserStore } from '@vben/stores';
 import { startProgress, stopProgress } from '@vben/utils';
 
 import { accessRoutes, coreRouteNames } from '#/router/routes';
-import { useAuthStore } from '#/store';
+import { useAuthStore, useDynamicConfigStore } from '#/store';
 
 import { generateAccess } from './access';
 
@@ -49,6 +49,7 @@ function setupAccessGuard(router: Router) {
     const accessStore = useAccessStore();
     const userStore = useUserStore();
     const authStore = useAuthStore();
+    const dynamicConfigStore = useDynamicConfigStore();
 
     // 基本路由，这些路由不需要进入权限拦截
     if (coreRouteNames.includes(to.name as string)) {
@@ -103,6 +104,9 @@ function setupAccessGuard(router: Router) {
     accessStore.setAccessRoutes(accessibleRoutes);
     accessStore.setIsAccessChecked(true);
     const redirectPath = (from.query.redirect ?? to.fullPath) as string;
+
+    // 初始化动态配置
+    dynamicConfigStore.getDynamicConfigFromServer();
 
     return {
       ...router.resolve(decodeURIComponent(redirectPath)),
