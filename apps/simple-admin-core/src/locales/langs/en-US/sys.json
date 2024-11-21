@@ -209,7 +209,9 @@
     "navigation": "Navigation",
     "info": "System Information",
     "welcome": "Welcome to use Simple Admin",
-    "changeTheme": "Change Theme"
+    "changeTheme": "Change Theme",
+    "copyToken": "Copy Token",
+    "moreFeatures": "Other Operations"
   },
   "dictionary": {
     "name": "Dictionary Name",

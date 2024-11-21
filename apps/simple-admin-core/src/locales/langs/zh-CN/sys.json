@@ -209,7 +209,9 @@
     "navigation": "快捷导航",
     "info": "系统信息",
     "welcome": "欢迎使用 Simple Admin",
-    "changeTheme": "切换主题"
+    "changeTheme": "切换主题",
+    "copyToken": "复制令牌",
+    "moreFeatures": "其他功能"
   },
   "dictionary": {
     "name": "字典名称",

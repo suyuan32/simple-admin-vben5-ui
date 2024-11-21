@@ -3,13 +3,18 @@ import { onMounted } from 'vue';
 
 import { Page } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { useAccessStore } from '@vben/stores';
 
-import { Card, Col, message, Row } from 'ant-design-vue';
+import { useClipboard } from '@vueuse/core';
+import { Button, Card, Col, message, Row } from 'ant-design-vue';
 
 import { useVbenForm } from '#/adapter/form';
 import { changePassword, getUserProfile, updateProfile } from '#/api/sys/user';
 
 import { changePasswordFormSchemas, dataFormSchemas } from './schemas';
+
+const accessStore = useAccessStore();
+const { copy } = useClipboard();
 
 const [Form, formApi] = useVbenForm({
   handleSubmit: onSubmit,
@@ -49,6 +54,11 @@ async function onSubmit(values: Record<string, any>) {
     message.success($t('common.successful'));
   }
 }
+
+function copyToken() {
+  copy(accessStore.accessToken as string);
+  message.success($t('common.successful'));
+}
 </script>
 
 <template>
@@ -60,7 +70,14 @@ async function onSubmit(values: Record<string, any>) {
         </Card>
       </Col>
       <Col :offset="1" :span="11">
-        <Card :title="$t('sys.user.changePassword')"> <ChangePassForm /> </Card>
+        <Card :title="$t('sys.user.changePassword')">
+          <ChangePassForm />
+        </Card>
+        <Card :title="$t('sys.sys.moreFeatures')" class="mt-4">
+          <Button type="primary" @click="copyToken">
+            {{ $t('sys.sys.copyToken') }}
+          </Button>
+        </Card>
       </Col>
     </Row>
   </Page>
