@@ -5,7 +5,7 @@ import { h } from 'vue';
 import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Switch } from 'ant-design-vue';
+import { Switch, Tag } from 'ant-design-vue';
 
 import { updateStorageProvider } from '#/api/fms/storageProvider';
 
@@ -23,6 +23,21 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('fms.storageProvider.isDefault'),
       field: 'isDefault',
+      slots: {
+        default: (record) => {
+          let resultText = '';
+          resultText = record.row.isDefault
+            ? $t('common.yes')
+            : $t('common.no');
+          return h(
+            Tag,
+            {
+              color: record.row.isDefault ? 'green' : 'red',
+            },
+            () => resultText,
+          );
+        },
+      },
     },
     {
       title: $t('common.status'),

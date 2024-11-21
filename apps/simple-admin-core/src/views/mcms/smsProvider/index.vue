@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { CloudFileInfo } from '#/api/fms/model/cloudFileModel';
+import type { SmsProviderInfo } from '#/api/mcms/model/smsProviderModel';
 
 import { h, ref } from 'vue';
 
@@ -11,24 +11,46 @@ import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteCloudFile, getCloudFileList } from '#/api/fms/cloudFile';
-import { getStorageProviderList } from '#/api/fms/storageProvider';
-import { ApiSelect, UploadDragger } from '#/components/form';
+import { deleteSmsProvider, getSmsProviderList } from '#/api/mcms/smsProvider';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
-import CloudFileForm from './form.vue';
+import SmsProviderForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
+import SmsSenderFormModal from './send-modal.vue';
+import SmsLogModal from './sms-log-modal.vue';
 
 defineOptions({
-  name: 'CloudFileManagement',
+  name: 'SmsProviderManagement',
 });
 
-const providerName = ref<string>('');
+// ---------------  send sms ---------
+const [SmsSenderModal, smsSenderModalApi] = useVbenModal({
+  connectedComponent: SmsSenderFormModal,
+});
+
+function openSmsSenderModal(record: any) {
+  if (isPlainObject(record)) {
+    smsSenderModalApi.setData({ providerId: record.id });
+  }
+  smsSenderModalApi.open();
+}
+
+// ------------- sms log --------------
+const [SmsLogTableModal, smsLogTableModalApi] = useVbenModal({
+  connectedComponent: SmsLogModal,
+});
+
+function openSmsLogModal(record: any) {
+  if (isPlainObject(record)) {
+    smsLogTableModalApi.setData({ providerId: record.id });
+  }
+  smsLogTableModalApi.open();
+}
 
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: CloudFileForm,
+  connectedComponent: SmsProviderForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -54,7 +76,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<CloudFileInfo> = {
+const gridOptions: VxeGridProps<SmsProviderInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -80,6 +102,12 @@ const gridOptions: VxeGridProps<CloudFileInfo> = {
                 onClick: openFormModal.bind(null, row),
               },
               {
+                type: 'link',
+                icon: 'ic:round-library-books',
+                tooltip: $t('mcms.smsLog.smsLogList'),
+                onClick: openSmsLogModal.bind(null, row),
+              },
+              {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
                 color: 'error',
@@ -101,7 +129,7 @@ const gridOptions: VxeGridProps<CloudFileInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getCloudFileList({
+        const res = await getSmsProviderList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -147,7 +175,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteCloudFile({
+  const result = await deleteSmsProvider({
     ids,
   });
   if (result.code === 0) {
@@ -155,47 +183,13 @@ async function batchDelete(ids: any[]) {
     showDeleteButton.value = false;
   }
 }
-
-// ---------------- upload modal ------------------
-const [UploadModal, uploadModalApi] = useVbenModal({
-  fullscreenButton: false,
-  onCancel() {
-    uploadModalApi.close();
-  },
-  onConfirm: async () => {
-    uploadModalApi.close();
-  },
-  onOpenChange() {},
-  title: $t('component.upload.upload'),
-});
-
-function handleOptionsChange(options: any) {
-  for (const option of options) {
-    if (option.isDefault) {
-      providerName.value = option.label;
-      break;
-    }
-  }
-}
 </script>
 
 <template>
   <Page auto-content-height>
-    <UploadModal>
-      <ApiSelect
-        v-model:value="providerName"
-        :api="getStorageProviderList"
-        :multiple="false"
-        :params="{ page: 1, pageSize: 1000 }"
-        class="w-32"
-        label-field="name"
-        result-field="data.data"
-        value-field="name"
-        @options-change="handleOptionsChange"
-      />
-      <UploadDragger :provider="providerName" class="mt-2" />
-    </UploadModal>
     <FormModal />
+    <SmsLogTableModal />
+    <SmsSenderModal />
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -209,8 +203,11 @@ function handleOptionsChange(options: any) {
       </template>
 
       <template #toolbar-tools>
-        <Button type="primary" @click="uploadModalApi.open">
-          {{ $t('component.upload.upload') }}
+        <Button type="primary" @click="openSmsSenderModal">
+          {{ $t('mcms.sms.sendSms') }}
+        </Button>
+        <Button class="ml-4" type="primary" @click="openFormModal">
+          {{ $t('mcms.smsProvider.addSmsProvider') }}
         </Button>
       </template>
     </Grid>

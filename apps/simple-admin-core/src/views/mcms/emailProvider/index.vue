@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { CloudFileInfo } from '#/api/fms/model/cloudFileModel';
+import type { EmailProviderInfo } from '#/api/mcms/model/emailProviderModel';
 
 import { h, ref } from 'vue';
 
@@ -11,24 +11,49 @@ import { Button, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteCloudFile, getCloudFileList } from '#/api/fms/cloudFile';
-import { getStorageProviderList } from '#/api/fms/storageProvider';
-import { ApiSelect, UploadDragger } from '#/components/form';
+import {
+  deleteEmailProvider,
+  getEmailProviderList,
+} from '#/api/mcms/emailProvider';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
-import CloudFileForm from './form.vue';
+import EmailLogModal from './email-log-modal.vue';
+import EmailProviderForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
+import EmailSenderFormModal from './send-modal.vue';
 
 defineOptions({
-  name: 'CloudFileManagement',
+  name: 'EmailProviderManagement',
 });
 
-const providerName = ref<string>('');
+// ---------------  send email ---------
+const [EmailSenderModal, smsSenderModalApi] = useVbenModal({
+  connectedComponent: EmailSenderFormModal,
+});
+
+function openEmailSenderModal(record: any) {
+  if (isPlainObject(record)) {
+    smsSenderModalApi.setData({ providerId: record.id });
+  }
+  smsSenderModalApi.open();
+}
+
+// ------------- sms log --------------
+const [EmailLogTableModal, smsLogTableModalApi] = useVbenModal({
+  connectedComponent: EmailLogModal,
+});
+
+function openEmailLogModal(record: any) {
+  if (isPlainObject(record)) {
+    smsLogTableModalApi.setData({ providerId: record.id });
+  }
+  smsLogTableModalApi.open();
+}
 
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: CloudFileForm,
+  connectedComponent: EmailProviderForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -54,7 +79,7 @@ const formOptions: VbenFormProps = {
 
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps<CloudFileInfo> = {
+const gridOptions: VxeGridProps<EmailProviderInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -80,6 +105,12 @@ const gridOptions: VxeGridProps<CloudFileInfo> = {
                 onClick: openFormModal.bind(null, row),
               },
               {
+                type: 'link',
+                icon: 'ic:round-library-books',
+                tooltip: $t('mcms.emailLog.emailLogList'),
+                onClick: openEmailLogModal.bind(null, row),
+              },
+              {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
                 color: 'error',
@@ -101,7 +132,7 @@ const gridOptions: VxeGridProps<CloudFileInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getCloudFileList({
+        const res = await getEmailProviderList({
           page: page.currentPage,
           pageSize: page.pageSize,
           ...formValues,
@@ -147,7 +178,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteCloudFile({
+  const result = await deleteEmailProvider({
     ids,
   });
   if (result.code === 0) {
@@ -155,47 +186,13 @@ async function batchDelete(ids: any[]) {
     showDeleteButton.value = false;
   }
 }
-
-// ---------------- upload modal ------------------
-const [UploadModal, uploadModalApi] = useVbenModal({
-  fullscreenButton: false,
-  onCancel() {
-    uploadModalApi.close();
-  },
-  onConfirm: async () => {
-    uploadModalApi.close();
-  },
-  onOpenChange() {},
-  title: $t('component.upload.upload'),
-});
-
-function handleOptionsChange(options: any) {
-  for (const option of options) {
-    if (option.isDefault) {
-      providerName.value = option.label;
-      break;
-    }
-  }
-}
 </script>
 
 <template>
   <Page auto-content-height>
-    <UploadModal>
-      <ApiSelect
-        v-model:value="providerName"
-        :api="getStorageProviderList"
-        :multiple="false"
-        :params="{ page: 1, pageSize: 1000 }"
-        class="w-32"
-        label-field="name"
-        result-field="data.data"
-        value-field="name"
-        @options-change="handleOptionsChange"
-      />
-      <UploadDragger :provider="providerName" class="mt-2" />
-    </UploadModal>
     <FormModal />
+    <EmailLogTableModal />
+    <EmailSenderModal />
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -209,8 +206,11 @@ function handleOptionsChange(options: any) {
       </template>
 
       <template #toolbar-tools>
-        <Button type="primary" @click="uploadModalApi.open">
-          {{ $t('component.upload.upload') }}
+        <Button type="primary" @click="openEmailSenderModal">
+          {{ $t('mcms.email.sendEmail') }}
+        </Button>
+        <Button class="ml-4" type="primary" @click="openFormModal">
+          {{ $t('mcms.emailProvider.addEmailProvider') }}
         </Button>
       </template>
     </Grid>

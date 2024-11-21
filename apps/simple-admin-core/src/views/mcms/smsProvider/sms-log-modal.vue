@@ -1,31 +1,36 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
+import type { DictionaryDetailInfo } from '#/api/sys/model/dictionaryDetailModel';
 
 import { h, ref } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Button, Modal } from 'ant-design-vue';
-import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { deleteFile, getFileList } from '#/api/fms/file';
-import { UploadDragger } from '#/components/form';
+import { deleteSmsLog, getSmsLogList } from '#/api/mcms/smsLog';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
-import FileForm from './form.vue';
-import { searchFormSchemas, tableColumns } from './schemas';
+import { smsLogSearchFormSchemas, smsLogTableColumns } from './schemas';
 
 defineOptions({
-  name: 'FileManagement',
+  name: 'SmsLogModal',
 });
+const providerId = ref();
 
 // ---------------- form -----------------
 
-const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: FileForm,
-});
+const formOptions: VbenFormProps = {
+  // 默认展开
+  collapsed: false,
+  schema: [...(smsLogSearchFormSchemas.schema as any)],
+  // 控制表单是否显示折叠按钮
+  showCollapseButton: false,
+  // 按下回车时是否提交表单
+  submitOnEnter: false,
+};
 
 const showDeleteButton = ref<boolean>(false);
 
@@ -38,19 +43,9 @@ const gridEvents: VxeGridListeners<any> = {
   },
 };
 
-const formOptions: VbenFormProps = {
-  // 默认展开
-  collapsed: false,
-  schema: [...(searchFormSchemas.schema as any)],
-  // 控制表单是否显示折叠按钮
-  showCollapseButton: true,
-  // 按下回车时是否提交表单
-  submitOnEnter: false,
-};
-
 // ------------- table --------------------
 
-const gridOptions: VxeGridProps = {
+const gridOptions: VxeGridProps<DictionaryDetailInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -59,8 +54,13 @@ const gridOptions: VxeGridProps = {
       buttons: 'toolbar-buttons',
     },
   },
+  editConfig: {
+    mode: 'row',
+    trigger: 'click',
+  },
+  showOverflow: true,
   columns: [
-    ...(tableColumns.columns as any),
+    ...(smsLogTableColumns.columns as any),
     {
       title: $t('common.action'),
       fixed: 'right',
@@ -69,12 +69,6 @@ const gridOptions: VxeGridProps = {
         default: ({ row }) =>
           h(TableAction, {
             actions: [
-              {
-                type: 'link',
-                icon: 'clarity:note-edit-line',
-                tooltip: $t('common.edit'),
-                onClick: openFormModal.bind(null, row),
-              },
               {
                 icon: 'ant-design:delete-outlined',
                 type: 'link',
@@ -85,8 +79,10 @@ const gridOptions: VxeGridProps = {
                   placement: 'left',
                   confirm: batchDelete.bind(null, [row]),
                 },
+                // eslint-disable-next-line no-use-before-define
+                ifShow: !gridApi.grid?.isEditByRow(row),
               },
-            ] as ActionItem[],
+            ] as unknown as ActionItem[],
           }),
       },
     },
@@ -97,11 +93,12 @@ const gridOptions: VxeGridProps = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getFileList({
+        const res = await getSmsLogList({
           page: page.currentPage,
           pageSize: page.pageSize,
-          ...formValues,
-        });
+          providerId: providerId.value,
+          result: formValues.result ?? 0,
+        } as any);
         return res.data;
       },
     },
@@ -109,27 +106,10 @@ const gridOptions: VxeGridProps = {
 };
 
 const [Grid, gridApi] = useVbenVxeGrid({
-  formOptions,
   gridOptions,
+  formOptions,
   gridEvents,
 });
-
-function openFormModal(record: any) {
-  if (isPlainObject(record)) {
-    formModalApi.setData({
-      record,
-      isUpdate: true,
-      gridApi,
-    });
-  } else {
-    formModalApi.setData({
-      record: null,
-      isUpdate: false,
-      gridApi,
-    });
-  }
-  formModalApi.open();
-}
 
 function handleBatchDelete() {
   Modal.confirm({
@@ -143,35 +123,36 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteFile({
+  const result = await deleteSmsLog({
     ids,
   });
   if (result.code === 0) {
-    await gridApi.reload();
     showDeleteButton.value = false;
   }
+  await gridApi.reload();
 }
 
-// ---------------- upload modal ------------------
-const [UploadModal, uploadModalApi] = useVbenModal({
+const [TableModal, modalApi] = useVbenModal({
   fullscreenButton: false,
   onCancel() {
-    uploadModalApi.close();
+    modalApi.close();
   },
   onConfirm: async () => {
-    uploadModalApi.close();
+    modalApi.close();
   },
-  onOpenChange() {},
-  title: $t('component.upload.upload'),
+  onOpenChange(isOpen: boolean) {
+    if (isOpen) {
+      providerId.value = modalApi.getData()?.providerId;
+    }
+  },
+  title: $t('mcms.smsLog.smsLogList'),
 });
+
+defineExpose(modalApi);
 </script>
 
 <template>
-  <Page auto-content-height>
-    <FormModal />
-    <UploadModal>
-      <UploadDragger />
-    </UploadModal>
+  <TableModal class="h-2/3 w-1/2">
     <Grid>
       <template #toolbar-buttons>
         <Button
@@ -183,12 +164,6 @@ const [UploadModal, uploadModalApi] = useVbenModal({
           {{ $t('common.delete') }}
         </Button>
       </template>
-
-      <template #toolbar-tools>
-        <Button type="primary" @click="uploadModalApi.open">
-          {{ $t('component.upload.upload') }}
-        </Button>
-      </template>
     </Grid>
-  </Page>
+  </TableModal>
 </template>
