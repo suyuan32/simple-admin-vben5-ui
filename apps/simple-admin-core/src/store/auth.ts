@@ -17,8 +17,8 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 
-import { logoutApi } from '#/api';
 import {
+  doLogout,
   getPermCode,
   getUserInfo,
   login,
@@ -122,7 +122,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   async function logout(redirect: boolean = true) {
     try {
-      await logoutApi();
+      await doLogout();
     } catch {
       // 不做任何处理
     }

@@ -71,19 +71,41 @@ function createRequestClient(baseURL: string) {
   // response数据解构
   client.addResponseInterceptor<any>({
     fulfilled: (response) => {
-      const { data: responseData, status } = response;
+      const { data: responseData } = response;
 
       const { code, msg } = responseData;
       if (code !== undefined && code !== 0) {
         message.error(msg);
       }
 
-      if (status === 200) {
-        return responseData;
-      } else {
+      return responseData;
+
+      throw Object.assign({}, response, { response });
+    },
+  });
+
+  // token过期的处理
+  client.addResponseInterceptor(
+    authenticateResponseInterceptor({
+      client,
+      doReAuthenticate,
+      doRefreshToken,
+      enableRefreshToken: preferences.app.enableRefreshToken,
+      formatToken,
+    }),
+  );
+
+  // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
+  client.addResponseInterceptor(
+    errorMessageResponseInterceptor((msg: string, error) => {
+      // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
+      // 当前mock接口返回的错误字段是 error 或者 message
+      const responseData = error?.response?.data ?? {};
+
+      if (error.status !== 200) {
         let errMessage = '';
 
-        switch (status) {
+        switch (error.status) {
           case 400: {
             errMessage = $t(msg);
             break;
@@ -92,17 +114,8 @@ function createRequestClient(baseURL: string) {
           // Jump to the login page if not logged in, and carry the path of the current page
           // Return to the current page after successful login. This step needs to be operated on the login page.
           case 401: {
-            // userStore.setToken(undefined);
-            // if (msg != null && msg != '' && msg != undefined) {
-            //   errMessage = t(msg);
-            // } else {
-            //   errMessage = t('sys.api.errMsg401');
-            // }
-            // if (stp === SessionTimeoutProcessingEnum.PAGE_COVERAGE) {
-            //   userStore.setSessionTimeout(true);
-            // } else {
-            //   userStore.logout(true);
-            // }
+            const authStore = useAuthStore();
+            authStore.logout();
             break;
           }
           case 403: {
@@ -150,29 +163,9 @@ function createRequestClient(baseURL: string) {
         }
 
         message.error(errMessage);
+        return;
       }
 
-      throw Object.assign({}, response, { response });
-    },
-  });
-
-  // token过期的处理
-  client.addResponseInterceptor(
-    authenticateResponseInterceptor({
-      client,
-      doReAuthenticate,
-      doRefreshToken,
-      enableRefreshToken: preferences.app.enableRefreshToken,
-      formatToken,
-    }),
-  );
-
-  // 通用的错误处理,如果没有进入上面的错误处理逻辑，就会进入这里
-  client.addResponseInterceptor(
-    errorMessageResponseInterceptor((msg: string, error) => {
-      // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
-      // 当前mock接口返回的错误字段是 error 或者 message
-      const responseData = error?.response?.data ?? {};
       // 如果没有错误信息，则会根据状态码进行提示
       if (responseData?.code !== 0) {
         message.error(responseData?.msg);
