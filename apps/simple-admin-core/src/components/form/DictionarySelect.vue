@@ -50,7 +50,7 @@ async function handleFetch() {
     props.dictionaryName,
     props.cache,
   );
-  if (dictData !== null) {
+  if (dictData !== null && dictData !== undefined) {
     options.value = dictData.data.filter((el) => {
       return el.status === 1;
     });
