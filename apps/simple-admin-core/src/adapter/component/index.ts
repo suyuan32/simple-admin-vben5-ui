@@ -36,7 +36,14 @@ import {
   Upload,
 } from 'ant-design-vue';
 
-import { ApiSelect, ApiTreeSelect, RadioButtonGroup } from '#/components/form';
+import {
+  ApiSelect,
+  ApiTreeSelect,
+  DictionarySelect,
+  RadioButtonGroup,
+  SimpleRangePicker,
+  SimpleTimePicker,
+} from '#/components/form';
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -57,6 +64,7 @@ export type ComponentType =
   | 'CheckboxGroup'
   | 'DatePicker'
   | 'DefaultButton'
+  | 'DictionarySelect'
   | 'Divider'
   | 'Input'
   | 'InputNumber'
@@ -69,6 +77,8 @@ export type ComponentType =
   | 'RangePicker'
   | 'Rate'
   | 'Select'
+  | 'SimpleRangePicker'
+  | 'SimpleTimePicker'
   | 'Space'
   | 'Switch'
   | 'Textarea'
@@ -113,6 +123,9 @@ async function initComponentAdapter() {
     TimePicker,
     TreeSelect: withDefaultPlaceholder(TreeSelect, 'select'),
     Upload,
+    DictionarySelect,
+    SimpleRangePicker,
+    SimpleTimePicker,
   };
 
   // 将组件注册到全局共享状态中

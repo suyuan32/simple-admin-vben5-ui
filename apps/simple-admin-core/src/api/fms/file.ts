@@ -19,7 +19,6 @@ enum Api {
   uploadFile = '/fms-api/upload',
 }
 
-// todo: upload files
 /**
  * @description: Upload interface
  */

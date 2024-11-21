@@ -83,7 +83,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['update:value', 'optionsChange']);
+const emits = defineEmits(['optionsChange']);
 const state = useVModel(props, 'value', emits, {
   defaultValue: props.value,
   passive: true,
