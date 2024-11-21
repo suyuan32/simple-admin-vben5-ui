@@ -258,7 +258,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'disabled',
       label: $t('common.status'),
       component: 'RadioButtonGroup',
-      defaultValue: true,
+      defaultValue: false,
       componentProps: {
         options: [
           { label: $t('common.on'), value: false },

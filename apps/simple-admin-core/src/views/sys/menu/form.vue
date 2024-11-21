@@ -22,6 +22,11 @@ const isUpdate = ref(false);
 const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
+  values.id = isUpdate.value ? values.id : 0;
+  if (values.menuType === 2) {
+    values.hideMenu = true;
+  }
+
   const result = isUpdate.value
     ? await updateMenu(values as MenuInfoPlain)
     : await createMenu(values as MenuInfoPlain);

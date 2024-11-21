@@ -15,6 +15,7 @@ import { getMenuListByRole } from '#/api/sys/menu';
 import { ParentIdEnum } from '#/enums/common';
 import { BasicLayout, IFrame } from '#/layouts';
 import { $t } from '#/locales';
+import { useAuthStore } from '#/store';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
@@ -50,6 +51,9 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         parentId: ParentIdEnum.DEFAULT,
       });
 
+      const authStore = useAuthStore();
+
+      authStore.elementPermissionList = [];
       menuData.data.data.forEach((val, _idx, _arr) => {
         if (val.component === 'LAYOUT') {
           val.component = '';
@@ -63,6 +67,10 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         val.meta.hideInTab = val.meta.hideTab as any;
         val.meta.hideInBreadcrumb = val.meta.hideBreadcrumb as any;
         val.meta.keepAlive = !val.meta.ignoreKeepAlive as boolean;
+
+        if (val.permission && val.permission !== '') {
+          authStore.elementPermissionList.push(val.permission);
+        }
       });
 
       const treeData: RouteItem[] = array2tree(

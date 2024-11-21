@@ -16,6 +16,7 @@ import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
+import { isArray } from 'remeda';
 
 import {
   doLogout,
@@ -161,11 +162,52 @@ export const useAuthStore = defineStore('auth', () => {
     loginLoading.value = false;
   }
 
+  const elementPermissionList = ref<string[]>([]);
+
+  function hasElementPermission(
+    value?: string | string[],
+    condition: 'AND' | 'OR' = 'OR',
+  ): boolean {
+    if (!value) {
+      return false;
+    }
+
+    if (condition === 'OR') {
+      if (isArray(value)) {
+        for (const e of value) {
+          if (elementPermissionList.value.includes(e)) {
+            return true;
+          }
+        }
+      } else {
+        if (elementPermissionList.value.includes(value)) {
+          return true;
+        }
+      }
+    } else {
+      if (isArray(value)) {
+        for (const e of value) {
+          if (!elementPermissionList.value.includes(e)) {
+            return false;
+          }
+        }
+      } else {
+        if (elementPermissionList.value.includes(value)) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
   return {
     $reset,
     authLogin,
     fetchUserInfo,
     loginLoading,
     logout,
+    elementPermissionList,
+    hasElementPermission,
   };
 });
