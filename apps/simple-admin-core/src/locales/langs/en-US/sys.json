@@ -93,7 +93,8 @@
     "email": "Email",
     "smsCode": "SMS code",
     "mobile": "Mobile",
-    "captcha": "Captcha"
+    "captcha": "Captcha",
+    "resetPassword": "Please select a method to reset your password"
   },
   "menu": {
     "menuName": "Menu Name",

@@ -71,6 +71,12 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: 'Login Type',
       fieldName: 'selectLoginType',
       rules: z.string().optional().default('captcha'),
+      dependencies: {
+        triggerFields: ['selectLoginType'],
+        trigger(values, _) {
+          msgType.value = values.selectLoginType;
+        },
+      },
       formItemClass: 'col-span-2 items-baseline',
     },
     {
@@ -94,7 +100,6 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       label: 'Target',
       fieldName: 'target',
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
       dependencies: {
         trigger(values, _) {
           emailOrPhonePlaceholder.value =

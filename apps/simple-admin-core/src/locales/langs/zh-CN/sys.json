@@ -93,7 +93,8 @@
     "email": "邮箱",
     "smsCode": "短信验证码",
     "mobile": "手机号码",
-    "captcha": "验证码"
+    "captcha": "验证码",
+    "resetPassword": "请选择一种方式重置您的密码"
   },
   "menu": {
     "menuName": "菜单名称",
