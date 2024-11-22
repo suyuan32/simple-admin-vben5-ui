@@ -11,6 +11,7 @@ import { $t } from '@vben/locales';
 import { Image } from 'ant-design-vue';
 
 import { getCaptcha, getEmailCaptcha, getSmsCaptcha } from '#/api/sys/captcha';
+import { oauthLogin } from '#/api/sys/oauthProvider';
 import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'Login' });
@@ -258,6 +259,25 @@ async function handleLogin(values: any) {
     // No default
   }
 }
+
+const thirdPartyProviderList: any[] = [
+  {
+    icon: 'icon-park-outline:github',
+    oauthProvider: 'github',
+  },
+  {
+    icon: 'mingcute:google-fill',
+    oauthProvider: 'google',
+  },
+];
+
+async function handleOauthLogin(provider: string) {
+  const result = await oauthLogin({
+    state: `${new Date().getMilliseconds()}-${provider}`,
+    provider,
+  });
+  if (result.code === 0) window.open(result.data.URL);
+}
 </script>
 
 <template>
@@ -266,6 +286,8 @@ async function handleLogin(values: any) {
     :loading="authStore.loginLoading"
     :show-code-login="false"
     :show-qrcode-login="false"
+    :third-party-provider-list="thirdPartyProviderList"
+    @oauth-login="handleOauthLogin"
     @submit="handleLogin"
   />
 </template>

@@ -1,11 +1,32 @@
 <script setup lang="ts">
-import { MdiGithub, MdiGoogle, MdiQqchat, MdiWechat } from '@vben/icons';
+import type { ThirdPartyLoginIcon } from './types';
+
 import { $t } from '@vben/locales';
 import { VbenIconButton } from '@vben-core/shadcn-ui';
+
+import { Icon } from '@iconify/vue';
 
 defineOptions({
   name: 'ThirdPartyLogin',
 });
+
+const props = defineProps({
+  iconList: {
+    type: Array<ThirdPartyLoginIcon>,
+    default: [
+      {
+        icon: 'icon-park-outline:github',
+        oauthProvider: 'github',
+      },
+    ],
+  },
+});
+
+const emits = defineEmits(['oauthLogin']);
+
+function handleOauthLogin(provider: string) {
+  emits('oauthLogin', provider);
+}
 </script>
 
 <template>
@@ -19,17 +40,13 @@ defineOptions({
     </div>
 
     <div class="mt-4 flex flex-wrap justify-center">
-      <VbenIconButton class="mb-3">
-        <MdiWechat />
-      </VbenIconButton>
-      <VbenIconButton class="mb-3">
-        <MdiQqchat />
-      </VbenIconButton>
-      <VbenIconButton class="mb-3">
-        <MdiGithub />
-      </VbenIconButton>
-      <VbenIconButton class="mb-3">
-        <MdiGoogle />
+      <VbenIconButton
+        v-for="item in props.iconList"
+        :key="item.icon"
+        class="mb-3"
+        @click="handleOauthLogin(item.oauthProvider)"
+      >
+        <Icon :icon="item.icon" />
       </VbenIconButton>
     </div>
   </div>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Recordable } from '@vben/types';
 import type { VbenFormSchema } from '@vben-core/form-ui';
 
 import type { AuthenticationProps } from './types';
@@ -40,9 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
   title: '',
 });
 
-const emit = defineEmits<{
-  submit: [Recordable<any>];
-}>();
+const emit = defineEmits(['submit', 'oauthLogin']);
 
 const [Form, formApi] = useVbenForm(
   reactive({
@@ -87,6 +84,10 @@ onMounted(() => {
 defineExpose({
   getFormApi: () => formApi,
 });
+
+function handleOauthLogin(provider: string) {
+  emit('oauthLogin', provider);
+}
 </script>
 
 <template>
@@ -166,7 +167,11 @@ defineExpose({
 
     <!-- 第三方登录 -->
     <slot name="third-party-login">
-      <ThirdPartyLogin v-if="showThirdPartyLogin" />
+      <ThirdPartyLogin
+        v-if="showThirdPartyLogin"
+        :icon-list="props.thirdPartyProviderList"
+        @oauth-login="handleOauthLogin"
+      />
     </slot>
 
     <slot name="to-register">

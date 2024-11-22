@@ -1,3 +1,15 @@
+interface ThirdPartyLoginIcon {
+  /**
+   * @zh_CN 图标
+   */
+  icon: string;
+
+  /**
+   * @zh_CN 第三方登录提供商
+   */
+  oauthProvider: string;
+}
+
 interface AuthenticationProps {
   /**
    * @zh_CN 验证码登录路径
@@ -53,6 +65,11 @@ interface AuthenticationProps {
   showThirdPartyLogin?: boolean;
 
   /**
+   * @zh_CN 第三方登录图标
+   */
+  thirdPartyProviderList?: ThirdPartyLoginIcon[];
+
+  /**
    * @zh_CN 登录框子标题
    */
   subTitle?: string;
@@ -67,4 +84,4 @@ interface AuthenticationProps {
   submitButtonText?: string;
 }
 
-export type { AuthenticationProps };
+export type { AuthenticationProps, ThirdPartyLoginIcon };
