@@ -4,8 +4,11 @@ import type { BasicOption, Recordable } from '@vben/types';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { type VbenFormSchema, z } from '@vben/common-ui';
-import { AuthenticationForgetPassword } from '@vben/common-ui';
+import {
+  AuthenticationForgetPassword,
+  type VbenFormSchema,
+  z,
+} from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { getEmailCaptcha, getSmsCaptcha } from '#/api/sys/captcha';
@@ -84,11 +87,9 @@ const formSchema: VbenFormSchema[] = [
     component: 'VbenPinInput',
     componentProps: {
       createText: (countdown: number) => {
-        const text =
-          countdown > 0
-            ? $t('authentication.sendText', [countdown])
-            : $t('authentication.sendCode');
-        return text;
+        return countdown > 0
+          ? $t('authentication.sendText', [countdown])
+          : $t('authentication.sendCode');
       },
       placeholder: $t('authentication.code'),
       codeLength: 5,

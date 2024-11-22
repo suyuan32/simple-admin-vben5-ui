@@ -203,11 +203,9 @@ const formSchema = computed((): VbenFormSchema[] => {
       component: 'VbenPinInput',
       componentProps: {
         createText: (countdown: number) => {
-          const text =
-            countdown > 0
-              ? $t('authentication.sendText', [countdown])
-              : $t('authentication.sendCode');
-          return text;
+          return countdown > 0
+            ? $t('authentication.sendText', [countdown])
+            : $t('authentication.sendCode');
         },
         placeholder: $t('authentication.code'),
         codeLength: 5,
