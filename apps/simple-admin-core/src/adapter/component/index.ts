@@ -40,6 +40,7 @@ import {
   ApiSelect,
   ApiTransfer,
   ApiTreeSelect,
+  CodeEditor,
   DictionarySelect,
   Editor,
   ImageUpload,
@@ -66,6 +67,7 @@ export type ComponentType =
   | 'AutoComplete'
   | 'Checkbox'
   | 'CheckboxGroup'
+  | 'CodeEditor'
   | 'DatePicker'
   | 'DefaultButton'
   | 'DictionarySelect'
@@ -135,6 +137,7 @@ async function initComponentAdapter() {
     ApiTransfer,
     ImageUpload,
     Editor,
+    CodeEditor,
   };
 
   // 将组件注册到全局共享状态中

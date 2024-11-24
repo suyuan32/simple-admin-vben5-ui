@@ -18,6 +18,9 @@ catalog:
   '@changesets/cli': ^2.27.10
   '@changesets/git': ^3.0.2
   '@clack/prompts': ^0.7.0
+  '@codemirror/lang-json': ^6.0.1
+  '@codemirror/language': ^6.10.3
+  '@codemirror/legacy-modes': ^6.4.2
   '@commitlint/cli': ^19.6.0
   '@commitlint/config-conventional': ^19.6.0
   '@ctrl/tinycolor': ^4.1.0
@@ -51,6 +54,7 @@ catalog:
   '@types/sortablejs': ^1.15.8
   '@typescript-eslint/eslint-plugin': ^8.15.0
   '@typescript-eslint/parser': ^8.15.0
+  '@uiw/codemirror-theme-github': ^4.23.6
   '@vee-validate/zod': ^4.14.7
   '@vite-pwa/vitepress': ^0.5.3
   '@vitejs/plugin-vue': ^5.2.0
@@ -173,6 +177,7 @@ catalog:
   vitepress-plugin-group-icons: ^1.3.0
   vitest: ^2.1.5
   vue: ^3.5.13
+  vue-codemirror: ^6.1.1
   vue-eslint-parser: ^9.4.3
   vue-i18n: ^10.0.4
   vue-router: ^4.4.5

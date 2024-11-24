@@ -28,7 +28,11 @@
   "dependencies": {
     "@ant-design/icons-vue": "catalog:",
     "@axolo/tree-array": "catalog:",
+    "@codemirror/lang-json": "catalog:",
+    "@codemirror/language": "catalog:",
+    "@codemirror/legacy-modes": "catalog:",
     "@iconify/vue": "catalog:",
+    "@uiw/codemirror-theme-github": "catalog:",
     "@vben/access": "workspace:*",
     "@vben/common-ui": "workspace:*",
     "@vben/constants": "workspace:*",
@@ -51,6 +55,7 @@
     "pinia": "catalog:",
     "remeda": "catalog:",
     "vue": "catalog:",
+    "vue-codemirror": "catalog:",
     "vue-router": "catalog:"
   }
 }
