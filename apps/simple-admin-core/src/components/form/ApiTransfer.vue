@@ -43,7 +43,7 @@ const props = defineProps({
   targetKeys: { type: Array<string>, default: [] },
 });
 
-const emit = defineEmits(['optionsChange', 'change']);
+const emit = defineEmits(['optionsChange', 'change', 'update:value']);
 
 const _dataSource = ref<TransferItem[]>([]);
 

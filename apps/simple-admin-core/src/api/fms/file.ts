@@ -65,9 +65,5 @@ export const setFileStatus = (id: string, status: number) =>
  *  @description: download file
  */
 
-// todo: download files
-// export const downloadFile = (id: number) =>
-//   requestClient.get({
-//     url: Api.DownloadFile + '/' + id,
-//     responseType: 'blob',
-//   });
+export const downloadFile = (id: number) =>
+  requestClient.download(`${Api.DownloadFile}/${id}`);

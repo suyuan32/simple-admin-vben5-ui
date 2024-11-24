@@ -40,7 +40,12 @@ setupVbenVxeTable({
     vxeUI.renderer.add('CellImage', {
       renderTableDefault(_renderOpts, params) {
         const { column, row } = params;
-        return h(Image, { src: row[column.field] });
+        return (row[column.field] as string).endsWith('png') ||
+          (row[column.field] as string).endsWith('jpg') ||
+          (row[column.field] as string).endsWith('jpeg') ||
+          (row[column.field] as string).endsWith('svg')
+          ? h(Image, { src: row[column.field] })
+          : '';
       },
     });
 

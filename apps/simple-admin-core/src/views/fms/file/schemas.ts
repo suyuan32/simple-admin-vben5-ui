@@ -22,6 +22,11 @@ export const tableColumns: VxeGridProps = {
       field: 'name',
     },
     {
+      title: $t('component.cropper.preview'),
+      field: 'publicPath',
+      cellRender: { name: 'CellImage' },
+    },
+    {
       title: $t('fms.file.fileType'),
       field: 'fileType',
       slots: {

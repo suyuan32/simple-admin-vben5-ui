@@ -7,7 +7,8 @@ import { h, ref } from 'vue';
 import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
-import { Button, Modal } from 'ant-design-vue';
+import { useClipboard } from '@vueuse/core';
+import { Button, Image, message, Modal } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
@@ -73,6 +74,18 @@ const gridOptions: VxeGridProps<CloudFileInfo> = {
         default: ({ row }) =>
           h(TableAction, {
             actions: [
+              {
+                type: 'link',
+                icon: 'ant-design:cloud-download-outlined',
+                tooltip: $t('fms.file.download'),
+                onClick: handleDownload.bind(null, row),
+              },
+              {
+                type: 'link',
+                icon: 'ant-design:copy-outlined',
+                tooltip: $t('fms.file.copyURL'),
+                onClick: handleCopyPath.bind(null, row),
+              },
               {
                 type: 'link',
                 icon: 'clarity:note-edit-line',
@@ -177,10 +190,110 @@ function handleOptionsChange(options: any) {
     }
   }
 }
+
+const imagePath = ref<string>('');
+const videoPath = ref<string>('');
+const videoTitle = ref<string>('');
+const imageTitle = ref<string>('');
+const currentFileName = ref<string>('');
+
+// ------------- preview video modal --------------------
+const [PreviewVideoModal, previewVideoModalApi] = useVbenModal({
+  fullscreenButton: false,
+  onCancel() {
+    previewVideoModalApi.close();
+  },
+  onConfirm: async () => {
+    previewVideoModalApi.close();
+  },
+  onOpenChange() {
+    previewVideoModalApi.setState({ title: videoTitle.value });
+  },
+  title: videoTitle.value,
+});
+
+function handleDownloadVideo() {
+  const link = document.createElement('a');
+  link.href = videoPath.value;
+  link.download = currentFileName.value;
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(link.href);
+  previewVideoModalApi.close();
+}
+
+// -------------- preview image modal ----------------------
+const [PreviewImageModal, previewImageModalApi] = useVbenModal({
+  fullscreenButton: false,
+  onCancel() {
+    previewImageModalApi.close();
+  },
+  onConfirm: async () => {
+    previewImageModalApi.close();
+  },
+  onOpenChange() {
+    previewImageModalApi.setState({ title: imageTitle.value });
+  },
+});
+
+function handleDownloadImage() {
+  const link = document.createElement('a');
+  link.href = imagePath.value;
+  link.download = currentFileName.value;
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(link.href);
+  previewImageModalApi.close();
+}
+
+const { copy } = useClipboard();
+
+function handleCopyPath(record: any) {
+  copy(record.publicPath);
+  message.success($t('common.successful'));
+}
+
+async function handleDownload(record: any) {
+  currentFileName.value = record.name;
+  if (record.fileType === 2) {
+    imageTitle.value = record.name;
+    imagePath.value = record.url;
+    previewImageModalApi.open();
+  } else if (record.fileType === 3) {
+    videoTitle.value = record.name;
+    videoPath.value = record.url;
+    previewVideoModalApi.open();
+  } else {
+    const link = document.createElement('a');
+    link.href = record.url;
+    link.download = record.name;
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(link.href);
+  }
+}
 </script>
 
 <template>
   <Page auto-content-height>
+    <PreviewImageModal>
+      <Image :src="imagePath" style="" width="100%" />
+      <template #footer>
+        <Button key="download" type="primary" @click="handleDownloadImage">
+          {{ $t('fms.file.download') }}
+        </Button>
+      </template>
+    </PreviewImageModal>
+    <PreviewVideoModal>
+      <template #footer>
+        <Button key="download" type="primary" @click="handleDownloadVideo">
+          {{ $t('fms.file.download') }}
+        </Button>
+      </template>
+      <video controls height="720" width="1280">
+        <source :src="videoPath" type="video/mp4" />
+      </video>
+    </PreviewVideoModal>
     <UploadModal>
       <ApiSelect
         v-model:value="providerName"
