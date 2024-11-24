@@ -22,6 +22,7 @@ defineOptions({
 const treeMenuData = ref<DataNode[]>([]);
 
 const checkedKeys = ref();
+const expandedKeys = ref();
 const roleId = ref<number>();
 
 const [Modal, modalApi] = useVbenModal({
@@ -62,6 +63,7 @@ async function getMenuData(roleId: number) {
 
     const checkedData = await getMenuAuthority({ id: roleId });
     checkedKeys.value = checkedData.data.menuIds;
+    expandedKeys.value = data.data.data.map((val, _idx, _arr) => val.id);
   } catch {
     // console.log(error);
   }
@@ -73,6 +75,7 @@ defineExpose(modalApi);
   <Modal>
     <Tree
       v-model:checked-keys="checkedKeys"
+      v-model:expanded-keys="expandedKeys"
       :tree-data="treeMenuData"
       check-strictly
       checkable
