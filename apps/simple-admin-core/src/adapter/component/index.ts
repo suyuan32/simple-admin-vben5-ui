@@ -41,6 +41,7 @@ import {
   ApiTransfer,
   ApiTreeSelect,
   DictionarySelect,
+  Editor,
   ImageUpload,
   RadioButtonGroup,
   SimpleRangePicker,
@@ -69,6 +70,7 @@ export type ComponentType =
   | 'DefaultButton'
   | 'DictionarySelect'
   | 'Divider'
+  | 'Editor'
   | 'ImageUpload'
   | 'Input'
   | 'InputNumber'
@@ -132,6 +134,7 @@ async function initComponentAdapter() {
     SimpleTimePicker,
     ApiTransfer,
     ImageUpload,
+    Editor,
   };
 
   // 将组件注册到全局共享状态中

@@ -44,6 +44,8 @@
     "@vben/types": "workspace:*",
     "@vben/utils": "workspace:*",
     "@vueuse/core": "catalog:",
+    "@wangeditor-next/editor": "catalog:",
+    "@wangeditor-next/editor-for-vue": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "pinia": "catalog:",
