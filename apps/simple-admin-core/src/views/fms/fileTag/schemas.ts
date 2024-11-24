@@ -79,6 +79,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('fms.tag.name'),
       component: 'Input',
+      rules: 'required',
     },
     {
       fieldName: 'remark',
