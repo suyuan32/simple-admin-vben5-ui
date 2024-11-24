@@ -17,7 +17,7 @@ export const tableColumns: VxeGridProps = {
     },
 
     {
-      title: $t('fms.fileTag.name'),
+      title: $t('fms.tag.name'),
       field: 'name',
     },
     {
@@ -53,7 +53,7 @@ export const searchFormSchemas: VbenFormProps = {
   schema: [
     {
       fieldName: 'name',
-      label: $t('fms.fileTag.name'),
+      label: $t('fms.tag.name'),
       component: 'Input',
     },
     {
@@ -77,7 +77,7 @@ export const dataFormSchemas: VbenFormProps = {
     },
     {
       fieldName: 'name',
-      label: $t('fms.fileTag.name'),
+      label: $t('fms.tag.name'),
       component: 'Input',
     },
     {

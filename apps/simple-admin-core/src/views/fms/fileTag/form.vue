@@ -55,9 +55,7 @@ const [Modal, modalApi] = useVbenModal({
       formApi.setValues(record.value);
     }
     modalApi.setState({
-      title: isUpdate.value
-        ? $t('fms.fileTag.editFileTag')
-        : $t('fms.fileTag.addFileTag'),
+      title: isUpdate.value ? $t('fms.tag.editTag') : $t('fms.tag.addTag'),
     });
   },
 });

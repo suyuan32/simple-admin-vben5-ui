@@ -170,7 +170,7 @@ async function batchDelete(ids: any[]) {
 
       <template #toolbar-tools>
         <Button type="primary" @click="openFormModal">
-          {{ $t('fms.fileTag.addFileTag') }}
+          {{ $t('fms.tag.addTag') }}
         </Button>
       </template>
     </Grid>
