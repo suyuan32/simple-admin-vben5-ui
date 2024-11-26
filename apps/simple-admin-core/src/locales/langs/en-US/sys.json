@@ -316,15 +316,21 @@
     "addConfiguration": "Add Configuration",
     "editConfiguration": "Edit Configuration",
     "configurationList": "Configuration List"
+  },
+  "route": {
+    "systemManagementTitle": "System",
+    "menuManagementTitle": "Menu",
+    "roleManagementTitle": "Role",
+    "apiManagementTitle": "API",
+    "userManagementTitle": "User",
+    "fileManagementTitle": "File",
+    "userProfileTitle": "Profile",
+    "dictionaryManagementTitle": "Dictionary",
+    "dictionaryDetailManagementTitle": "Key/Value",
+    "oauthManagement": "Oauth",
+    "tokenManagement": "Token",
+    "otherPages": "Other Pages",
+    "positionManagement": "Position",
+    "taskManagement": "Scheduled Task"
   }
-,  "dictionaryDetail": {
-    "status": "Status",
-    "title": "Title",
-    "key": "Key",
-    "value": "Value",
-    "dictionaryId": "DictionaryId",
-    "sort": "Sort",
-    "addDictionaryDetail": "Add DictionaryDetail",
-    "editDictionaryDetail": "Edit DictionaryDetail",
-    "dictionaryDetailList": "DictionaryDetail List"
-  }}
+}

@@ -19,40 +19,40 @@ const userStore = useUserStore();
 // 同样，这里的 url 也可以使用以 http 开头的外部链接
 const quickNavItems: WorkbenchQuickNavItem[] = [
   {
-    color: '#1fdaca',
-    icon: 'ion:home-outline',
-    title: '首页',
-    url: '/',
-  },
-  {
+    title: $t('sys.route.userManagementTitle'),
+    icon: 'ant-design:user-outlined',
     color: '#bf0c2c',
-    icon: 'ion:grid-outline',
-    title: '仪表盘',
-    url: '/dashboard',
+    url: '/user',
   },
   {
+    title: $t('sys.route.roleManagementTitle'),
+    icon: 'eos-icons:role-binding-outlined',
     color: '#e18525',
-    icon: 'ion:layers-outline',
-    title: '组件',
-    url: '/demos/features/icons',
+    url: '/role',
   },
   {
+    title: $t('sys.route.menuManagementTitle'),
+    icon: 'ep:menu',
     color: '#3fb27f',
-    icon: 'ion:settings-outline',
-    title: '系统管理',
-    url: '/demos/features/login-expired', // 这里的 URL 是示例，实际项目中需要根据实际情况进行调整
+    url: '/menu',
   },
   {
+    title: $t('sys.route.apiManagementTitle'),
+    icon: 'ant-design:api-outlined',
     color: '#4daf1bc9',
-    icon: 'ion:key-outline',
-    title: '权限管理',
-    url: '/demos/access/page-control',
+    url: '/api',
   },
   {
-    color: '#00d8ff',
-    icon: 'ion:bar-chart-outline',
-    title: '图表',
-    url: '/analytics',
+    title: $t('sys.route.dictionaryManagementTitle'),
+    icon: 'ant-design:book-outlined',
+    color: '#cc00ff',
+    url: '/dictionary',
+  },
+  {
+    title: $t('sys.route.oauthManagement'),
+    icon: 'ant-design:unlock-filled',
+    color: '#0099ff',
+    url: '/oauth',
   },
 ];
 

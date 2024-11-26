@@ -74,7 +74,7 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
       });
 
       const treeData: RouteItem[] = array2tree(
-        menuData.data.data,
+        menuData.data.data.filter((val) => val.path !== ''),
       ) as RouteItem[];
       treeData.forEach((val, idx, arr) => {
         if (val.component === '' && arr[idx]) {

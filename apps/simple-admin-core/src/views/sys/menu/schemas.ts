@@ -253,6 +253,12 @@ export const dataFormSchemas: VbenFormProps = {
       component: 'Input',
       help: $t('sys.menu.permissionHelp'),
       formItemClass: 'col-span-2',
+      dependencies: {
+        triggerFields: ['menuType'],
+        show(_values, formApi) {
+          return formApi.values.menuType === 2;
+        },
+      },
     },
     {
       fieldName: 'disabled',
