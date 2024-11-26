@@ -286,20 +286,6 @@
     "memberRankList": "会员等级列表",
     "code": "等级代码"
   },
-  "oauthProvider": {
-    "name": "Name",
-    "clientId": "ClientId",
-    "clientSecret": "ClientSecret",
-    "redirectUrl": "RedirectUrl",
-    "scopes": "Scopes",
-    "authUrl": "AuthUrl",
-    "tokenUrl": "TokenUrl",
-    "authStyle": "AuthStyle",
-    "infoUrl": "InfoUrl",
-    "addOauthProvider": "添加 OauthProvider",
-    "editOauthProvider": "编辑 OauthProvider",
-    "oauthProviderList": "OauthProvider 列表"
-  },
   "task": {
     "status": "任务状态",
     "name": "任务名称",

@@ -12,7 +12,7 @@ import { useVbenForm } from '#/adapter/form';
 import {
   createOauthProvider,
   updateOauthProvider,
-} from '#/api/sys/oauthProvider';
+} from '#/api/member/oauthProvider';
 
 import { dataFormSchemas } from './schemas';
 
