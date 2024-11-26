@@ -65,7 +65,7 @@ const props = defineProps({
     default: [],
   },
   // search
-  isSearch: {
+  showSearch: {
     type: Boolean,
     default: false,
   },
@@ -93,7 +93,7 @@ const optionsData = ref<OptionsItem[]>([]);
 const loading = ref(false);
 // 首次是否加载过了
 const isFirstLoaded = ref(false);
-const useSearch = props.isSearch;
+const useSearch = props.showSearch;
 const searchFun = ref<any>();
 const filterOption = ref<boolean | FilterFunc<DefaultOptionType> | undefined>();
 const optionFilterProps = ref<string>();

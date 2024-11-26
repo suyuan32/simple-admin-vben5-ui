@@ -51,6 +51,15 @@ const props = defineProps({
     default: false,
   },
   defaultValue: { type: Object, default: undefined },
+  // search
+  showSearch: {
+    type: Boolean,
+    default: false,
+  },
+  treeNodeFilterProp: {
+    type: String,
+    default: 'label',
+  },
 });
 
 const emits = defineEmits(['update:value', 'optionsChange']);
@@ -117,7 +126,9 @@ async function fetch() {
   <TreeSelect
     v-model:value="state"
     :multiple="$props.multiple"
+    :show-search="props.showSearch"
     :tree-data="treeData"
+    :tree-node-filter-prop="props.treeNodeFilterProp"
     class="w-full"
     @dropdown-visible-change="fetch"
   />
