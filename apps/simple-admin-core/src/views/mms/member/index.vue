@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
-import type { UserInfo } from '#/api/sys/model/userModel';
+import type { MemberInfo } from '#/api/member/model/memberModel';
 
 import { h, onMounted, ref } from 'vue';
 
@@ -11,26 +11,26 @@ import { Button, Card, Col, message, Modal, Row, Tree } from 'ant-design-vue';
 import { isPlainObject } from 'remeda';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { getDepartmentList } from '#/api/sys/department';
-import { logout } from '#/api/sys/token';
-import { deleteUser, getUserList } from '#/api/sys/user';
+import { deleteMember, getMemberList } from '#/api/member/member';
+import { getMemberRankList } from '#/api/member/memberRank';
+import { logout } from '#/api/member/token';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 import { buildDataNode } from '#/utils/tree';
 
-import UserForm from './form.vue';
+import MemberForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schema';
 
 defineOptions({
-  name: 'UserManagement',
+  name: 'MemberManagement',
 });
 
 // ------------ department -------------------
 
 const treeData = ref();
-const selectedDepartmentId = ref();
+const selectedRankId = ref();
 
-async function fetchDepartmentData() {
-  const deptData = await getDepartmentList({ page: 1, pageSize: 1000 });
+async function fetchRankData() {
+  const deptData = await getMemberRankList({ page: 1, pageSize: 1000 });
   treeData.value = buildDataNode(deptData.data.data, {
     labelField: 'trans',
     valueField: 'id',
@@ -40,20 +40,20 @@ async function fetchDepartmentData() {
   });
 }
 
-function selectDepartment(data: any) {
-  selectedDepartmentId.value = data[0];
+function selectRank(data: any) {
+  selectedRankId.value = data[0];
   // eslint-disable-next-line no-use-before-define
   gridApi.reload();
 }
 
 onMounted(() => {
-  fetchDepartmentData();
+  fetchRankData();
 });
 
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: UserForm,
+  connectedComponent: MemberForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
@@ -79,7 +79,7 @@ const formOptions: VbenFormProps = {
   submitOnEnter: false,
 };
 
-const gridOptions: VxeGridProps<UserInfo> = {
+const gridOptions: VxeGridProps<MemberInfo> = {
   checkboxConfig: {
     highlight: true,
   },
@@ -139,10 +139,10 @@ const gridOptions: VxeGridProps<UserInfo> = {
   proxyConfig: {
     ajax: {
       query: async ({ page }, formValues) => {
-        const res = await getUserList({
+        const res = await getMemberList({
           page: page.currentPage,
           pageSize: page.pageSize,
-          departmentId: selectedDepartmentId.value,
+          rankId: selectedRankId.value,
           ...formValues,
         });
         return res.data;
@@ -192,7 +192,7 @@ function handleBatchDelete() {
 }
 
 async function batchDelete(ids: any[]) {
-  const result = await deleteUser({
+  const result = await deleteMember({
     ids,
   });
   if (result.code === 0) {
@@ -213,8 +213,8 @@ async function handleForceLogout(record: any) {
   <Row>
     <Col :span="5">
       <Page auto-content-height>
-        <Card :title="$t('sys.department.userDepartment')" style="height: 100%">
-          <Tree :tree-data="treeData" block-node @select="selectDepartment" />
+        <Card :title="$t('sys.member.rankId')" style="height: 100%">
+          <Tree :tree-data="treeData" block-node @select="selectRank" />
         </Card>
       </Page>
     </Col>
@@ -235,7 +235,7 @@ async function handleForceLogout(record: any) {
 
           <template #toolbar-tools>
             <Button type="primary" @click="openFormModal">
-              {{ $t('sys.user.addUser') }}
+              {{ $t('sys.member.addMember') }}
             </Button>
           </template>
         </Grid>

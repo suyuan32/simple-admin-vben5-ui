@@ -12,6 +12,12 @@ export default defineConfig(async () => {
             target: 'http://localhost:9102/',
             ws: true,
           },
+          '/mms-api': {
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/mms-api/, ''),
+            target: 'http://localhost:9104/',
+            ws: true,
+          },
           // '/api': {
           //   changeOrigin: true,
           //   rewrite: (path) => path.replace(/^\/api/, ''),

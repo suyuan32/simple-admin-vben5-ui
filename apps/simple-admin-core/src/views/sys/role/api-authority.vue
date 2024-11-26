@@ -11,7 +11,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { message, Tree } from 'ant-design-vue';
-import { clone, concat, unique } from 'remeda';
+import { clone, concat, isNumber, unique } from 'remeda';
 
 import {
   createOrUpdateApiAuthority,
@@ -152,7 +152,9 @@ function convertApiCheckedKeysToReq(
   // delete string keys
   const pureDigit: number[] = [];
   for (const element of checked) {
-    pureDigit.push(element);
+    if (isNumber(element)) {
+      pureDigit.push(element);
+    }
   }
 
   // sort data
