@@ -76,12 +76,13 @@ export const useDynamicConfigStore = defineStore('app-dynamic-config', {
                 }
                 this.layoutType =
                   v.value !== undefined &&
-                  (v.value === 'sidebar' ||
-                    v.value === 'mix-sidebar' ||
-                    v.value === 'mix' ||
-                    v.value === 'top-menu')
+                  (v.value === 'sidebar-nav' ||
+                    v.value === 'sidebar-mixed-nav' ||
+                    v.value === 'header-nav' ||
+                    v.value === 'mixed-nav' ||
+                    v.value === 'full-content')
                     ? (v.value as any)
-                    : 'sidebar';
+                    : 'sidebar-nav';
                 break;
               }
               case 'sys.ui.logo': {
