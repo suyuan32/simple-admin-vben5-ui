@@ -19,7 +19,7 @@ interface DynamicConfig {
   showBreadCrumb: boolean;
 }
 
-export const useDynamicConfigStore = defineStore('app-dynamic-config', {
+export const useDynamicConfigStore = defineStore('dynamic-config', {
   state: (): DynamicConfig => ({
     systemName: '',
     systemLogo: '',
