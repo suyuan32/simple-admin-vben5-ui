@@ -42,7 +42,7 @@ const props = defineProps({
   // support xxx.xxx.xx
   resultField: {
     type: String,
-    default: '',
+    default: 'data.data',
   },
   labelField: {
     type: String,
