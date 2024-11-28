@@ -55,7 +55,9 @@ const [Modal, modalApi] = useVbenModal({
       formApi.setValues(record.value);
     }
     modalApi.setState({
-      title: isUpdate.value ? $t('sys.apis.editApi') : $t('sys.apis.addApi'),
+      title: isUpdate.value
+        ? $t('sys.department.editDepartment')
+        : $t('sys.department.addDepartment'),
     });
   },
 });

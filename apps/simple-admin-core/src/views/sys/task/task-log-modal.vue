@@ -77,7 +77,7 @@ const gridOptions: VxeGridProps<DictionaryDetailInfo> = {
                 popConfirm: {
                   title: $t('common.deleteConfirm'),
                   placement: 'left',
-                  confirm: batchDelete.bind(null, [row]),
+                  confirm: batchDelete.bind(null, [row.id]),
                 },
                 // eslint-disable-next-line no-use-before-define
                 ifShow: !gridApi.grid?.isEditByRow(row),

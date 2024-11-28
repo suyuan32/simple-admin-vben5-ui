@@ -125,7 +125,7 @@ const gridOptions: VxeGridProps<MemberInfo> = {
                 popConfirm: {
                   title: $t('common.deleteConfirm'),
                   placement: 'left',
-                  confirm: batchDelete.bind(null, [row]),
+                  confirm: batchDelete.bind(null, [row.id]),
                 },
               },
             ] as ActionItem[],
