@@ -31,6 +31,9 @@ function createRequestClient(baseURL: string) {
     console.warn('Access token or refresh token is invalid or expired. ');
     const accessStore = useAccessStore();
     const authStore = useAuthStore();
+    if (authStore.isLoggingOut) {
+      return; // 如果已经在登出中，跳过处理
+    }
     accessStore.setAccessToken(null);
     if (
       preferences.app.loginExpiredMode === 'modal' &&
@@ -114,8 +117,7 @@ function createRequestClient(baseURL: string) {
           // Jump to the login page if not logged in, and carry the path of the current page
           // Return to the current page after successful login. This step needs to be operated on the login page.
           case 401: {
-            const authStore = useAuthStore();
-            authStore.logout();
+            errMessage = $t('ui.fallback.http.unauthorized');
             break;
           }
           case 403: {

@@ -32,7 +32,7 @@ export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
   const userStore = useUserStore();
   const router = useRouter();
-
+  const isLoggingOut = ref(false);
   const loginLoading = ref(false);
 
   /**
@@ -122,6 +122,10 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   async function logout(redirect: boolean = true) {
+    if (isLoggingOut.value) {
+      return; // 如果正在登出，直接返回，避免重复登出
+    }
+    isLoggingOut.value = true;
     try {
       await doLogout();
     } catch {
@@ -139,6 +143,7 @@ export const useAuthStore = defineStore('auth', () => {
           }
         : {},
     });
+    isLoggingOut.value = false;
   }
 
   async function fetchUserInfo() {
@@ -207,6 +212,7 @@ export const useAuthStore = defineStore('auth', () => {
     fetchUserInfo,
     loginLoading,
     logout,
+    isLoggingOut,
     elementPermissionList,
     hasElementPermission,
   };
