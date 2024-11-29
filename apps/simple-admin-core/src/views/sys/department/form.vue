@@ -14,7 +14,7 @@ import { createDepartment, updateDepartment } from '#/api/sys/department';
 import { dataFormSchemas } from './schemas';
 
 defineOptions({
-  name: 'ApiForm',
+  name: 'DepartmentForm',
 });
 
 const record = ref();

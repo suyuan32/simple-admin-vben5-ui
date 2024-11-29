@@ -14,7 +14,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteDepartment, getDepartmentList } from '#/api/sys/department';
 import { type ActionItem, TableAction } from '#/components/table/table-action';
 
-import ApiForm from './form.vue';
+import DepartmentForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
 
 defineOptions({
@@ -24,7 +24,7 @@ defineOptions({
 // ---------------- form -----------------
 
 const [FormModal, formModalApi] = useVbenModal({
-  connectedComponent: ApiForm,
+  connectedComponent: DepartmentForm,
 });
 
 const showDeleteButton = ref<boolean>(false);
