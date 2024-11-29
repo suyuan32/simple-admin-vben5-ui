@@ -105,7 +105,7 @@ function openFormModal(record: any) {
 
 async function batchDelete(ids: any) {
   const result = await deleteMenu({
-    id: ids,
+    id: ids[0],
   });
   if (result.code === 0) {
     await gridApi.reload();
