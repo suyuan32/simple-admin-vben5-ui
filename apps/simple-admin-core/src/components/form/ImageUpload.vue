@@ -14,6 +14,7 @@ import {
 import { $t } from '@vben/locales';
 
 import { PlusOutlined } from '@ant-design/icons-vue';
+import { useVModel } from '@vueuse/core';
 import { message, Modal, Upload } from 'ant-design-vue';
 import { type UploadRequestOption } from 'ant-design-vue/lib/vc-upload/interface';
 import { isArray, isObjectType, isString } from 'remeda';
@@ -86,7 +87,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['change', 'update:value', 'delete']);
+const emits = defineEmits(['update:value']);
+const state = useVModel(props, 'value', emits, {
+  defaultValue: props.value,
+  passive: true,
+});
 
 enum UploadResultStatus {
   // eslint-disable-next-line no-unused-vars
@@ -178,7 +183,7 @@ function isImgTypeByName(name: string) {
 }
 
 watch(
-  () => props.value,
+  () => state.value,
   (v) => {
     if (isInnerOperate.value) {
       isInnerOperate.value = false;
@@ -251,10 +256,11 @@ const handleRemove = async (file: UploadFile) => {
   if (fileList.value) {
     const index = fileList.value.findIndex((item) => item.uid === file.uid);
     index !== -1 && fileList.value.splice(index, 1);
-    const value = getValue();
     isInnerOperate.value = true;
-    emit('change', value);
-    emit('delete', file);
+    emits(
+      'update:value',
+      fileList.value.map((item) => item.url),
+    );
   }
 };
 
@@ -296,8 +302,7 @@ async function customRequest(info: UploadRequestOption<any>) {
     info.onSuccess!(result.data);
     const value = getValue();
     isInnerOperate.value = true;
-    emit('change', value);
-    emit('update:value', value);
+    emits('update:value', value);
   } catch (error: any) {
     info.onError!(error);
   }
