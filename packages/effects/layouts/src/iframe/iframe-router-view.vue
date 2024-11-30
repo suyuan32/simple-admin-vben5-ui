@@ -18,9 +18,9 @@ const enableTabbar = computed(() => preferences.tabbar.enable);
 
 const iframeRoutes = computed(() => {
   if (!enableTabbar.value) {
-    return route.meta.iframeSrc ? [route] : [];
+    return route.meta.frameSrc ? [route] : [];
   }
-  return tabbarStore.getTabs.filter((tab) => !!tab.meta?.iframeSrc);
+  return tabbarStore.getTabs.filter((tab) => !!tab.meta?.frameSrc);
 });
 
 const tabNames = computed(
@@ -75,7 +75,7 @@ function showSpinning(index: number) {
       >
         <VbenSpinner :spinning="showSpinning(index)" />
         <iframe
-          :src="item.meta.iframeSrc as string"
+          :src="item.meta.frameSrc as string"
           class="size-full"
           @load="hideLoading(index)"
         ></iframe>

@@ -45,6 +45,10 @@ interface RouteMeta {
     | 'warning'
     | string;
   /**
+   * iframe 地址
+   */
+  frameSrc?: string;
+  /**
    * 当前路由的子级在菜单中不展现
    * @default false
    */
@@ -68,10 +72,6 @@ interface RouteMeta {
    * 图标（菜单/tab）
    */
   icon?: Component | string;
-  /**
-   * iframe 地址
-   */
-  iframeSrc?: string;
   /**
    * 忽略权限，直接可以访问
    * @default false

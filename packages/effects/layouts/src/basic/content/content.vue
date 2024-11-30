@@ -99,7 +99,7 @@ function transformComponent(
           <component
             :is="transformComponent(Component, route)"
             v-if="renderRouteView"
-            v-show="!route.meta.iframeSrc"
+            v-show="!route.meta.frameSrc"
             :key="route.fullPath"
           />
         </KeepAlive>
