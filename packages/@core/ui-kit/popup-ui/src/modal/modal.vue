@@ -59,6 +59,7 @@ const {
   closable,
   closeOnClickModal,
   closeOnPressEscape,
+  confirmDisabled,
   confirmLoading,
   confirmText,
   contentClass,
@@ -235,7 +236,7 @@ function handleFocusOutside(e: Event) {
         ref="wrapperRef"
         :class="
           cn('relative min-h-40 flex-1 overflow-y-auto p-3', contentClass, {
-            'overflow-hidden': showLoading,
+            'pointer-events-none overflow-hidden': showLoading,
           })
         "
       >
@@ -285,6 +286,7 @@ function handleFocusOutside(e: Event) {
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"
+            :disabled="confirmDisabled"
             :loading="confirmLoading"
             @click="() => modalApi?.onConfirm()"
           >
