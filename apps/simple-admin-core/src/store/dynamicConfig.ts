@@ -143,6 +143,9 @@ export const useDynamicConfigStore = defineStore('dynamic-config', {
             keepAlive: true,
             persist: true,
           },
+          widget: {
+            notification: this.showNotice,
+          },
         });
         updatePreferences(overridesPreferences);
       } else if (config.code === 0 && config.data.total === 0) {
