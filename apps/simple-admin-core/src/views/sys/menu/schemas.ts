@@ -120,6 +120,7 @@ export const dataFormSchemas: VbenFormProps = {
       component: 'Input',
       rules: z.string().max(50),
       formItemClass: 'col-span-1',
+      help: $t('sys.menu.menuNameHelp'),
     },
     {
       fieldName: 'title',

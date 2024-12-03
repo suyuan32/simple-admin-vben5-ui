@@ -141,7 +141,8 @@
     "componentHelp": "The directory is \"LAYOUT\", embedded pages use \"IFrame\", and regular pages use the page path",
     "pathHelp": "All menus including directories must set the path",
     "permissionHelp": "Permission flags are used to control the display and hiding of page elements",
-    "managementCenter": "Admin Center"
+    "managementCenter": "Admin Center",
+    "menuNameHelp": "Needs to be consistent with the component name to be cached, the default is \"Model Name\" camel case plus \"Management\", such as \"StudentManagement\""
   },
   "role": {
     "roleList": "Role List",
