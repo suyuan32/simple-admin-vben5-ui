@@ -87,7 +87,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['update:value']);
+const emits = defineEmits(['change', 'update:value', 'delete']);
 const state = useVModel(props, 'value', emits, {
   defaultValue: props.value,
   passive: true,
@@ -256,11 +256,9 @@ const handleRemove = async (file: UploadFile) => {
   if (fileList.value) {
     const index = fileList.value.findIndex((item) => item.uid === file.uid);
     index !== -1 && fileList.value.splice(index, 1);
+    const value = getValue();
     isInnerOperate.value = true;
-    emits(
-      'update:value',
-      fileList.value.map((item) => item.url),
-    );
+    emits('update:value', value);
   }
 };
 
