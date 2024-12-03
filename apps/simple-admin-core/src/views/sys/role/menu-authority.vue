@@ -31,12 +31,14 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm: async () => {
-    const result = await createOrUpdateMenuAuthority({
-      roleId: roleId.value as number,
-      menuIds: checkedKeys.value.checked,
-    });
-    if (result.code === 0) {
-      message.success($t('common.successful'));
+    if (checkedKeys.value.checked !== undefined) {
+      const result = await createOrUpdateMenuAuthority({
+        roleId: roleId.value as number,
+        menuIds: checkedKeys.value.checked,
+      });
+      if (result.code === 0) {
+        message.success($t('common.successful'));
+      }
     }
     modalApi.close();
   },
