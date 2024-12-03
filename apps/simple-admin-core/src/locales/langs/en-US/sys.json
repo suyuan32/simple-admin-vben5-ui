@@ -135,7 +135,7 @@
     "element": "Page Element",
     "permission": "Permission Symbol",
     "addMenu": "Add Menu",
-    "editMenu": "Eidt Menu",
+    "editMenu": "Edit Menu",
     "addMenuParam": "Add Parameter",
     "editMenuParam": "Edit Parameter",
     "componentHelp": "The directory is \"LAYOUT\", embedded pages use \"IFrame\", and regular pages use the page path",
