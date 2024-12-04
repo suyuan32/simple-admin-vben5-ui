@@ -127,25 +127,28 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'phone',
       label: $t('sys.department.phone'),
       component: 'Input',
-      rules: z.string().max(18),
+      rules: z.string().max(18).optional(),
     },
     {
       fieldName: 'email',
       label: $t('sys.department.email'),
       component: 'Input',
-      rules: z.string().max(70),
+      rules: z.string().max(70).optional(),
     },
     {
       fieldName: 'sort',
       label: $t('sys.department.sort'),
       component: 'InputNumber',
       rules: z.number().max(10_000),
+      componentProps: {
+        class: 'w-full',
+      },
     },
     {
       fieldName: 'remark',
       label: $t('common.remark'),
       component: 'Input',
-      rules: z.string().max(200),
+      rules: z.string().max(200).optional(),
     },
     {
       fieldName: 'status',
