@@ -1,6 +1,6 @@
 {
   "name": "@vben/common-ui",
-  "version": "5.4.8",
+  "version": "5.5.0",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -23,6 +23,7 @@
     "@iconify/vue": "^4.1.2",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
+    "@vben-core/preferences": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben/constants": "workspace:*",

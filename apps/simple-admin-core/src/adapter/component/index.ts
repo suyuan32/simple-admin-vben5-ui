@@ -8,7 +8,7 @@ import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Component, SetupContext } from 'vue';
 import { h } from 'vue';
 
-import { globalShareState } from '@vben/common-ui';
+import { globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
@@ -73,6 +73,7 @@ export type ComponentType =
   | 'DictionarySelect'
   | 'Divider'
   | 'Editor'
+  | 'IconPicker'
   | 'ImageUpload'
   | 'Input'
   | 'InputNumber'
@@ -138,6 +139,7 @@ async function initComponentAdapter() {
     ImageUpload,
     Editor,
     CodeEditor,
+    IconPicker,
   };
 
   // 将组件注册到全局共享状态中
