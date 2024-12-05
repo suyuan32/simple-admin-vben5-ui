@@ -7,6 +7,7 @@ import { computed, h, ref } from 'vue';
 
 import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { usePreferences } from '@vben/preferences';
 
 import { Image } from 'ant-design-vue';
 
@@ -17,6 +18,8 @@ import { useAuthStore } from '#/store';
 defineOptions({ name: 'Login' });
 
 const authStore = useAuthStore();
+
+const { isDark } = usePreferences();
 
 const loginType: BasicOption[] = [
   {
@@ -167,6 +170,9 @@ const formSchema = computed((): VbenFormSchema[] => {
         height: 40,
         preview: false,
         onClick: getCaptchaData,
+        style: {
+          backgroundColor: isDark.value ? '#eee' : 'transparent', // 背景色为暗黑模式下的使用背景色增强验证码效果
+        },
       },
       formItemClass: 'col-span-1 items-baseline',
       dependencies: {
