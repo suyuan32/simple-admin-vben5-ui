@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 
 import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { usePreferences } from '@vben/preferences';
 
 import { Image, message } from 'ant-design-vue';
 
@@ -17,6 +18,7 @@ defineOptions({ name: 'Register' });
 
 const loading = ref(false);
 const router = useRouter();
+const { isDark } = usePreferences();
 
 const imgPath = ref<string>('');
 const captchaId = ref<string>('');
@@ -88,7 +90,6 @@ const formSchema = computed((): VbenFormSchema[] => {
       label: $t('authentication.username'),
       rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
       dependencies: {
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       formItemClass: 'col-span-2 items-baseline',
@@ -110,7 +111,6 @@ const formSchema = computed((): VbenFormSchema[] => {
 
           target.value = values.target;
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType', 'target'],
       },
       formItemClass: 'col-span-2 items-baseline',
@@ -125,7 +125,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       renderComponentContent() {
@@ -166,7 +165,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       component: 'VbenInput',
@@ -189,6 +187,9 @@ const formSchema = computed((): VbenFormSchema[] => {
         height: 40,
         preview: false,
         onClick: getCaptchaData,
+        style: {
+          backgroundColor: isDark.value ? '#eee' : 'transparent',
+        },
       },
       formItemClass: 'col-span-1 items-baseline',
       dependencies: {

@@ -94,7 +94,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       formItemClass: 'col-span-2 items-baseline',
@@ -118,7 +117,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType !== 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType', 'target'],
       },
       formItemClass: 'col-span-2 items-baseline',
@@ -132,7 +130,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       fieldName: 'password',
@@ -147,7 +144,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       component: 'VbenInput',
@@ -171,7 +167,7 @@ const formSchema = computed((): VbenFormSchema[] => {
         preview: false,
         onClick: getCaptchaData,
         style: {
-          backgroundColor: isDark.value ? '#eee' : 'transparent', // 背景色为暗黑模式下的使用背景色增强验证码效果
+          backgroundColor: isDark.value ? '#eee' : 'transparent',
         },
       },
       formItemClass: 'col-span-1 items-baseline',
@@ -179,7 +175,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType === 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
     },
@@ -199,7 +194,6 @@ const formSchema = computed((): VbenFormSchema[] => {
         if(values) {
           return values.selectLoginType !== 'captcha';
         },
-        // 只有指定的字段改变时，才会触发
         triggerFields: ['selectLoginType'],
       },
       fieldName: 'captchaVerified',
