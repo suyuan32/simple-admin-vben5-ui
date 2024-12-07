@@ -13,7 +13,7 @@ interface DynamicConfig {
   systemName: string;
   systemLogo: string;
   showSettingButton: boolean;
-  defaultLocale: string;
+  // defaultLocale: string;
   showNotice: boolean;
   layoutType: LayoutType;
   showBreadCrumb: boolean;
@@ -24,7 +24,7 @@ export const useDynamicConfigStore = defineStore('dynamic-config', {
     systemName: '',
     systemLogo: '',
     showSettingButton: true,
-    defaultLocale: 'zh-CN',
+    // defaultLocale: 'zh-CN',
     showNotice: false,
     layoutType: 'sidebar-nav',
     showBreadCrumb: true,
@@ -45,22 +45,22 @@ export const useDynamicConfigStore = defineStore('dynamic-config', {
         for (const v of config.data.data) {
           if (v.key !== undefined) {
             switch (v.key) {
-              case 'sys.ui.defaultLocale': {
-                if (v.state === false) {
-                  this.defaultLocale = 'zh-CN';
-                  break;
-                }
-                let localeValue: string = 'zh-CN';
-                if (
-                  v.value !== undefined &&
-                  (v.value === 'zh-CN' || v.value === 'en-US')
-                ) {
-                  localeValue = v.value;
-                }
-
-                this.defaultLocale = localeValue;
-                break;
-              }
+              // case 'sys.ui.defaultLocale': {
+              //   if (v.state === false) {
+              //     this.defaultLocale = 'zh-CN';
+              //     break;
+              //   }
+              //   let localeValue: string = 'zh-CN';
+              //   if (
+              //     v.value !== undefined &&
+              //     (v.value === 'zh-CN' || v.value === 'en-US')
+              //   ) {
+              //     localeValue = v.value;
+              //   }
+              //
+              //   this.defaultLocale = localeValue;
+              //   break;
+              // }
               case 'sys.ui.header.showNotice': {
                 if (v.state === false) {
                   this.showNotice = false;
@@ -125,7 +125,7 @@ export const useDynamicConfigStore = defineStore('dynamic-config', {
         }
         const overridesPreferences = defineOverridesPreferences({
           app: {
-            locale: this.defaultLocale as any,
+            // locale: this.defaultLocale as any,
             enablePreferences: this.showSettingButton,
             name: this.systemName === '' ? 'Simple Admin' : this.systemName,
           },
