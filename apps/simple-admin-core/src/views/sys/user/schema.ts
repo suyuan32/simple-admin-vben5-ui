@@ -98,6 +98,11 @@ export const searchFormSchemas: VbenFormProps = {
       label: $t('sys.login.email'),
       component: 'Input',
     },
+    {
+      fieldName: 'description',
+      label: $t('sys.user.description'),
+      component: 'Input',
+    },
   ],
 };
 
