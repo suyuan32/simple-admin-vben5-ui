@@ -67,11 +67,13 @@ export const useDictionaryStore = defineStore({
         const dataConv = ref<DefaultOptionType[]>([]);
 
         for (let i = 0; i < result.data.data.length; i++) {
-          if (result.data.data[i] !== undefined) {
+          const resultData: any = result.data.data[i];
+          if (resultData !== undefined) {
             dataConv.value.push({
-              label: (result.data.data as any)[i].title,
-              value: (result.data.data as any)[i].value,
-              status: (result.data.data as any)[i].status,
+              label:
+                resultData.trans === '' ? resultData.title : resultData.trans,
+              value: resultData.value,
+              status: resultData.status,
             });
           }
         }
