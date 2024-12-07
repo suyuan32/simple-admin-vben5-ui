@@ -66,8 +66,12 @@ const slots = useSlots();
 const [Form, formApi] = useTableForm({
   handleSubmit: async () => {
     const formValues = formApi.form.values;
-    formApi.setLatestSubmissionValues(toRaw(formValues));
-    props.api.reload(formValues);
+    const newFormValues: any = {};
+    Object.entries(formValues).forEach(([key, value]) => {
+      newFormValues[key] = value === '' ? undefined : value;
+    });
+    formApi.setLatestSubmissionValues(toRaw(newFormValues));
+    props.api.reload(newFormValues);
   },
   handleReset: async () => {
     await formApi.resetForm();
