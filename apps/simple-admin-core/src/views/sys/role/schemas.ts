@@ -82,12 +82,14 @@ export const dataFormSchemas: VbenFormProps = {
       label: $t('sys.role.roleValue'),
       component: 'Input',
       rules: z.string().max(20),
+      help: $t('sys.role.roleValueHelpMessage'),
     },
     {
       fieldName: 'defaultRouter',
       label: $t('sys.role.defaultRouter'),
       component: 'Input',
       rules: z.string().max(80),
+      help: $t('sys.role.defaultRouterHelpMessage'),
     },
     {
       fieldName: 'remark',

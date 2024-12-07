@@ -146,8 +146,8 @@
   },
   "role": {
     "roleList": "角色列表",
-    "roleName": "角色名称",
-    "roleValue": "角色值",
+    "roleName": "名称",
+    "roleValue": "角色代码",
     "roleTitle": "角色",
     "defaultRouter": "默认路由",
     "admin": "管理员",
@@ -156,7 +156,9 @@
     "member": "会员",
     "addRole": "新增角色",
     "editRole": "编辑角色",
-    "adminStatusChangeForbidden": "禁止修改管理员状态"
+    "adminStatusChangeForbidden": "禁止修改管理员状态",
+    "defaultRouterHelpMessage": "登录后默认跳转的路由地址",
+    "roleValueHelpMessage": "角色的字符串代码，用于鉴权"
   },
   "apis": {
     "apiList": "接口列表",
@@ -216,7 +218,7 @@
     "moreFeatures": "其他功能"
   },
   "dictionary": {
-    "name": "字典名称",
+    "name": "名称",
     "dictionaryList": "字典列表",
     "dictionaryDetailList": "键值列表",
     "key": "键",
@@ -248,7 +250,7 @@
   },
   "department": {
     "status": "状态",
-    "name": "部门名称",
+    "name": "名称",
     "ancestors": "父级列表",
     "leader": "部门负责人",
     "phone": "电话号码",
@@ -264,7 +266,7 @@
     "departmentUndefined": "您尚未属于任何部门"
   },
   "position": {
-    "name": "职位名称",
+    "name": "名称",
     "code": "职位代码",
     "addPosition": "添加职位",
     "editPosition": "编辑职位",
@@ -279,8 +281,8 @@
     "expiredAt": "到期时间"
   },
   "memberRank": {
-    "name": "等级名称",
-    "description": "等级描述",
+    "name": "名称",
+    "description": "描述",
     "remark": "备注",
     "addMemberRank": "添加会员等级",
     "editMemberRank": "编辑会员等级",
@@ -308,10 +310,10 @@
     "taskLogList": "任务日志列表"
   },
   "configuration": {
-    "name": "配置名称",
-    "key": "配置键名",
-    "value": "配置值",
-    "category": "配置分类",
+    "name": "名称",
+    "key": "键名",
+    "value": "值",
+    "category": "分类",
     "remark": "备注",
     "addConfiguration": "添加参数配置",
     "editConfiguration": "编辑参数配置",

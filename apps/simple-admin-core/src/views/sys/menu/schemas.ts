@@ -35,6 +35,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('sys.apis.serviceName'),
       field: 'serviceName',
+      width: 120,
     },
     {
       title: $t('sys.menu.routePath'),
@@ -43,7 +44,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('sys.menu.order'),
       field: 'sort',
-      width: 50,
+      width: 90,
     },
     {
       title: $t('common.status'),

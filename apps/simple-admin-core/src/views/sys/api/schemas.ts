@@ -26,6 +26,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('sys.apis.serviceName'),
       field: 'serviceName',
+      width: 120,
     },
     {
       title: $t('sys.apis.description'),
@@ -38,7 +39,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('common.required'),
       field: 'isRequired',
-      width: 70,
+      width: 80,
       slots: {
         default: (record) => {
           let resultText = '';

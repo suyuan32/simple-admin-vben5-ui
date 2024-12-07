@@ -97,17 +97,17 @@
     "resetPassword": "Please select a method to reset your password"
   },
   "menu": {
-    "menuName": "Menu Name",
+    "menuName": "Name",
     "menuTitle": "Title Shown",
     "icon": "Icon",
     "order": "Order",
     "component": "Component",
     "statusName": "Status",
-    "type": "Menu Type",
+    "type": "Type",
     "directory": "Directory",
     "menu": "Menu",
     "button": "Button",
-    "menuParent": "Menu Parent",
+    "menuParent": "Parent",
     "routePath": "Route Path",
     "componentPath": "Component Path",
     "isHttpPath": "Http Path?",
@@ -146,17 +146,19 @@
   },
   "role": {
     "roleList": "Role List",
-    "roleName": "Role Name",
+    "roleName": "Name",
     "roleTitle": "Role",
-    "roleValue": "Role Value",
-    "defaultRouter": "Default Router Path",
+    "roleValue": "Code",
+    "defaultRouter": "Homepage",
     "admin": "Administrator",
     "stuff": "Stuff",
     "seller": "Seller",
     "member": "Member",
     "addRole": "Add Role",
     "editRole": "Edit Role",
-    "adminStatusChangeForbidden": "Disallow modification of admin status"
+    "adminStatusChangeForbidden": "Disallow modification of admin status",
+    "defaultRouterHelpMessage": "The default route address to jump to after login",
+    "roleValueHelpMessage": "The string code of the role, used for authentication"
   },
   "apis": {
     "apiList": "API List",
@@ -181,8 +183,8 @@
     "avatar": "Avatar",
     "oldPassword": "Old Password",
     "newPassword": "New Password",
-    "description": "User description",
-    "homePath": "User home page",
+    "description": "Description",
+    "homePath": "Homepage",
     "addUser": "Add User",
     "editUser": "Edit User",
     "changePassword": "Change Password",
@@ -216,7 +218,7 @@
     "moreFeatures": "Other Operations"
   },
   "dictionary": {
-    "name": "Dictionary Name",
+    "name": "Name",
     "dictionaryList": "Dictionary List",
     "dictionaryDetailList": "Key/Value List",
     "key": "Key",
@@ -264,8 +266,8 @@
     "departmentUndefined": "You do not belong to any department."
   },
   "position": {
-    "name": "Position Name",
-    "code": "Position Code",
+    "name": "Name",
+    "code": "Code",
     "remark": "Remark",
     "addPosition": "Add Position",
     "editPosition": "Edit Position",
@@ -273,20 +275,20 @@
     "userPosition": "Position"
   },
   "member": {
-    "rankId": "Member Rank",
+    "rankId": "Rank",
     "addMember": "Add Member",
     "editMember": "Edit Member",
     "memberList": "Member List",
     "expiredAt": "Expired Time"
   },
   "memberRank": {
-    "name": "Rank Name",
-    "description": "Rank Description",
+    "name": "Name",
+    "description": "Description",
     "remark": "Remark",
     "addMemberRank": "Add Rank",
     "editMemberRank": "Edit Rank",
     "memberRankList": "Rank List",
-    "code": "Rank Code"
+    "code": "Code"
   },
   "task": {
     "status": "Status",
@@ -309,9 +311,9 @@
     "taskLogList": "Task Log List"
   },
   "configuration": {
-    "name": "Configuration Name",
-    "key": "Configuration Key",
-    "value": "Configuration Value",
+    "name": "Name",
+    "key": "Key",
+    "value": "Value",
     "category": "Category",
     "remark": "Remark",
     "addConfiguration": "Add Configuration",
