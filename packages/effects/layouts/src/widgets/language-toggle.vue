@@ -19,7 +19,9 @@ async function handleUpdate(value: string) {
     },
   });
   await loadLocaleMessages(locale);
-  window.location.reload();
+  setTimeout(() => {
+    window.location.reload();
+  }, 500);
 }
 </script>
 
