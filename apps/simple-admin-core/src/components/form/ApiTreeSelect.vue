@@ -4,6 +4,8 @@ import type { SelectValue } from 'ant-design-vue/es/select';
 
 import { onMounted, type PropType, ref, unref, watch } from 'vue';
 
+import { $t } from '@vben/locales';
+
 import { useVModel } from '@vueuse/core';
 import { TreeSelect } from 'ant-design-vue';
 import { isArray, isFunction } from 'remeda';
@@ -126,6 +128,7 @@ async function fetch() {
   <TreeSelect
     v-model:value="state"
     :multiple="$props.multiple"
+    :placeholder="$t('common.chooseText')"
     :show-search="props.showSearch"
     :tree-data="treeData"
     :tree-node-filter-prop="props.treeNodeFilterProp"
