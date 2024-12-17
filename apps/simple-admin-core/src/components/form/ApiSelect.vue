@@ -60,7 +60,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  options: {
+  appendOptions: {
     type: Array<OptionsItem>,
     default: [],
   },
@@ -113,8 +113,15 @@ if (useSearch) {
 }
 
 const getOptions = computed(() => {
-  const { labelField, valueField, numberToString } = props;
+  const { labelField, valueField, numberToString, appendOptions } = props;
   const res: OptionsItem[] = [];
+
+  if (appendOptions.length > 0) {
+    appendOptions.forEach((item: any) => {
+      res.push(item);
+    });
+  }
+
   optionsData.value.forEach((item: any) => {
     const value = item[valueField];
     res.push({
