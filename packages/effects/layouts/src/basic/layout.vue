@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MenuRecordRaw } from '@vben/types';
 
-import { computed, useSlots, watch } from 'vue';
+import { computed, type SetupContext, useSlots, watch } from 'vue';
 
 import { useRefresh } from '@vben/hooks';
 import { $t } from '@vben/locales';
@@ -39,6 +39,7 @@ const {
   isMixedNav,
   isMobile,
   isSideMixedNav,
+  isHeaderMixedNav,
   layout,
   preferencesButtonPosition,
   sidebarCollapsed,
@@ -83,12 +84,28 @@ const logoCollapsed = computed(() => {
   if (isHeaderNav.value || isMixedNav.value) {
     return false;
   }
-  return sidebarCollapsed.value || isSideMixedNav.value;
+  return (
+    sidebarCollapsed.value || isSideMixedNav.value || isHeaderMixedNav.value
+  );
 });
 
 const showHeaderNav = computed(() => {
-  return !isMobile.value && (isHeaderNav.value || isMixedNav.value);
+  return (
+    !isMobile.value &&
+    (isHeaderNav.value || isMixedNav.value || isHeaderMixedNav.value)
+  );
 });
+
+const {
+  handleMenuSelect,
+  handleMenuOpen,
+  headerActive,
+  headerMenus,
+  sidebarActive,
+  sidebarMenus,
+  mixHeaderMenus,
+  sidebarVisible,
+} = useMixedMenu();
 
 // 侧边多列菜单
 const {
@@ -99,16 +116,7 @@ const {
   handleMixedMenuSelect,
   handleSideMouseLeave,
   sidebarExtraVisible,
-} = useExtraMenu();
-
-const {
-  handleMenuSelect,
-  headerActive,
-  headerMenus,
-  sidebarActive,
-  sidebarMenus,
-  sidebarVisible,
-} = useMixedMenu();
+} = useExtraMenu(mixHeaderMenus);
 
 /**
  * 包装菜单，翻译菜单名称
@@ -151,9 +159,9 @@ watch(
 );
 
 // 语言更新后，刷新页面
-watch(() => preferences.app.locale, refresh);
+watch(() => preferences.app.locale, refresh, { flush: 'post' });
 
-const slots = useSlots();
+const slots: SetupContext['slots'] = useSlots();
 const headerSlots = computed(() => {
   return Object.keys(slots).filter((key) => key.startsWith('header-'));
 });
@@ -260,13 +268,14 @@ const headerSlots = computed(() => {
         :rounded="isMenuRounded"
         :theme="sidebarTheme"
         mode="vertical"
+        @open="handleMenuOpen"
         @select="handleMenuSelect"
       />
     </template>
     <template #mixed-menu>
       <LayoutMixedMenu
         :active-path="extraActiveMenu"
-        :menus="wrapperMenus(headerMenus, false)"
+        :menus="wrapperMenus(mixHeaderMenus, false)"
         :rounded="isMenuRounded"
         :theme="sidebarTheme"
         @default-select="handleDefaultSelect"

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PageProps } from './types';
+
 import {
   computed,
   nextTick,
@@ -11,23 +13,11 @@ import {
 import { CSS_VARIABLE_LAYOUT_CONTENT_HEIGHT } from '@vben-core/shared/constants';
 import { cn } from '@vben-core/shared/utils';
 
-interface Props {
-  title?: string;
-  description?: string;
-  contentClass?: string;
-  /**
-   * 根据content可见高度自适应
-   */
-  autoContentHeight?: boolean;
-  headerClass?: string;
-  footerClass?: string;
-}
-
 defineOptions({
   name: 'Page',
 });
 
-const { autoContentHeight = false } = defineProps<Props>();
+const { autoContentHeight = false } = defineProps<PageProps>();
 
 const headerHeight = ref(0);
 const footerHeight = ref(0);
@@ -100,7 +90,7 @@ onMounted(() => {
       </div>
     </div>
 
-    <div :class="contentClass" :style="contentStyle" class="h-full p-4">
+    <div :class="cn('h-full p-4', contentClass)" :style="contentStyle">
       <slot></slot>
     </div>
 

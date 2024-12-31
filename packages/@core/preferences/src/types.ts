@@ -5,6 +5,7 @@ import type {
   BuiltinThemeType,
   ContentCompactType,
   DeepPartial,
+  LayoutHeaderMenuAlignType,
   LayoutHeaderModeType,
   LayoutType,
   LoginExpiredModeType,
@@ -104,6 +105,8 @@ interface HeaderPreferences {
   enable: boolean;
   /** 顶栏是否隐藏,css-隐藏 */
   hidden: boolean;
+  /** 顶栏菜单位置 */
+  menuAlign: LayoutHeaderMenuAlignType;
   /** header显示模式 */
   mode: LayoutHeaderModeType;
 }
@@ -125,6 +128,8 @@ interface NavigationPreferences {
 }
 
 interface SidebarPreferences {
+  /** 点击目录时自动激活子菜单   */
+  autoActivateChild: boolean;
   /** 侧边栏是否折叠 */
   collapsed: boolean;
   /** 侧边栏折叠时，是否显示title */
@@ -173,6 +178,8 @@ interface TabbarPreferences {
   showMore: boolean;
   /** 标签页风格 */
   styleType: TabsStyleType;
+  /** 是否开启鼠标滚轮响应 */
+  wheelable: boolean;
 }
 
 interface ThemePreferences {
