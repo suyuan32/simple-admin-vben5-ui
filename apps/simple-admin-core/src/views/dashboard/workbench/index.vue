@@ -6,15 +6,14 @@ import type {
 
 import { useRouter } from 'vue-router';
 
-import { WorkbenchHeader, WorkbenchQuickNav } from '@vben/common-ui';
+import { WorkbenchQuickNav } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import { preferences } from '@vben/preferences';
-import { useUserStore } from '@vben/stores';
+// import { useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
 
 import { Card, TypographyTitle } from 'ant-design-vue';
 
-const userStore = useUserStore();
+// const userStore = useUserStore();
 
 // 同样，这里的 url 也可以使用以 http 开头的外部链接
 const quickNavItems: WorkbenchQuickNavItem[] = [
@@ -77,14 +76,14 @@ function navTo(nav: WorkbenchProjectItem | WorkbenchQuickNavItem) {
 
 <template>
   <div class="p-5">
-    <WorkbenchHeader
-      :avatar="userStore.userInfo?.avatar || preferences.app.defaultAvatar"
-    >
-      <template #title>
-        早安, {{ userStore.userInfo?.realName }}, 开始您一天的工作吧！
-      </template>
-      <template #description> 今日晴，20℃ - 32℃！ </template>
-    </WorkbenchHeader>
+    <!--    <WorkbenchHeader-->
+    <!--      :avatar="userStore.userInfo?.avatar || preferences.app.defaultAvatar"-->
+    <!--    >-->
+    <!--      <template #title>-->
+    <!--        早安, {{ userStore.userInfo?.realName }}, 开始您一天的工作吧！-->
+    <!--      </template>-->
+    <!--      &lt;!&ndash;      <template #description> 今日晴，20℃ - 32℃！ </template>&ndash;&gt;-->
+    <!--    </WorkbenchHeader>-->
 
     <div class="mt-5 flex flex-col lg:flex-row">
       <div class="mr-4 w-full lg:w-3/5">
