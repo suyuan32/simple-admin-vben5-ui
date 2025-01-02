@@ -21,4 +21,7 @@ export const overridesPreferences = defineOverridesPreferences({
     keepAlive: true,
     persist: true,
   },
+  widget: {
+    notification: false,
+  },
 });
