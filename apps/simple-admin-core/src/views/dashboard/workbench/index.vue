@@ -88,7 +88,7 @@ function navTo(nav: WorkbenchProjectItem | WorkbenchQuickNavItem) {
     <div class="mt-5 flex flex-col lg:flex-row">
       <div class="mr-4 w-full lg:w-3/5">
         <Card :title="$t('sys.sys.version')">
-          <TypographyTitle :level="5"> Simple Admin v1.6.1 </TypographyTitle>
+          <TypographyTitle :level="5"> Simple Admin v1.6.2 </TypographyTitle>
         </Card>
       </div>
       <div class="w-full lg:w-2/5">
