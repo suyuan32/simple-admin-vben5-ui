@@ -93,18 +93,25 @@ const gridOptions: VxeGridProps<DepartmentInfo> = {
   ],
   height: 'auto',
   keepSource: true,
-  pagerConfig: {},
+  pagerConfig: {
+    enabled: false,
+  },
   proxyConfig: {
     ajax: {
-      query: async ({ page }, formValues) => {
+      query: async (_, formValues) => {
         const res = await getDepartmentList({
-          page: page.currentPage,
-          pageSize: page.pageSize,
+          page: 1,
+          pageSize: 10_000,
           ...formValues,
         });
         return res.data;
       },
     },
+  },
+  treeConfig: {
+    transform: true,
+    parentField: 'parentId',
+    rowField: 'id',
   },
 };
 

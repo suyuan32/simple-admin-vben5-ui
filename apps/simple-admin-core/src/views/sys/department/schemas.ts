@@ -20,6 +20,7 @@ export const tableColumns: VxeGridProps = {
     {
       title: $t('sys.department.name'),
       field: 'trans',
+      treeNode: true,
     },
     {
       title: $t('sys.department.leader'),
