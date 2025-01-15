@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type {
+  DropdownMenuRadioItemEmits,
+  DropdownMenuRadioItemProps,
+} from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { Circle } from 'lucide-vue-next';
 import {
   DropdownMenuItemIndicator,
   DropdownMenuRadioItem,
-  type DropdownMenuRadioItemEmits,
-  type DropdownMenuRadioItemProps,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & DropdownMenuRadioItemProps>();
 

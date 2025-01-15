@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { PaginationFirstProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { ChevronsLeft } from 'lucide-vue-next';
-import { PaginationFirst, type PaginationFirstProps } from 'radix-vue';
+import { PaginationFirst } from 'radix-vue';
+import { computed } from 'vue';
 
 import { Button } from '../button';
 

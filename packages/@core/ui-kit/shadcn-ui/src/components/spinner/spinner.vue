@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-
 import { cn } from '@vben-core/shared/utils';
+import { ref, watch } from 'vue';
 
 interface Props {
   class?: string;
@@ -73,12 +72,23 @@ function onTransitionEnd() {
     @transitionend="onTransitionEnd"
   >
     <div
+      :class="{ paused: !renderSpinner }"
       class="loader before:bg-primary/50 after:bg-primary relative size-12 before:absolute before:left-0 before:top-[60px] before:h-[5px] before:w-12 before:rounded-[50%] before:content-[''] after:absolute after:left-0 after:top-0 after:h-full after:w-full after:rounded after:content-['']"
     ></div>
   </div>
 </template>
 
 <style scoped>
+.paused {
+  &::before {
+    animation-play-state: paused !important;
+  }
+
+  &::after {
+    animation-play-state: paused !important;
+  }
+}
+
 .loader {
   &::before {
     animation: loader-shadow-ani 0.5s linear infinite;

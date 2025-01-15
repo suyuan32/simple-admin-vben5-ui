@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { DialogTitleProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import { DialogTitle, type DialogTitleProps } from 'radix-vue';
+import { DialogTitle } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & DialogTitleProps>();
 

@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { SelectOption } from '@vben/types';
 
-import { computed } from 'vue';
-
 import { $t } from '@vben/locales';
+import { computed } from 'vue';
 
 import SelectItem from '../select-item.vue';
 import SwitchItem from '../switch-item.vue';
@@ -22,6 +21,9 @@ const tabbarWheelable = defineModel<boolean>('tabbarWheelable');
 const tabbarStyleType = defineModel<string>('tabbarStyleType');
 const tabbarShowMore = defineModel<boolean>('tabbarShowMore');
 const tabbarShowMaximize = defineModel<boolean>('tabbarShowMaximize');
+const tabbarMiddleClickToClose = defineModel<boolean>(
+  'tabbarMiddleClickToClose',
+);
 
 const styleItems = computed((): SelectOption[] => [
   {
@@ -60,6 +62,9 @@ const styleItems = computed((): SelectOption[] => [
     :tip="$t('preferences.tabbar.wheelableTip')"
   >
     {{ $t('preferences.tabbar.wheelable') }}
+  </SwitchItem>
+  <SwitchItem v-model="tabbarMiddleClickToClose" :disabled="!tabbarEnable">
+    {{ $t('preferences.tabbar.middleClickClose') }}
   </SwitchItem>
   <SwitchItem v-model="tabbarShowIcon" :disabled="!tabbarEnable">
     {{ $t('preferences.tabbar.icon') }}

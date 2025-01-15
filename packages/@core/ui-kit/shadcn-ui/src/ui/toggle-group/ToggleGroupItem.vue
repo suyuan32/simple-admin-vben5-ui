@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import type { VariantProps } from 'class-variance-authority';
-
-import { computed, inject } from 'vue';
+import type { ToggleGroupItemProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  ToggleGroupItem,
-  type ToggleGroupItemProps,
-  useForwardProps,
-} from 'radix-vue';
+import { ToggleGroupItem, useForwardProps } from 'radix-vue';
+import { computed, inject } from 'vue';
 
 import { toggleVariants } from '../toggle';
 

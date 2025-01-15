@@ -1,15 +1,13 @@
 import type { TabDefinition } from '@vben-core/typings';
 import type { Router, RouteRecordNormalized } from 'vue-router';
 
-import { toRaw } from 'vue';
-
 import {
   openRouteInNewWindow,
   startProgress,
   stopProgress,
 } from '@vben-core/shared/utils';
-
 import { acceptHMRUpdate, defineStore } from 'pinia';
+import { toRaw } from 'vue';
 
 interface TabbarState {
   /**

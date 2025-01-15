@@ -1,5 +1,6 @@
 import type { ClassType, DeepPartial } from '@vben/types';
 import type { VbenFormProps } from '@vben-core/form-ui';
+import type { Ref } from 'vue';
 import type {
   VxeGridListeners,
   VxeGridPropTypes,
@@ -8,8 +9,6 @@ import type {
 } from 'vxe-table';
 
 import type { VxeGridApi } from './api';
-
-import type { Ref } from 'vue';
 
 import { useVbenForm } from '@vben-core/form-ui';
 

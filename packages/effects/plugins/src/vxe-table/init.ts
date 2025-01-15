@@ -1,10 +1,8 @@
 import type { SetupVxeTable } from './types';
 
-import { defineComponent, watch } from 'vue';
-
 import { usePreferences } from '@vben/preferences';
 import { useVbenForm } from '@vben-core/form-ui';
-
+import { defineComponent, watch } from 'vue';
 import {
   VxeButton,
   VxeCheckbox,
@@ -34,7 +32,6 @@ import {
   // VxeTextarea,
 } from 'vxe-pc-ui';
 import enUS from 'vxe-pc-ui/lib/language/en-US';
-
 // 导入默认的语言
 import zhCN from 'vxe-pc-ui/lib/language/zh-CN';
 import {

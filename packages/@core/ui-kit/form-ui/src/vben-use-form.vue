@@ -2,14 +2,11 @@
 import type { ExtendedFormApi, VbenFormProps } from './types';
 
 // import { toRaw, watch } from 'vue';
-
-import { useForwardPriorityValues } from '@vben-core/composables';
+import { nextTick, onMounted, watch } from 'vue';
 // import { isFunction } from '@vben-core/shared/utils';
 
-import { nextTick, onMounted, watch } from 'vue';
-
+import { useForwardPriorityValues } from '@vben-core/composables';
 import { cloneDeep } from '@vben-core/shared/utils';
-
 import { useDebounceFn } from '@vueuse/core';
 
 import FormActions from './components/form-actions.vue';
@@ -55,8 +52,10 @@ function handleKeyDownEnter(event: KeyboardEvent) {
   forward.value.formApi.validateAndSubmitForm();
 }
 
-const handleValuesChangeDebounced = useDebounceFn((newVal) => {
-  forward.value.handleValuesChange?.(cloneDeep(newVal));
+const handleValuesChangeDebounced = useDebounceFn(async () => {
+  forward.value.handleValuesChange?.(
+    cloneDeep(await forward.value.formApi.getValues()),
+  );
   state.value.submitOnChange && forward.value.formApi?.validateAndSubmitForm();
 }, 300);
 

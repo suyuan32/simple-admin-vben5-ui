@@ -9,7 +9,6 @@ import {
   VbenPopover,
   VbenScrollbar,
 } from '@vben-core/shadcn-ui';
-
 import { useToggle } from '@vueuse/core';
 
 interface Props {

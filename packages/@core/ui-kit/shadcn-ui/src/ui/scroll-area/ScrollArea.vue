@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { ScrollAreaRootProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import {
   ScrollAreaCorner,
   ScrollAreaRoot,
-  type ScrollAreaRootProps,
   ScrollAreaViewport,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 import ScrollBar from './ScrollBar.vue';
 

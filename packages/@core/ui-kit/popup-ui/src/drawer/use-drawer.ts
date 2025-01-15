@@ -4,6 +4,7 @@ import type {
   ExtendedDrawerApi,
 } from './drawer';
 
+import { useStore } from '@vben-core/shared/store';
 import {
   defineComponent,
   h,
@@ -14,12 +15,16 @@ import {
   ref,
 } from 'vue';
 
-import { useStore } from '@vben-core/shared/store';
-
 import VbenDrawer from './drawer.vue';
 import { DrawerApi } from './drawer-api';
 
 const USER_DRAWER_INJECT_KEY = Symbol('VBEN_DRAWER_INJECT');
+
+const DEFAULT_DRAWER_PROPS: Partial<DrawerProps> = {};
+
+export function setDefaultDrawerProps(props: Partial<DrawerProps>) {
+  Object.assign(DEFAULT_DRAWER_PROPS, props);
+}
 
 export function useVbenDrawer<
   TParentDrawerProps extends DrawerProps = DrawerProps,
@@ -69,6 +74,7 @@ export function useVbenDrawer<
   const injectData = inject<any>(USER_DRAWER_INJECT_KEY, {});
 
   const mergedOptions = {
+    ...DEFAULT_DRAWER_PROPS,
     ...injectData.options,
     ...options,
   } as DrawerApiOptions;

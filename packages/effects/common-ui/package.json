@@ -34,8 +34,10 @@
     "@vueuse/core": "catalog:",
     "@vueuse/integrations": "catalog:",
     "qrcode": "catalog:",
+    "tippy.js": "catalog:",
     "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "vue-tippy": "catalog:"
   },
   "devDependencies": {
     "@types/qrcode": "catalog:"

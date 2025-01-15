@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import type { PageProps } from './types';
+import type { StyleValue } from 'vue';
 
-import {
-  computed,
-  nextTick,
-  onMounted,
-  ref,
-  type StyleValue,
-  useTemplateRef,
-} from 'vue';
+import type { PageProps } from './types';
 
 import { CSS_VARIABLE_LAYOUT_CONTENT_HEIGHT } from '@vben-core/shared/constants';
 import { cn } from '@vben-core/shared/utils';
+import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 defineOptions({
   name: 'Page',

@@ -1,14 +1,10 @@
 <script lang="ts" setup>
-import { computed, type HTMLAttributes } from 'vue';
+import type { SplitterGroupEmits, SplitterGroupProps } from 'radix-vue';
+import type { HTMLAttributes } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  SplitterGroup,
-  type SplitterGroupEmits,
-  type SplitterGroupProps,
-  useForwardPropsEmits,
-} from 'radix-vue';
+import { SplitterGroup, useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<
   { class?: HTMLAttributes['class'] } & SplitterGroupProps
@@ -25,13 +21,13 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 <template>
   <SplitterGroup
+    v-bind="forwarded"
     :class="
       cn(
         'flex h-full w-full data-[panel-group-direction=vertical]:flex-col',
         props.class,
       )
     "
-    v-bind="forwarded"
   >
     <slot></slot>
   </SplitterGroup>

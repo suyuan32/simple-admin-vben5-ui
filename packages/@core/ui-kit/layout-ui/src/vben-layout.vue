@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type { VbenLayoutProps } from './vben-layout';
-
 import type { CSSProperties } from 'vue';
-import { computed, ref, watch } from 'vue';
+
+import type { VbenLayoutProps } from './vben-layout';
 
 import {
   SCROLL_FIXED_CLASS,
@@ -12,8 +11,8 @@ import {
 import { Menu } from '@vben-core/icons';
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
-
 import { useMouse, useScroll, useThrottleFn } from '@vueuse/core';
+import { computed, ref, watch } from 'vue';
 
 import {
   LayoutContent,

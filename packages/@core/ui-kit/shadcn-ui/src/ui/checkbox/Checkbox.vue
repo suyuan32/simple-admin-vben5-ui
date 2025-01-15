@@ -1,16 +1,14 @@
 <script setup lang="ts">
 import type { CheckboxRootEmits, CheckboxRootProps } from 'radix-vue';
 
-import { computed } from 'vue';
-
 import { cn } from '@vben-core/shared/utils';
-
 import { Check } from 'lucide-vue-next';
 import {
   CheckboxIndicator,
   CheckboxRoot,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & CheckboxRootProps>();
 const emits = defineEmits<CheckboxRootEmits>();

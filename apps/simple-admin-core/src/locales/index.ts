@@ -1,8 +1,6 @@
 import type { LocaleSetupOptions, SupportedLanguagesType } from '@vben/locales';
 import type { Locale } from 'ant-design-vue/es/locale';
-
 import type { App } from 'vue';
-import { ref } from 'vue';
 
 import {
   $t,
@@ -10,10 +8,10 @@ import {
   loadLocalesMapFromDir,
 } from '@vben/locales';
 import { preferences } from '@vben/preferences';
-
 import antdEnLocale from 'ant-design-vue/es/locale/en_US';
 import antdDefaultLocale from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
+import { ref } from 'vue';
 
 const antdLocale = ref<Locale>(antdDefaultLocale);
 

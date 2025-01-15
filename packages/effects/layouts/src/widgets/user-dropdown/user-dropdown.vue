@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { AnyFunction } from '@vben/types';
-
 import type { Component } from 'vue';
-import { computed, useTemplateRef, watch } from 'vue';
 
 import { useHoverToggle } from '@vben/hooks';
 import { LockKeyhole, LogOut } from '@vben/icons';
@@ -23,8 +21,8 @@ import {
   VbenAvatar,
   VbenIcon,
 } from '@vben-core/shadcn-ui';
-
 import { useMagicKeys, whenever } from '@vueuse/core';
+import { computed, useTemplateRef, watch } from 'vue';
 
 import { LockScreenModal } from '../lock-screen';
 

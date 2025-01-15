@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Component, computed } from 'vue';
+import type { Component } from 'vue';
 
 import { IconDefault, IconifyIcon } from '@vben-core/icons';
 import {
@@ -8,6 +8,7 @@ import {
   isObject,
   isString,
 } from '@vben-core/shared/utils';
+import { computed } from 'vue';
 
 const props = defineProps<{
   // 没有是否显示默认图标

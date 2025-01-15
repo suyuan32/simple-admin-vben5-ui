@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { SelectItemProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { Check } from 'lucide-vue-next';
 import {
   SelectItem,
   SelectItemIndicator,
-  type SelectItemProps,
   SelectItemText,
   useForwardProps,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & SelectItemProps>();
 

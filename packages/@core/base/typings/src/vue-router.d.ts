@@ -1,6 +1,5 @@
-import type { Router, RouteRecordRaw } from 'vue-router';
-
 import type { Component } from 'vue';
+import type { Router, RouteRecordRaw } from 'vue-router';
 
 interface RouteMeta {
   /**
@@ -98,6 +97,10 @@ interface RouteMeta {
    * 菜单可以看到，但是访问会被重定向到403
    */
   menuVisibleWithForbidden?: boolean;
+  /**
+   * 不使用基础布局（仅在顶级生效）
+   */
+  noBasicLayout?: boolean;
   /**
    * 在新窗口打开
    */

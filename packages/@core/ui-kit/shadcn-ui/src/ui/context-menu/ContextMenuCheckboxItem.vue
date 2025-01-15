@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type {
+  ContextMenuCheckboxItemEmits,
+  ContextMenuCheckboxItemProps,
+} from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { Check } from 'lucide-vue-next';
 import {
   ContextMenuCheckboxItem,
-  type ContextMenuCheckboxItemEmits,
-  type ContextMenuCheckboxItemProps,
   ContextMenuItemIndicator,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & ContextMenuCheckboxItemProps>();
 const emits = defineEmits<ContextMenuCheckboxItemEmits>();

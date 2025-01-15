@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type {
+  DropdownMenuCheckboxItemEmits,
+  DropdownMenuCheckboxItemProps,
+} from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { Check } from 'lucide-vue-next';
 import {
   DropdownMenuCheckboxItem,
-  type DropdownMenuCheckboxItemEmits,
-  type DropdownMenuCheckboxItemProps,
   DropdownMenuItemIndicator,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & DropdownMenuCheckboxItemProps>();
 const emits = defineEmits<DropdownMenuCheckboxItemEmits>();

@@ -83,11 +83,6 @@ export class DrawerApi {
     bindMethods(this);
   }
 
-  // 如果需要多次更新状态，可以使用 batch 方法
-  batchStore(cb: () => void) {
-    this.store.batch(cb);
-  }
-
   /**
    * 关闭弹窗
    */
@@ -146,6 +141,7 @@ export class DrawerApi {
 
   setData<T>(payload: T) {
     this.sharedData.payload = payload;
+    return this;
   }
 
   setState(
@@ -158,5 +154,6 @@ export class DrawerApi {
     } else {
       this.store.setState((prev) => ({ ...prev, ...stateOrFn }));
     }
+    return this;
   }
 }

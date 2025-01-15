@@ -2,9 +2,8 @@
 import type { MenuRecordRaw } from '@vben/types';
 import type { MenuProps } from '@vben-core/menu-ui';
 
-import { useRoute } from 'vue-router';
-
 import { Menu } from '@vben-core/menu-ui';
+import { useRoute } from 'vue-router';
 
 import { useNavigation } from './use-navigation';
 

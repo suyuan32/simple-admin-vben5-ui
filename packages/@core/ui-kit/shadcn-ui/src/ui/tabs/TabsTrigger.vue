@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { TabsTriggerProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import { TabsTrigger, type TabsTriggerProps, useForwardProps } from 'radix-vue';
+import { TabsTrigger, useForwardProps } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & TabsTriggerProps>();
 

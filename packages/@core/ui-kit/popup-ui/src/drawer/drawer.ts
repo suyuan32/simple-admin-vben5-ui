@@ -1,8 +1,7 @@
 import type { ClassType } from '@vben-core/typings';
+import type { Component, Ref } from 'vue';
 
 import type { DrawerApi } from './drawer-api';
-
-import type { Component, Ref } from 'vue';
 
 export type DrawerPlacement = 'bottom' | 'left' | 'right' | 'top';
 
@@ -86,11 +85,15 @@ export interface DrawerProps {
    */
   openAutoFocus?: boolean;
   /**
+   * 弹窗遮罩模糊效果
+   */
+  overlayBlur?: number;
+
+  /**
    * 抽屉位置
    * @default right
    */
   placement?: DrawerPlacement;
-
   /**
    * 是否显示取消按钮
    * @default true

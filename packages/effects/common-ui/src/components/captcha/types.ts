@@ -1,5 +1,4 @@
 import type { ClassType } from '@vben/types';
-
 import type { CSSProperties } from 'vue';
 
 export interface CaptchaData {

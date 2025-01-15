@@ -3,10 +3,9 @@ import type { TabDefinition } from '@vben-core/typings';
 
 import type { TabConfig, TabsProps } from '../../types';
 
-import { computed } from 'vue';
-
 import { Pin, X } from '@vben-core/icons';
 import { VbenContextMenu, VbenIcon } from '@vben-core/shadcn-ui';
+import { computed } from 'vue';
 
 interface Props extends TabsProps {}
 
@@ -62,6 +61,20 @@ const tabsView = computed(() => {
     } as TabConfig;
   });
 });
+
+function onMouseDown(e: MouseEvent, tab: TabConfig) {
+  if (
+    e.button === 1 &&
+    tab.closable &&
+    !tab.affixTab &&
+    tabsView.value.length > 1 &&
+    props.middleClickToClose
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+    emit('close', tab.key);
+  }
+}
 </script>
 
 <template>
@@ -85,6 +98,7 @@ const tabsView = computed(() => {
         class="tab-item [&:not(.is-active)]:hover:bg-accent translate-all group relative flex cursor-pointer select-none"
         data-tab-item="true"
         @click="active = tab.key"
+        @mousedown="onMouseDown($event, tab)"
       >
         <VbenContextMenu
           :handler-data="tab"

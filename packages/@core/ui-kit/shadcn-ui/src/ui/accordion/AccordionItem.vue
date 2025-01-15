@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { AccordionItemProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  AccordionItem,
-  type AccordionItemProps,
-  useForwardProps,
-} from 'radix-vue';
+import { AccordionItem, useForwardProps } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & AccordionItemProps>();
 

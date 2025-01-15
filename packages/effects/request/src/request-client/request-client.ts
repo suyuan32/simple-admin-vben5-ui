@@ -5,14 +5,14 @@ import type {
   CreateAxiosDefaults,
 } from 'axios';
 
-import { bindMethods, merge } from '@vben/utils';
+import type { RequestClientOptions } from './types';
 
+import { bindMethods, merge } from '@vben/utils';
 import axios from 'axios';
 
 import { FileDownloader } from './modules/downloader';
 import { InterceptorManager } from './modules/interceptor';
 import { FileUploader } from './modules/uploader';
-import { type RequestClientOptions } from './types';
 
 class RequestClient {
   private readonly instance: AxiosInstance;

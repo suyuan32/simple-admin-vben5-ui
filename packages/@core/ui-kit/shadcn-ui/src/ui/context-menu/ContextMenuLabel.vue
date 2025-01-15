@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { ContextMenuLabelProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import { ContextMenuLabel, type ContextMenuLabelProps } from 'radix-vue';
+import { ContextMenuLabel } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<
   { class?: any; inset?: boolean } & ContextMenuLabelProps

@@ -1,11 +1,11 @@
 import type { MenuRecordRaw } from '@vben/types';
-
-import { computed, type ComputedRef, ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import type { ComputedRef } from 'vue';
 
 import { preferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { findRootMenuByPath } from '@vben/utils';
+import { computed, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { useNavigation } from './use-navigation';
 

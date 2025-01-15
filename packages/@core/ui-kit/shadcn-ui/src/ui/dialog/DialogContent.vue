@@ -1,19 +1,16 @@
 <script setup lang="ts">
 import type { ClassType } from '@vben-core/typings';
-
-import { computed, ref } from 'vue';
+import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { X } from 'lucide-vue-next';
 import {
   DialogClose,
   DialogContent,
-  type DialogContentEmits,
-  type DialogContentProps,
   DialogPortal,
   useForwardPropsEmits,
 } from 'radix-vue';
+import { computed, ref } from 'vue';
 
 import DialogOverlay from './DialogOverlay.vue';
 
@@ -25,11 +22,12 @@ const props = withDefaults(
       closeClass?: ClassType;
       modal?: boolean;
       open?: boolean;
+      overlayBlur?: number;
       showClose?: boolean;
       zIndex?: number;
     } & DialogContentProps
   >(),
-  { appendTo: 'body', showClose: true, zIndex: 1000 },
+  { appendTo: 'body', showClose: true },
 );
 const emits = defineEmits<
   { close: []; closed: []; opened: [] } & DialogContentEmits
@@ -82,7 +80,12 @@ defineExpose({
     <Transition name="fade">
       <DialogOverlay
         v-if="open && modal"
-        :style="{ zIndex, position }"
+        :style="{
+          ...(zIndex ? { zIndex } : {}),
+          position,
+          backdropFilter:
+            overlayBlur && overlayBlur > 0 ? `blur(${overlayBlur}px)` : 'none',
+        }"
         @click="() => emits('close')"
       />
     </Transition>
@@ -90,13 +93,13 @@ defineExpose({
       ref="contentRef"
       :class="
         cn(
-          'bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%] w-full p-6 shadow-lg outline-none sm:rounded-xl',
+          'z-popup bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-top-[48%] w-full p-6 shadow-lg outline-none sm:rounded-xl',
           props.class,
         )
       "
       @animationend="onAnimationEnd"
       v-bind="forwarded"
-      :style="{ zIndex, position }"
+      :style="{ ...(zIndex ? { zIndex } : {}), position }"
     >
       <slot></slot>
 

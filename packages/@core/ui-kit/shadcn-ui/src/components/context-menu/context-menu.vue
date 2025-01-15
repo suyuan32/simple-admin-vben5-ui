@@ -8,9 +8,8 @@ import type {
 
 import type { IContextMenuItem } from './interface';
 
-import { computed } from 'vue';
-
 import { useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 import {
   ContextMenu,
@@ -68,7 +67,7 @@ function handleClick(menu: IContextMenuItem) {
     <ContextMenuContent
       :class="contentClass"
       v-bind="contentProps"
-      class="side-content z-[1000]"
+      class="side-content z-popup"
     >
       <template v-for="menu in menusView" :key="menu.key">
         <ContextMenuItem

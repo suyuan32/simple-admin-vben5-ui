@@ -100,17 +100,6 @@ describe('drawerApi', () => {
     expect(onOpenChange).toHaveBeenCalledWith(true);
   });
 
-  it('should batch state updates', () => {
-    const batchSpy = vi.spyOn(drawerApi.store, 'batch');
-    drawerApi.batchStore(() => {
-      drawerApi.setState({ title: 'Batch Title' });
-      drawerApi.setState({ confirmText: 'Batch Confirm' });
-    });
-    expect(batchSpy).toHaveBeenCalled();
-    expect(drawerApi.store.state.title).toBe('Batch Title');
-    expect(drawerApi.store.state.confirmText).toBe('Batch Confirm');
-  });
-
   it('should call onClosed callback when provided', () => {
     const onClosed = vi.fn();
     const drawerApiWithHook = new DrawerApi({ onClosed });

@@ -6,9 +6,8 @@ import type {
   HoverCardRootProps,
 } from 'radix-vue';
 
-import { computed } from 'vue';
-
 import { useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../../ui';
 
@@ -46,7 +45,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
     <HoverCardContent
       :class="contentClass"
       v-bind="contentProps"
-      class="side-content z-[1000]"
+      class="side-content z-popup"
     >
       <slot></slot>
     </HoverCardContent>

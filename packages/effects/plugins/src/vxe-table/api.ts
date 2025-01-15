@@ -3,8 +3,6 @@ import type { VxeGridInstance } from 'vxe-table';
 
 import type { VxeGridProps } from './types';
 
-import { toRaw } from 'vue';
-
 import { Store } from '@vben-core/shared/store';
 import {
   bindMethods,
@@ -13,6 +11,7 @@ import {
   mergeWithArrayOverride,
   StateHandler,
 } from '@vben-core/shared/utils';
+import { toRaw } from 'vue';
 
 function getDefaultState(): VxeGridProps {
   return {

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { ThirdPartyLoginIcon } from './types';
 
+import { Icon } from '@iconify/vue';
 import { $t } from '@vben/locales';
 import { VbenIconButton } from '@vben-core/shadcn-ui';
-
-import { Icon } from '@iconify/vue';
 
 defineOptions({
   name: 'ThirdPartyLogin',

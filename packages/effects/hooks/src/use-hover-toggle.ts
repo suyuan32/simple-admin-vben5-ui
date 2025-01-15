@@ -1,11 +1,9 @@
 import type { Arrayable, MaybeElementRef } from '@vueuse/core';
-
-import { computed, onUnmounted, ref, watch } from 'vue';
 import type { Ref } from 'vue';
 
 import { isFunction } from '@vben/utils';
-
 import { useMouseInElement } from '@vueuse/core';
+import { computed, onUnmounted, ref, watch } from 'vue';
 
 /**
  * 监测鼠标是否在元素内部，如果在元素内部则返回 true，否则返回 false

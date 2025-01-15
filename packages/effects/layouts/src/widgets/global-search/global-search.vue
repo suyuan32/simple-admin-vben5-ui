@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { MenuRecordRaw } from '@vben/types';
 
-import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
-
 import {
   ArrowDown,
   ArrowUp,
@@ -13,8 +11,8 @@ import {
 import { $t } from '@vben/locales';
 import { isWindowsOs } from '@vben/utils';
 import { useVbenModal } from '@vben-core/popup-ui';
-
 import { useMagicKeys, whenever } from '@vueuse/core';
+import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
 import SearchPanel from './search-panel.vue';
 

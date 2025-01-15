@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue';
-import { computed, shallowRef, useSlots, watchEffect } from 'vue';
 
 import { VbenScrollbar } from '@vben-core/shadcn-ui';
-
 import { useScrollLock } from '@vueuse/core';
+import { computed, shallowRef, useSlots, watchEffect } from 'vue';
 
 import { SidebarCollapseButton, SidebarFixedButton } from './widgets';
 

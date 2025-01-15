@@ -1,14 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { SelectScrollDownButtonProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
 import { ChevronDown } from 'lucide-vue-next';
-import {
-  SelectScrollDownButton,
-  type SelectScrollDownButtonProps,
-  useForwardProps,
-} from 'radix-vue';
+import { SelectScrollDownButton, useForwardProps } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & SelectScrollDownButtonProps>();
 

@@ -1,12 +1,11 @@
 <script lang="ts" setup>
 import type { AnyPromiseFunction } from '@vben/types';
-
-import { type Component, computed, ref, unref, useAttrs, watch } from 'vue';
+import type { Component } from 'vue';
 
 import { LoaderCircle } from '@vben/icons';
 import { get, isEqual, isFunction } from '@vben-core/shared/utils';
-
 import { objectOmit } from '@vueuse/core';
+import { computed, ref, unref, useAttrs, watch } from 'vue';
 
 type OptionsItem = {
   [name: string]: any;

@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { PinInputRootEmits, PinInputRootProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  PinInputRoot,
-  type PinInputRootEmits,
-  type PinInputRootProps,
-  useForwardPropsEmits,
-} from 'radix-vue';
+import { PinInputRoot, useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 const props = defineProps<{ class?: any } & PinInputRootProps>();
 const emits = defineEmits<PinInputRootEmits>();

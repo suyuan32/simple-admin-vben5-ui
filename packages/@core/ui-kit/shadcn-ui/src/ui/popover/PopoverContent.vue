@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { PopoverContentEmits, PopoverContentProps } from 'radix-vue';
 
 import { cn } from '@vben-core/shared/utils';
-
-import {
-  PopoverContent,
-  type PopoverContentEmits,
-  type PopoverContentProps,
-  PopoverPortal,
-  useForwardPropsEmits,
-} from 'radix-vue';
+import { PopoverContent, PopoverPortal, useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
 defineOptions({
   inheritAttrs: false,

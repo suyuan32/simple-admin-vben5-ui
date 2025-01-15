@@ -1,16 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import type { ToggleEmits, ToggleProps } from 'radix-vue';
+
+import type { ToggleVariants } from './toggle';
 
 import { cn } from '@vben-core/shared/utils';
+import { Toggle, useForwardPropsEmits } from 'radix-vue';
+import { computed } from 'vue';
 
-import {
-  Toggle,
-  type ToggleEmits,
-  type ToggleProps,
-  useForwardPropsEmits,
-} from 'radix-vue';
-
-import { type ToggleVariants, toggleVariants } from './toggle';
+import { toggleVariants } from './toggle';
 
 const props = withDefaults(
   defineProps<
