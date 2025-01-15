@@ -171,7 +171,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'password',
       label: $t('sys.login.password'),
       component: 'Input',
-      rules: z.string().min(6).max(100),
+      rules: z.string().min(6).max(100).optional(),
     },
     {
       fieldName: 'roleIds',
