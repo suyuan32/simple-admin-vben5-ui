@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import type { SelectValue } from 'ant-design-vue/es/select';
-
-import { computed, type PropType, ref, unref, watch } from 'vue';
-
-import { $t } from '@vben/locales';
-
-import { useVModel } from '@vueuse/core';
-import { Select } from 'ant-design-vue';
-import {
-  type DefaultOptionType,
-  type FilterFunc,
+import type {
+  DefaultOptionType,
+  FilterFunc,
 } from 'ant-design-vue/lib/vc-select/Select';
-import { isFunction, omit } from 'remeda';
+import type { PropType } from 'vue';
 
 import { get } from '#/utils/object';
+import { $t } from '@vben/locales';
+import { useVModel } from '@vueuse/core';
+import { Select } from 'ant-design-vue';
+import { isFunction, omit } from 'remeda';
+import { computed, ref, unref, watch } from 'vue';
 
 type OptionsItem = {
   [name: string]: any;

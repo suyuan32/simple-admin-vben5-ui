@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref, unref, watch } from 'vue';
-
-import { Transfer } from 'ant-design-vue';
-import { type TransferItem } from 'ant-design-vue/lib/transfer';
-import { isFunction, omit } from 'remeda';
+import type { TransferItem } from 'ant-design-vue/lib/transfer';
 
 import { get } from '#/utils/object';
+import { Transfer } from 'ant-design-vue';
+import { isFunction, omit } from 'remeda';
+import { computed, onMounted, ref, unref, watch } from 'vue';
 
 const props = defineProps({
   value: { type: Array<string>, default: undefined },
@@ -117,6 +116,7 @@ function emitChange() {
 
 <template>
   <Transfer
+    v-bind="$attrs"
     :data-source="getdataSource"
     :disabled="disabled"
     :filter-option="filterOption as any"

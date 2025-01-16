@@ -1,16 +1,14 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-
-import { $t } from '@vben/locales';
-
-import { InboxOutlined } from '@ant-design/icons-vue';
-import { useClipboard, useVModel } from '@vueuse/core';
-import { message, type UploadProps } from 'ant-design-vue';
-import { UploadDragger } from 'ant-design-vue';
-import { values } from 'remeda';
+import type { UploadProps } from 'ant-design-vue';
 
 import { uploadCloudFile } from '#/api/fms/cloudFile';
 import { uploadFile } from '#/api/fms/file';
+import { InboxOutlined } from '@ant-design/icons-vue';
+import { $t } from '@vben/locales';
+import { useClipboard, useVModel } from '@vueuse/core';
+import { message, UploadDragger } from 'ant-design-vue';
+import { values } from 'remeda';
+import { ref, watch } from 'vue';
 
 defineOptions({
   name: 'UploadDragger',
@@ -97,6 +95,7 @@ function handleCopyPath(file: any) {
     :multiple="props.multiple"
     :show-upload-list="{ showDownloadIcon: true, showRemoveIcon: false }"
     @download="handleCopyPath"
+    v-bind="$attrs"
   >
     <p class="ant-upload-drag-icon">
       <InboxOutlined />

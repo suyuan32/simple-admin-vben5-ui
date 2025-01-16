@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import { onMounted, ref, watch } from 'vue';
-
-import { useVModel } from '@vueuse/core';
-import { Select } from 'ant-design-vue';
-import { type DefaultOptionType } from 'ant-design-vue/lib/select';
+import type { DefaultOptionType } from 'ant-design-vue/lib/select';
 
 import { useDictionaryStore } from '#/store/dictionary';
+import { useVModel } from '@vueuse/core';
+import { Select } from 'ant-design-vue';
+import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps({
   dictionaryName: {
@@ -59,5 +58,10 @@ async function handleFetch() {
 }
 </script>
 <template>
-  <Select v-model:value="state" :options="options" class="w-full" />
+  <Select
+    v-model:value="state"
+    :options="options"
+    class="w-full"
+    v-bind="$attrs"
+  />
 </template>

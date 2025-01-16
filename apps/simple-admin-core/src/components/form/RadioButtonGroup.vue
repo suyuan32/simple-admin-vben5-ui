@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { computed, type PropType } from 'vue';
+import type { PropType } from 'vue';
 
 import { useVModel } from '@vueuse/core';
 import { Radio } from 'ant-design-vue';
 import { isString } from 'remeda';
+import { computed } from 'vue';
 
 type OptionsItem = {
   disabled?: boolean;

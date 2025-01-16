@@ -1,14 +1,12 @@
 <script lang="ts" setup>
-import { onBeforeUpdate, ref } from 'vue';
-import { Codemirror } from 'vue-codemirror';
-
-import { usePreferences } from '@vben/preferences';
-
 import { json } from '@codemirror/lang-json';
 import { StreamLanguage } from '@codemirror/language';
 import { yaml } from '@codemirror/legacy-modes/mode/yaml';
 import { githubDark, githubLight } from '@uiw/codemirror-theme-github';
+import { usePreferences } from '@vben/preferences';
 import { useVModel } from '@vueuse/core';
+import { onBeforeUpdate, ref } from 'vue';
+import { Codemirror } from 'vue-codemirror';
 
 const props = defineProps({
   value: { type: String, default: undefined },
@@ -65,6 +63,7 @@ function handleValueChange(v: string) {
 </script>
 <template>
   <Codemirror
+    v-bind="$attrs"
     v-model="state"
     :autofocus="true"
     :extensions="extensions"

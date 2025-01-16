@@ -1,26 +1,16 @@
 <script lang="ts" setup>
 import type { UploadFile, UploadProps } from 'ant-design-vue';
-
-import {
-  computed,
-  type PropType,
-  ref,
-  type Ref,
-  toRefs,
-  unref,
-  watch,
-} from 'vue';
-
-import { $t } from '@vben/locales';
-
-import { PlusOutlined } from '@ant-design/icons-vue';
-import { useVModel } from '@vueuse/core';
-import { message, Modal, Upload } from 'ant-design-vue';
-import { type UploadRequestOption } from 'ant-design-vue/lib/vc-upload/interface';
-import { isArray, isObjectType, isString } from 'remeda';
+import type { UploadRequestOption } from 'ant-design-vue/lib/vc-upload/interface';
+import type { PropType, Ref } from 'vue';
 
 import { uploadCloudFile } from '#/api/fms/cloudFile';
 import { uploadFile } from '#/api/fms/file';
+import { PlusOutlined } from '@ant-design/icons-vue';
+import { $t } from '@vben/locales';
+import { useVModel } from '@vueuse/core';
+import { message, Modal, Upload } from 'ant-design-vue';
+import { isArray, isObjectType, isString } from 'remeda';
+import { computed, ref, toRefs, unref, watch } from 'vue';
 
 defineOptions({ name: 'ImageUpload' });
 

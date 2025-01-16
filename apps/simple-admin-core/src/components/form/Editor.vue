@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import type { IEditorConfig } from '@wangeditor-next/editor'; // 引入 css
 
-import { onBeforeUnmount, shallowRef } from 'vue';
-
 import { useAccessStore } from '@vben/stores';
-
 import { useVModel } from '@vueuse/core';
 import { Editor, Toolbar } from '@wangeditor-next/editor-for-vue';
+import { onBeforeUnmount, shallowRef } from 'vue';
 
 import '@wangeditor-next/editor/dist/css/style.css';
 
@@ -80,7 +78,7 @@ editorConfig.MENU_CONF.uploadImage = {
   // 超时时间，默认为 10 秒
   timeout: 5 * 1000, // 5 秒
 
-  customInsert(res: any, insertFn: InsertFnType) {
+  customInsert(res: any, insertFn: any) {
     insertFn(res.data.url, res.data.name, res.data.name);
   },
 };
@@ -92,7 +90,7 @@ onBeforeUnmount(() => {
   editor.destroy();
 });
 
-const handleCreated = (editor) => {
+const handleCreated = (editor: any) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 </script>

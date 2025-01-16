@@ -1,9 +1,8 @@
 <script lang="ts" setup>
-import { ref, watch } from 'vue';
-
 import { useVModel } from '@vueuse/core';
 import { DatePicker, FormItemRest, TimePicker } from 'ant-design-vue';
 import dayjs from 'dayjs';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   timeMode: {
@@ -76,10 +75,16 @@ function handleChange(v: any) {
 }
 </script>
 <template>
-  <DatePicker v-model:value="dateVal" allow-clear @change="handleChange" />
+  <DatePicker
+    v-model:value="dateVal"
+    allow-clear
+    v-bind="$attrs"
+    @change="handleChange"
+  />
 
   <FormItemRest>
     <TimePicker
+      v-bind="$attrs"
       v-if="showTimePicker"
       v-model:value="timeVal"
       allow-clear

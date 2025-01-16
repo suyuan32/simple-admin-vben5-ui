@@ -1,17 +1,15 @@
 <script lang="ts" setup>
 import type { Recordable } from '@vben/types';
 import type { SelectValue } from 'ant-design-vue/es/select';
-
-import { onMounted, type PropType, ref, unref, watch } from 'vue';
-
-import { $t } from '@vben/locales';
-
-import { useVModel } from '@vueuse/core';
-import { TreeSelect } from 'ant-design-vue';
-import { isArray, isFunction } from 'remeda';
+import type { PropType } from 'vue';
 
 import { get } from '#/utils/object';
 import { buildTreeNode } from '#/utils/tree';
+import { $t } from '@vben/locales';
+import { useVModel } from '@vueuse/core';
+import { TreeSelect } from 'ant-design-vue';
+import { isArray, isFunction } from 'remeda';
+import { onMounted, ref, unref, watch } from 'vue';
 
 const props = defineProps({
   value: {
@@ -126,6 +124,7 @@ async function fetch() {
 
 <template>
   <TreeSelect
+    v-bind="$attrs"
     v-model:value="state"
     :multiple="$props.multiple"
     :placeholder="$t('common.chooseText')"
