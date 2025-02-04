@@ -6,6 +6,7 @@ import { EmptyIcon, Grip, listIcons } from '@vben/icons';
 import { $t } from '@vben/locales';
 import {
   Button,
+  Input,
   Pagination,
   PaginationEllipsis,
   PaginationFirst,
@@ -18,12 +19,17 @@ import {
   VbenIconButton,
   VbenPopover,
 } from '@vben-core/shadcn-ui';
-import { refDebounced } from '@vueuse/core';
-import { computed, h, ref, watch, watchEffect } from 'vue';
+import { refDebounced, watchDebounced } from '@vueuse/core';
+import { computed, ref, watch, watchEffect } from 'vue';
+
+import { fetchIconsData } from './icons';
 
 interface Props {
   pageSize?: number;
+  /** 图标集的名字 */
   prefix?: string;
+  /** 是否自动请求API以获得图标集的数据.提供prefix时有效 */
+  autoFetchApi?: boolean;
   /**
    * 图标列表
    */
@@ -36,16 +42,19 @@ interface Props {
   modelValueProp?: string;
   /** 图标样式 */
   iconClass?: string;
+  type?: 'icon' | 'input';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   prefix: 'ant-design',
   pageSize: 36,
   icons: () => [],
-  inputComponent: () => h('div'),
   iconSlot: 'default',
   iconClass: 'size-4',
-  modelValueProp: 'value',
+  autoFetchApi: true,
+  modelValueProp: 'modelValue',
+  inputComponent: undefined,
+  type: 'input',
 });
 
 const emit = defineEmits<{
@@ -59,9 +68,28 @@ const currentSelect = ref('');
 const currentPage = ref(1);
 const keyword = ref('');
 const keywordDebounce = refDebounced(keyword, 300);
+const innerIcons = ref<string[]>([]);
+
+watchDebounced(
+  () => props.prefix,
+  async (prefix) => {
+    if (prefix && prefix !== 'svg' && props.autoFetchApi) {
+      innerIcons.value = await fetchIconsData(prefix);
+    }
+  },
+  { immediate: true, debounce: 500, maxWait: 1000 },
+);
+
 const currentList = computed(() => {
   try {
     if (props.prefix) {
+      if (
+        props.prefix !== 'svg' &&
+        props.autoFetchApi &&
+        props.icons.length === 0
+      ) {
+        return innerIcons.value;
+      }
       const icons = listIcons('', props.prefix);
       if (icons.length === 0) {
         console.warn(`No icons found for prefix: ${props.prefix}`);
@@ -143,18 +171,61 @@ defineExpose({ toggleOpenState, open, close });
     content-class="p-0 pt-3"
   >
     <template #trigger>
-      <component
-        :is="inputComponent"
-        :[modelValueProp]="currentSelect"
-        :placeholder="$t('ui.iconPicker.placeholder')"
-      >
-        <template #[iconSlot]>
-          <VbenIcon :icon="currentSelect || Grip" class="size-4" />
-        </template>
-      </component>
+      <template v-if="props.type === 'input'">
+        <component
+          :is="inputComponent"
+          v-if="props.inputComponent"
+          :[modelValueProp]="currentSelect"
+          :aria-label="$t('ui.iconPicker.placeholder')"
+          :placeholder="$t('ui.iconPicker.placeholder')"
+          aria-expanded="visible"
+          role="combobox"
+          v-bind="$attrs"
+        >
+          <template #[iconSlot]>
+            <VbenIcon
+              :icon="currentSelect || Grip"
+              aria-hidden="true"
+              class="size-4"
+            />
+          </template>
+        </component>
+        <div v-else class="relative w-full">
+          <Input
+            v-model="currentSelect"
+            :aria-label="$t('ui.iconPicker.placeholder')"
+            :placeholder="$t('ui.iconPicker.placeholder')"
+            aria-expanded="visible"
+            class="h-8 w-full pr-8"
+            role="combobox"
+            v-bind="$attrs"
+          />
+          <VbenIcon
+            :icon="currentSelect || Grip"
+            aria-hidden="true"
+            class="absolute right-1 top-1 size-6"
+          />
+        </div>
+      </template>
+      <VbenIcon
+        v-else
+        :icon="currentSelect || Grip"
+        class="size-4"
+        v-bind="$attrs"
+      />
     </template>
     <div class="mb-2 flex w-full">
-      <component :is="inputComponent" v-bind="searchInputProps" />
+      <component
+        :is="inputComponent"
+        v-if="inputComponent"
+        v-bind="searchInputProps"
+      />
+      <Input
+        v-else
+        v-model="keyword"
+        :placeholder="$t('ui.iconPicker.search')"
+        class="mx-2 h-8 w-full"
+      />
     </div>
 
     <template v-if="paginationList.length > 0">
