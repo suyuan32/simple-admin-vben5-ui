@@ -12,12 +12,12 @@ packages:
   - scripts/*
 catalog:
   '@ant-design/icons-vue': ^7.0.1
-  '@ast-grep/napi': ^0.29.0
+  '@ast-grep/napi': ^0.32.3
   '@axolo/tree-array': ^0.6.0
   '@changesets/changelog-github': ^0.5.0
   '@changesets/cli': ^2.27.12
   '@changesets/git': ^3.0.2
-  '@clack/prompts': ^0.7.0
+  '@clack/prompts': ^0.9.1
   '@codemirror/lang-json': ^6.0.1
   '@codemirror/language': ^6.10.8
   '@codemirror/legacy-modes': ^6.4.2
@@ -35,12 +35,12 @@ catalog:
   '@manypkg/get-packages': ^2.2.2
   '@nolebase/vitepress-plugin-git-changelog': ^2.12.1
   '@playwright/test': ^1.50.1
-  '@pnpm/workspace.read-manifest': ^2.2.2
+  '@pnpm/workspace.read-manifest': ^1000.0.1
   '@stylistic/stylelint-plugin': ^3.1.1
   '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
   '@tailwindcss/typography': ^0.5.16
   '@tanstack/vue-query': ^5.65.0
-  '@tanstack/vue-store': ^0.5.8
+  '@tanstack/vue-store': ^0.7.0
   '@types/archiver': ^6.0.3
   '@types/eslint': ^9.6.1
   '@types/html-minifier-terser': ^7.0.2
@@ -74,7 +74,7 @@ catalog:
   axios-mock-adapter: ^2.1.0
   cac: ^6.7.14
   chalk: ^5.4.1
-  cheerio: 1.0.0
+  cheerio: ^1.0.0
   circular-dependency-scanner: ^2.3.0
   class-variance-authority: ^0.7.1
   clsx: ^2.1.1
@@ -90,7 +90,6 @@ catalog:
   depcheck: ^1.4.7
   dotenv: ^16.4.7
   echarts: ^5.6.0
-  element-plus: ^2.9.3
   eslint: ^9.19.0
   eslint-config-turbo: ^2.4.0
   eslint-plugin-command: ^0.2.7
@@ -185,9 +184,9 @@ catalog:
   vue-i18n: ^10.0.5
   vue-router: ^4.5.0
   vue-tippy: ^6.6.0
-  vue-tsc: ^2.2.0
+  vue-tsc: 2.1.10
   vxe-pc-ui: ^4.3.78
-  vxe-table: ^4.10.5
+  vxe-table: 4.10.0
   watermark-js-plus: ^1.5.7
   zod: ^3.24.1
   zod-defaults: ^0.1.3
