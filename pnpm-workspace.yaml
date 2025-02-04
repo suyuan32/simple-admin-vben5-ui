@@ -145,7 +145,7 @@ catalog:
   remeda: ^2.20.1
   resolve.exports: ^2.0.3
   rimraf: ^6.0.1
-  rollup: ^4.34.1
+  rollup: ^4.34.2
   rollup-plugin-visualizer: ^5.14.0
   sass: 1.80.6
   sortablejs: ^1.15.6
