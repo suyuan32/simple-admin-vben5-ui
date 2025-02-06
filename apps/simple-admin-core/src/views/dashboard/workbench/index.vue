@@ -4,13 +4,11 @@ import type {
   WorkbenchQuickNavItem,
 } from '@vben/common-ui';
 
-import { useRouter } from 'vue-router';
-
 import { WorkbenchQuickNav } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { useRouter } from 'vue-router';
 // import { useUserStore } from '@vben/stores';
 import { openWindow } from '@vben/utils';
-
 import { Card, TypographyTitle } from 'ant-design-vue';
 
 // const userStore = useUserStore();
@@ -88,7 +86,7 @@ function navTo(nav: WorkbenchProjectItem | WorkbenchQuickNavItem) {
     <div class="mt-5 flex flex-col lg:flex-row">
       <div class="mr-4 w-full lg:w-3/5">
         <Card :title="$t('sys.sys.version')">
-          <TypographyTitle :level="5"> Simple Admin v1.6.2 </TypographyTitle>
+          <TypographyTitle :level="5"> Simple Admin v1.6.3 </TypographyTitle>
         </Card>
       </div>
       <div class="w-full lg:w-2/5">
