@@ -1,15 +1,12 @@
 <script lang="ts" setup>
 import type { UserInfo } from '#/api/sys/model/userModel';
 
-import { ref } from 'vue';
-
-import { useVbenModal } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { message } from 'ant-design-vue';
-
 import { useVbenForm } from '#/adapter/form';
 import { createUser, updateUser } from '#/api/sys/user';
+import { useVbenModal } from '@vben/common-ui';
+import { $t } from '@vben/locales';
+import { message } from 'ant-design-vue';
+import { ref } from 'vue';
 
 import { dataFormSchemas } from './schema';
 
@@ -22,6 +19,14 @@ const isUpdate = ref(false);
 const gridApi = ref();
 
 async function onSubmit(values: Record<string, any>) {
+  if (
+    isUpdate.value === false &&
+    (values.password === undefined || values.password.length === 0)
+  ) {
+    message.error($t('sys.login.passwordPlaceholder'));
+    return;
+  }
+
   const result = isUpdate.value
     ? await updateUser(values as UserInfo)
     : await createUser(values as UserInfo);
@@ -32,7 +37,7 @@ async function onSubmit(values: Record<string, any>) {
 }
 
 const [Form, formApi] = useVbenForm({
-  handleSubmit: onSubmit,
+  handleSubmit: onSubmit as any,
   schema: [...(dataFormSchemas.schema as any)],
   showDefaultActions: false,
   layout: 'vertical',
@@ -44,7 +49,13 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm: async () => {
-    await formApi.submitForm();
+    const values = await formApi.submitForm();
+    if (
+      isUpdate.value === false &&
+      (values.password === undefined || values.password.length === 0)
+    ) {
+      return;
+    }
     modalApi.close();
   },
   onOpenChange(isOpen: boolean) {
