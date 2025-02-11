@@ -1,19 +1,15 @@
 <script lang="ts" setup>
-import type { BasicOption } from '@vben/types';
-
 import type { VbenFormSchema } from '#/adapter/form';
-
-import { computed, h, ref } from 'vue';
-
-import { AuthenticationLogin, z } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-import { usePreferences } from '@vben/preferences';
-
-import { Image } from 'ant-design-vue';
+import type { BasicOption } from '@vben/types';
 
 import { getCaptcha, getEmailCaptcha, getSmsCaptcha } from '#/api/sys/captcha';
 import { oauthLogin } from '#/api/sys/oauthProvider';
 import { useAuthStore } from '#/store';
+import { AuthenticationLogin, z } from '@vben/common-ui';
+import { $t } from '@vben/locales';
+import { usePreferences } from '@vben/preferences';
+import { Image } from 'ant-design-vue';
+import { computed, h, ref } from 'vue';
 
 defineOptions({ name: 'Login' });
 
@@ -243,7 +239,7 @@ async function handleLogin(values: any) {
 
       break;
     }
-    case 'sms': {
+    case 'mobile': {
       authStore
         .authLogin(
           {
