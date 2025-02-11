@@ -12,6 +12,7 @@ import { Store } from '@vben-core/shared/store';
 import {
   bindMethods,
   createMerge,
+  formatDate,
   isDate,
   isDayjsObject,
   isFunction,
@@ -92,7 +93,6 @@ export class FormApi {
     );
     return values;
   };
-
   // 最后一次点击提交时的表单值
   private latestSubmissionValues: null | Recordable<any> = null;
 
