@@ -1,9 +1,11 @@
 <script lang="ts">
 import { oauthLoginCallback } from '#/api/sys/oauthProvider';
+import { getPermCode } from '#/api/sys/user';
 import { useAuthStore } from '#/store';
+import { DEFAULT_HOME_PATH } from '@vben/constants';
 import { $t } from '@vben/locales';
 import { useAccessStore } from '@vben/stores';
-import { message } from 'ant-design-vue';
+import { message, notification } from 'ant-design-vue';
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -26,6 +28,25 @@ export default defineComponent({
         // save token
         accessStore.setAccessToken(token);
         await authStore.fetchUserInfo();
+        // 获取用户信息并存储到 accessStore 中
+        const [fetchUserInfoResult, accessCodes] = await Promise.all([
+          authStore.fetchUserInfo(),
+          getPermCode(),
+        ]);
+
+        const userInfo = fetchUserInfoResult;
+
+        accessStore.setAccessCodes(accessCodes.data);
+
+        await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
+
+        if (userInfo?.nickname) {
+          notification.success({
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.nickname}`,
+            duration: 3,
+            message: $t('authentication.loginSuccess'),
+          });
+        }
       } catch {
         message.error($t('sys.oauth.createAccount'), 5);
         router.replace('/auth/login');
