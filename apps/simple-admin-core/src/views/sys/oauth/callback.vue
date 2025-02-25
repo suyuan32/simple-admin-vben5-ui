@@ -1,21 +1,17 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { useRouter } from 'vue-router';
-
-import { $t } from '@vben/locales';
-import { useAccessStore } from '@vben/stores';
-
-import { message } from 'ant-design-vue';
-
 import { oauthLoginCallback } from '#/api/sys/oauthProvider';
 import { useAuthStore } from '#/store';
-
-const router = useRouter();
+import { $t } from '@vben/locales';
+import { useAccessStore } from '@vben/stores';
+import { message } from 'ant-design-vue';
+import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'OauthCallbackPage',
   components: {},
   setup() {
+    const router = useRouter();
     const query = ref<string>('');
     query.value += `?state=${router.currentRoute.value.query.state}`;
     query.value += `&code=${router.currentRoute.value.query.code}`;

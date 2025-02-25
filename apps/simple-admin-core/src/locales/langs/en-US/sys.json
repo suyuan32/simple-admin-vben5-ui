@@ -243,7 +243,8 @@
     "header": "Header Mode",
     "callback": "Callback interface",
     "addProvider": "Add Provider",
-    "editProvider": "Edit Provider"
+    "editProvider": "Edit Provider",
+    "createAccount": "Please register an account with this email or bind the email to an account"
   },
   "token": {
     "tokenList": "Token List"

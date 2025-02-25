@@ -243,7 +243,8 @@
     "header": "header模式",
     "callback": "回调接口",
     "addProvider": "添加第三方",
-    "editProvider": "编辑第三方"
+    "editProvider": "编辑第三方",
+    "createAccount": "请创建一个该邮箱的账号或绑定该邮箱到一个账号"
   },
   "token": {
     "tokenList": "Token列表"

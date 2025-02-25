@@ -46,6 +46,14 @@ const coreRoutes: RouteRecordRaw[] = [
     component: InitializationPage,
   },
   {
+    meta: {
+      title: 'Oauth Callback Page',
+    },
+    name: 'Oauth Callback Page',
+    path: '/oauth/login/callback',
+    component: () => import('#/views/sys/oauth/callback.vue'),
+  },
+  {
     component: AuthPageLayout,
     meta: {
       hideInTab: true,
