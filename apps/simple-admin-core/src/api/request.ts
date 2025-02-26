@@ -1,3 +1,4 @@
+import { useAuthStore } from '#/store';
 import { useAppConfig } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
@@ -10,10 +11,7 @@ import {
   RequestClient,
 } from '@vben/request';
 import { useAccessStore } from '@vben/stores';
-
 import { message } from 'ant-design-vue';
-
-import { useAuthStore } from '#/store';
 
 import { refreshTokenApi } from './core';
 
@@ -185,3 +183,10 @@ function createRequestClient(baseURL: string) {
 export const requestClient = createRequestClient(apiURL);
 
 export const baseRequestClient = new RequestClient({ baseURL: apiURL });
+
+export interface PageFetchParams {
+  pageNo?: number;
+  pageSize?: number;
+
+  [key: string]: any;
+}

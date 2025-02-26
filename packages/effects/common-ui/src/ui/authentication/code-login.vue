@@ -67,10 +67,7 @@ async function handleSubmit() {
   const { valid } = await formApi.validate();
   const values = await formApi.getValues();
   if (valid) {
-    emit('submit', {
-      code: values?.code,
-      phoneNumber: values?.phoneNumber,
-    });
+    emit('submit', values);
   }
 }
 

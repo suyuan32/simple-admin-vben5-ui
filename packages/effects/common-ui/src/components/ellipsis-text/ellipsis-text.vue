@@ -2,6 +2,7 @@
 import type { CSSProperties } from 'vue';
 
 import { VbenTooltip } from '@vben-core/shadcn-ui';
+import { useElementSize } from '@vueuse/core';
 import { computed, ref, watchEffect } from 'vue';
 
 interface Props {
@@ -77,11 +78,13 @@ const ellipsis = ref();
 const isExpand = ref(false);
 const defaultTooltipMaxWidth = ref();
 
+const { width: eleWidth } = useElementSize(ellipsis);
+
 watchEffect(
   () => {
-    if (props.tooltip && ellipsis.value) {
+    if (props.tooltip && eleWidth.value) {
       defaultTooltipMaxWidth.value =
-        props.tooltipMaxWidth ?? ellipsis.value.offsetWidth + 24;
+        props.tooltipMaxWidth ?? eleWidth.value + 24;
     }
   },
   { flush: 'post' },
