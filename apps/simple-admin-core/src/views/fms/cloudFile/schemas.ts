@@ -1,15 +1,12 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
-
-import { h } from 'vue';
-
-import { type VbenFormProps } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { Switch } from 'ant-design-vue';
+import type { VbenFormProps } from '@vben/common-ui';
 
 import { updateCloudFile } from '#/api/fms/cloudFile';
 import { getCloudFileTagList } from '#/api/fms/cloudFileTag';
 import { getStorageProviderList } from '#/api/fms/storageProvider';
+import { $t } from '@vben/locales';
+import { Switch } from 'ant-design-vue';
+import { h } from 'vue';
 
 export const tableColumns: VxeGridProps = {
   columns: [
@@ -72,7 +69,11 @@ export const tableColumns: VxeGridProps = {
             checked: e.row.state,
             onClick: () => {
               const newStatus = !e.row.state;
-              updateCloudFile({ id: e.row.id, state: newStatus }).then(() => {
+              updateCloudFile({
+                id: e.row.id,
+                state: newStatus,
+                providerId: e.row.providerId,
+              }).then(() => {
                 e.row.state = newStatus;
               });
             },
