@@ -45,6 +45,10 @@ function getDefaultState(): VbenFormProps {
 }
 
 export class FormApi {
+  /**
+   * 组件实例映射
+   */
+  private componentRefMap: Map<string, unknown> = new Map();
   private handleRangeTimeValue = (originValues: Record<string, any>) => {
     const values = { ...originValues };
     const fieldMappingTime = this.state?.fieldMappingTime;
@@ -93,10 +97,11 @@ export class FormApi {
     );
     return values;
   };
+
   // 最后一次点击提交时的表单值
   private latestSubmissionValues: null | Recordable<any> = null;
-
   private prevState: null | VbenFormProps = null;
+
   // private api: Pick<VbenFormProps, 'handleReset' | 'handleSubmit'>;
   public form = {} as FormActions;
 
@@ -160,6 +165,46 @@ export class FormApi {
     }
   }
 
+  /**
+   * 获取字段组件实例
+   * @param fieldName 字段名
+   * @returns 组件实例
+   */
+  getFieldComponentRef<T = ComponentPublicInstance>(
+    fieldName: string,
+  ): T | undefined {
+    return this.componentRefMap.has(fieldName)
+      ? (this.componentRefMap.get(fieldName) as T)
+      : undefined;
+  }
+
+  /**
+   * 获取当前聚焦的字段，如果没有聚焦的字段则返回undefined
+   */
+  getFocusedField() {
+    for (const fieldName of this.componentRefMap.keys()) {
+      const ref = this.getFieldComponentRef(fieldName);
+      if (ref) {
+        let el: HTMLElement | null = null;
+        if (ref instanceof HTMLElement) {
+          el = ref;
+        } else if (ref.$el instanceof HTMLElement) {
+          el = ref.$el;
+        }
+        if (!el) {
+          continue;
+        }
+        if (
+          el === document.activeElement ||
+          el.contains(document.activeElement)
+        ) {
+          return fieldName;
+        }
+      }
+    }
+    return undefined;
+  }
+
   getLatestSubmissionValues() {
     return this.latestSubmissionValues || {};
   }
@@ -168,9 +213,9 @@ export class FormApi {
     return this.state;
   }
 
-  async getValues() {
+  async getValues<T = Recordable<any>>() {
     const form = await this.getForm();
-    return form.values ? this.handleRangeTimeValue(form.values) : {};
+    return (form.values ? this.handleRangeTimeValue(form.values) : {}) as T;
   }
 
   async isFieldValid(fieldName: string) {
@@ -218,13 +263,14 @@ export class FormApi {
     return proxy;
   }
 
-  mount(formActions: FormActions) {
+  mount(formActions: FormActions, componentRefMap: Map<string, unknown>) {
     if (!this.isMounted) {
       Object.assign(this.form, formActions);
       this.stateHandler.setConditionTrue();
       this.setLatestSubmissionValues({
         ...toRaw(this.handleRangeTimeValue(this.form.values)),
       });
+      this.componentRefMap = componentRefMap;
       this.isMounted = true;
     }
   }
