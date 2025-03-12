@@ -12,7 +12,9 @@
     "isDefault": "是否为默认服务",
     "addEmailProvider": "添加邮件服务",
     "editEmailProvider": "编辑邮件服务",
-    "emailProviderList": "邮件服务列表"
+    "emailProviderList": "邮件服务列表",
+    "authTypeHelp": "通常选择 plain",
+    "passwordHelp": "输入授权码"
   },
   "smsProvider": {
     "name": "短信服务名称",

@@ -12,7 +12,9 @@
     "isDefault": "Default Provider",
     "addEmailProvider": "Add Email Provider",
     "editEmailProvider": "Edit Email Provider",
-    "emailProviderList": "Email Provider List"
+    "emailProviderList": "Email Provider List",
+    "authTypeHelp": "Normally select plain",
+    "passwordHelp": "Input authorization code"
   },
   "smsProvider": {
     "name": "Provider Name",

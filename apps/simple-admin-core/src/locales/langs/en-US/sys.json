@@ -142,7 +142,8 @@
     "pathHelp": "All menus including directories must set the path",
     "permissionHelp": "Permission flags are used to control the display and hiding of page elements",
     "managementCenter": "Admin Center",
-    "menuNameHelp": "Needs to be consistent with the component name to be cached, the default is \"Model Name\" camel case plus \"Management\", such as \"StudentManagement\""
+    "menuNameHelp": "Needs to be consistent with the component name to be cached, the default is \"Model Name\" camel case plus \"Management\", such as \"StudentManagement\"",
+    "iconHelp": "Visit iconify.design to copy the icon"
   },
   "role": {
     "roleList": "Role List",

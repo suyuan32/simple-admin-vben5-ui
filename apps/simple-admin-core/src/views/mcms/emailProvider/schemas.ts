@@ -1,13 +1,10 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
-
-import { h } from 'vue';
-
-import { type VbenFormProps } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { Tag } from 'ant-design-vue';
+import type { VbenFormProps } from '@vben/common-ui';
 
 import { getEmailProviderList } from '#/api/mcms/emailProvider';
+import { $t } from '@vben/locales';
+import { Tag } from 'ant-design-vue';
+import { h } from 'vue';
 
 export const tableColumns: VxeGridProps = {
   columns: [
@@ -90,6 +87,7 @@ export const dataFormSchemas: VbenFormProps = {
         ],
         class: 'w-full',
       },
+      help: $t('mcms.emailProvider.authTypeHelp'),
       rules: 'required',
     },
     {
@@ -115,6 +113,7 @@ export const dataFormSchemas: VbenFormProps = {
           return values.authType === 1;
         },
       },
+      help: $t('mcms.emailProvider.passwordHelp'),
     },
     {
       fieldName: 'hostName',

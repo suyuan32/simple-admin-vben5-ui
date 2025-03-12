@@ -142,7 +142,8 @@
     "pathHelp": "所有菜单包括目录都需要设置路径",
     "permissionHelp": "权限标识用于控制页面元素的显示隐藏",
     "managementCenter": "管理中心",
-    "menuNameHelp": "需要与组件名一致才能缓存，默认为 Model Name 驼峰加 Management, 如 StudentManagement"
+    "menuNameHelp": "需要与组件名一致才能缓存，默认为 Model Name 驼峰加 Management, 如 StudentManagement",
+    "iconHelp": "访问 iconify.design 复制 icon"
   },
   "role": {
     "roleList": "角色列表",
