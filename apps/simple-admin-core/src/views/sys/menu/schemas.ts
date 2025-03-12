@@ -212,6 +212,7 @@ export const dataFormSchemas: VbenFormProps = {
           return formApi.values.menuType === 1;
         },
       },
+      help: $t('sys.menu.iframeHelp'),
     },
     {
       fieldName: 'realPath',

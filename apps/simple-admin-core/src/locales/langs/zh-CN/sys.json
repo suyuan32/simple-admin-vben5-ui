@@ -143,7 +143,8 @@
     "permissionHelp": "权限标识用于控制页面元素的显示隐藏",
     "managementCenter": "管理中心",
     "menuNameHelp": "需要与组件名一致才能缓存，默认为 Model Name 驼峰加 Management, 如 StudentManagement",
-    "iconHelp": "访问 iconify.design 复制 icon"
+    "iconHelp": "访问 iconify.design 复制 icon",
+    "iframeHelp": "组件需设置为IFrame, IFrame地址为网址"
   },
   "role": {
     "roleList": "角色列表",
