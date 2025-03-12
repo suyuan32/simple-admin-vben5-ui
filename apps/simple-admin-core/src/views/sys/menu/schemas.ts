@@ -150,6 +150,7 @@ export const dataFormSchemas: VbenFormProps = {
       label: $t('sys.menu.icon'),
       component: 'Input', // todo: icon picker
       help: $t('sys.menu.iconHelp'),
+      rules: 'required',
     },
     {
       fieldName: 'serviceName',
