@@ -1,14 +1,11 @@
 import type { VxeGridProps } from '#/adapter/vxe-table';
-
-import { h } from 'vue';
-
-import { type VbenFormProps } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { Switch } from 'ant-design-vue';
+import type { VbenFormProps } from '@vben/common-ui';
 
 import { z } from '#/adapter/form';
 import { updateRole } from '#/api/sys/role';
+import { $t } from '@vben/locales';
+import { Switch } from 'ant-design-vue';
+import { h } from 'vue';
 
 export const tableColumns: VxeGridProps = {
   columns: [
@@ -75,33 +72,32 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('sys.role.roleName'),
       component: 'Input',
-      rules: z.string().max(30),
+      rules: 'required',
     },
     {
       fieldName: 'code',
       label: $t('sys.role.roleValue'),
       component: 'Input',
-      rules: z.string().max(20),
+      rules: 'required',
       help: $t('sys.role.roleValueHelpMessage'),
     },
     {
       fieldName: 'defaultRouter',
       label: $t('sys.role.defaultRouter'),
       component: 'Input',
-      rules: z.string().max(80),
+      rules: 'required',
       help: $t('sys.role.defaultRouterHelpMessage'),
     },
     {
       fieldName: 'remark',
       label: $t('common.remark'),
       component: 'Input',
-      rules: z.string().max(200),
     },
     {
       fieldName: 'sort',
       label: $t('sys.menu.order'),
       component: 'InputNumber',
-      rules: z.number().max(10_000),
+      rules: z.number().max(10_000).min(1),
     },
     {
       fieldName: 'status',
