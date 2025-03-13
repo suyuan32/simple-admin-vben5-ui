@@ -1,15 +1,12 @@
 <script lang="ts" setup>
 import type { CloudFileInfo } from '#/api/fms/model/cloudFileModel';
 
-import { ref } from 'vue';
-
-import { useVbenModal } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { message } from 'ant-design-vue';
-
 import { useVbenForm } from '#/adapter/form';
 import { createCloudFile, updateCloudFile } from '#/api/fms/cloudFile';
+import { useVbenModal } from '@vben/common-ui';
+import { $t } from '@vben/locales';
+import { message } from 'ant-design-vue';
+import { ref } from 'vue';
 
 import { dataFormSchemas } from './schemas';
 
@@ -44,8 +41,11 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm: async () => {
-    await formApi.submitForm();
-    modalApi.close();
+    const validationResult = await formApi.validate();
+    if (validationResult.valid) {
+      await formApi.submitForm();
+      modalApi.close();
+    }
   },
   onOpenChange(isOpen: boolean) {
     isUpdate.value = modalApi.getData()?.isUpdate;

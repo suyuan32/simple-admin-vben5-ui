@@ -1,12 +1,10 @@
 <script lang="ts" setup>
-import { useVbenModal } from '@vben/common-ui';
-import { $t } from '@vben/locales';
-
-import { message } from 'ant-design-vue';
-
 import { useVbenForm } from '#/adapter/form';
 import { sendSms } from '#/api/mcms/messageSender';
 import { smsSenderFormSchemas } from '#/views/mcms/smsProvider/schemas';
+import { useVbenModal } from '@vben/common-ui';
+import { $t } from '@vben/locales';
+import { message } from 'ant-design-vue';
 
 defineOptions({
   name: 'SmsSenderFormModal',
@@ -32,8 +30,11 @@ const [Modal, modalApi] = useVbenModal({
     modalApi.close();
   },
   onConfirm: async () => {
-    await formApi.submitForm();
-    modalApi.close();
+    const validationResult = await formApi.validate();
+    if (validationResult.valid) {
+      await formApi.submitForm();
+      modalApi.close();
+    }
   },
   onOpenChange(_isOpen: boolean) {},
   title: $t('mcms.sms.sendSms'),
