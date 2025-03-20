@@ -6,6 +6,12 @@ export default defineConfig(async () => {
     vite: {
       server: {
         proxy: {
+          '/example-api': {
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/example-api/, ''),
+            target: 'http://localhost:8081/',
+            ws: true,
+          },
           '/fms-api': {
             changeOrigin: true,
             rewrite: (path) => path.replace(/^\/fms-api/, ''),

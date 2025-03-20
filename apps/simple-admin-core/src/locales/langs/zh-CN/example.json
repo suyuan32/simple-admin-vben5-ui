@@ -1,0 +1,19 @@
+{
+  "student": {
+    "status": "状态",
+    "name": "姓名",
+    "age": "年龄",
+    "address": "地址",
+    "score": "分数",
+    "weight": "体重",
+    "healthy": "健康",
+    "code": "学生代码",
+    "identifyId": "身份证号",
+    "height": "身高",
+    "expiredAt": "过期时间",
+    "studentNumber": "学生编号",
+    "addStudent": "添加学生",
+    "editStudent": "编辑学生",
+    "studentList": "学生列表"
+  }
+}

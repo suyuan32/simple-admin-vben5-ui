@@ -1,0 +1,19 @@
+{
+   "student": {
+    "status": "Status",
+    "name": "Name",
+    "age": "Age",
+    "address": "Address",
+    "score": "Score",
+    "weight": "Weight",
+    "healthy": "Healthy",
+    "code": "Code",
+    "identifyId": "Identify ID",
+    "height": "Height",
+    "expiredAt": "Expired At",
+    "studentNumber": "Student Number",
+    "addStudent": "Add Student",
+    "editStudent": "Edit Student",
+    "studentList": "Student List"
+  }
+}
