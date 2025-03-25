@@ -72,6 +72,12 @@ const [Form, formApi] = useTableForm({
   compact: true,
   handleSubmit: async () => {
     const formValues = await formApi.getValues();
+    const keys = Object.keys(formValues);
+    keys.forEach((key) => {
+      if (formValues[key] === '') {
+        formValues[key] = undefined;
+      }
+    });
     formApi.setLatestSubmissionValues(toRaw(formValues));
     props.api.reload(formValues);
   },
