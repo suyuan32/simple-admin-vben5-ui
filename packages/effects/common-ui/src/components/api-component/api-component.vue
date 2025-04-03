@@ -80,7 +80,7 @@ const emit = defineEmits<{
 const modelValue = defineModel({ default: '' });
 
 const attrs = useAttrs();
-
+const innerParams = ref({});
 const refOptions = ref<OptionsItem[]>([]);
 const loading = ref(false);
 // 首次是否加载过了
@@ -171,8 +171,15 @@ async function handleFetchForVisible(visible: boolean) {
   }
 }
 
+const params = computed(() => {
+  return {
+    ...props.params,
+    ...unref(innerParams),
+  };
+});
+
 watch(
-  () => props.params,
+  params,
   (value, oldValue) => {
     if (isEqual(value, oldValue)) {
       return;
@@ -185,10 +192,20 @@ watch(
 function emitChange() {
   emit('optionsChange', unref(getOptions));
 }
+const componentRef = ref();
+defineExpose({
+  /** 获取被包装的组件实例 */
+  getComponentRef: <T = any,>() => componentRef.value as T,
+  /** 更新Api参数 */
+  updateParam(newParams: Record<string, any>) {
+    innerParams.value = newParams;
+  },
+});
 </script>
 <template>
   <component
     :is="component"
+    ref="componentRef"
     :placeholder="$attrs.placeholder"
     v-bind="bindProps"
   >

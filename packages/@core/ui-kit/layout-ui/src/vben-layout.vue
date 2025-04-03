@@ -47,8 +47,10 @@ const props = withDefaults(defineProps<Props>(), {
   headerVisible: true,
   isMobile: false,
   layout: 'sidebar-nav',
+  sidebarCollapsedButton: true,
   sidebarCollapseShowTitle: false,
   sidebarExtraCollapsedWidth: 60,
+  sidebarFixedButton: true,
   sidebarHidden: false,
   sidebarMixedWidth: 80,
   sidebarTheme: 'dark',
@@ -485,6 +487,8 @@ const idMainContent = ELEMENT_ID_MAIN_CONTENT;
       v-model:expand-on-hovering="sidebarExpandOnHovering"
       v-model:extra-collapse="sidebarExtraCollapse"
       v-model:extra-visible="sidebarExtraVisible"
+      :show-collapse-button="sidebarCollapsedButton"
+      :show-fixed-button="sidebarFixedButton"
       :collapse-width="getSideCollapseWidth"
       :dom-visible="!isMobile"
       :extra-width="sidebarExtraWidth"

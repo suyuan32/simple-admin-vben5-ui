@@ -32,7 +32,7 @@ async function generateRoutesByBackend(
     return routes;
   } catch (error) {
     console.error(error);
-    return [];
+    throw error;
   }
 }
 

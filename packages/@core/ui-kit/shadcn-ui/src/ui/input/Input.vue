@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { cn } from '@vben-core/shared/utils';
-
 import { useVModel } from '@vueuse/core';
 
 const props = defineProps<{
@@ -30,3 +29,8 @@ const modelValue = useVModel(props, 'modelValue', emits, {
     "
   />
 </template>
+<style lang="scss" scoped>
+input {
+  --ring: var(--primary);
+}
+</style>

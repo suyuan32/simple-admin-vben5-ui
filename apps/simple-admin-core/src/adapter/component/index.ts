@@ -50,6 +50,7 @@ import { defineComponent, getCurrentInstance, h, ref } from 'vue';
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
   type: 'input' | 'select',
+  componentProps: Recordable<any> = {},
 ) => {
   return defineComponent({
     inheritAttrs: false,
@@ -72,7 +73,11 @@ const withDefaultPlaceholder = <T extends Component>(
         }
       });
       return () =>
-        h(component, { ...props, ...attrs, placeholder, ref: innerRef }, slots);
+        h(
+          component,
+          { ...componentProps, placeholder, ...props, ...attrs, ref: innerRef },
+          slots,
+        );
     },
   });
 };
@@ -131,19 +136,11 @@ async function initComponentAdapter() {
       return h(Button, { ...props, attrs, type: 'default' }, slots);
     },
     Divider,
-    IconPicker: (props, { attrs, slots }) => {
-      return h(
-        IconPicker,
-        {
-          iconSlot: 'addonAfter',
-          inputComponent: Input,
-          modelValueProp: 'value',
-          ...props,
-          ...attrs,
-        },
-        slots,
-      );
-    },
+    IconPicker: withDefaultPlaceholder(IconPicker, 'select', {
+      iconSlot: 'addonAfter',
+      inputComponent: Input,
+      modelValueProp: 'value',
+    }),
     Input: withDefaultPlaceholder(Input, 'input'),
     InputNumber: withDefaultPlaceholder(InputNumber, 'input'),
     InputPassword: withDefaultPlaceholder(InputPassword, 'input'),

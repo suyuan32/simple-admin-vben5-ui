@@ -69,7 +69,7 @@ async function generateMenus(
   });
 
   // 对菜单进行排序
-  menus = menus.sort((a, b) => (a.sort || 999) - (b.sort || 999));
+  menus = menus.sort((a, b) => (a?.sort ?? 999) - (b?.sort ?? 999));
 
   const finalMenus = filterTree(menus, (menu) => {
     return !!menu.show;
