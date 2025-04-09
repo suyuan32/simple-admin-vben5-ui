@@ -4,11 +4,11 @@ import type { Arrayable } from '@vueuse/core';
 import type { ValueType, VbenButtonGroupProps } from './button';
 
 import { Circle, CircleCheckBig, LoaderCircle } from '@vben-core/icons';
-import { VbenRenderContent } from '@vben-core/shadcn-ui';
 import { cn, isFunction } from '@vben-core/shared/utils';
 import { objectOmit } from '@vueuse/core';
 import { computed, ref, watch } from 'vue';
 
+import { VbenRenderContent } from '../render-content';
 import Button from './button.vue';
 import VbenButtonGroup from './button-group.vue';
 
@@ -93,8 +93,8 @@ async function onBtnClick(value: ValueType) {
 </script>
 <template>
   <VbenButtonGroup
-    :gap="props.gap"
     :size="props.size"
+    :gap="props.gap"
     class="vben-check-button-group"
   >
     <Button
@@ -106,14 +106,14 @@ async function onBtnClick(value: ValueType) {
         loadingValues.includes(btn.value) ||
         (!props.multiple && loadingValues.length > 0)
       "
-      :variant="innerValue.includes(btn.value) ? 'default' : 'outline'"
       v-bind="btnDefaultProps"
+      :variant="innerValue.includes(btn.value) ? 'default' : 'outline'"
       @click="onBtnClick(btn.value)"
     >
       <div v-if="props.showIcon" class="icon-wrapper">
         <LoaderCircle
-          v-if="loadingValues.includes(btn.value)"
           class="animate-spin"
+          v-if="loadingValues.includes(btn.value)"
         />
         <CircleCheckBig v-else-if="innerValue.includes(btn.value)" />
         <Circle v-else />
