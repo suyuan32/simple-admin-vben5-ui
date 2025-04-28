@@ -23,7 +23,7 @@ import {
 import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
-import { computed, nextTick, provide, ref, useId, watch } from 'vue';
+import { computed, nextTick, provide, ref, unref, useId, watch } from 'vue';
 
 import { useModalDraggable } from './use-modal-draggable';
 
@@ -33,6 +33,7 @@ interface Props extends ModalProps {
 
 const props = withDefaults(defineProps<Props>(), {
   appendToMain: false,
+  destroyOnClose: true,
   modalApi: undefined,
 });
 
@@ -66,6 +67,7 @@ const {
   confirmText,
   contentClass,
   description,
+  destroyOnClose,
   draggable,
   footer: showFooter,
   footerClass,
@@ -99,10 +101,15 @@ const { dragging, transform } = useModalDraggable(
   shouldDraggable,
 );
 
+const firstOpened = ref(false);
+const isClosed = ref(true);
+
 watch(
   () => state?.value?.isOpen,
   async (v) => {
     if (v) {
+      isClosed.value = false;
+      if (!firstOpened.value) firstOpened.value = true;
       await nextTick();
       if (!contentRef.value) return;
       const innerContentRef = contentRef.value.getContentRef();
@@ -112,6 +119,7 @@ watch(
       dialogRef.value.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     }
   },
+  { immediate: true },
 );
 
 watch(
@@ -175,6 +183,15 @@ const getAppendTo = computed(() => {
     ? `#${ELEMENT_ID_MAIN_CONTENT}>div:not(.absolute)>div`
     : undefined;
 });
+
+const getForceMount = computed(() => {
+  return !unref(destroyOnClose) && unref(firstOpened);
+});
+
+function handleClosed() {
+  isClosed.value = true;
+  props.modalApi?.onClosed();
+}
 </script>
 <template>
   <Dialog
@@ -196,18 +213,20 @@ const getAppendTo = computed(() => {
               shouldFullscreen,
             'top-1/2 !-translate-y-1/2': centered && !shouldFullscreen,
             'duration-300': !dragging,
+            hidden: isClosed,
           },
         )
       "
+      :close-disabled="submitting"
       :modal="modal"
       :open="state?.isOpen"
-      :close-disabled="submitting"
+      :force-mount="getForceMount"
       :z-index="zIndex"
       :overlay-blur="overlayBlur"
       close-class="top-3"
       @close-auto-focus="handleFocusOutside"
-      @closed="() => modalApi?.onClosed()"
       :show-close="closable"
+      @closed="handleClosed"
       @escape-key-down="escapeKeyDown"
       @focus-outside="handleFocusOutside"
       @interact-outside="interactOutside"
@@ -301,7 +320,7 @@ const getAppendTo = computed(() => {
               {{ cancelText || $t('cancel') }}
             </slot>
           </component>
-
+          <slot name="center-footer"></slot>
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"

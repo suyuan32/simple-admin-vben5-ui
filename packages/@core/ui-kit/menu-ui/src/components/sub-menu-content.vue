@@ -1,16 +1,15 @@
 <script lang="ts" setup>
 import type { MenuItemProps } from '../types';
 
-import { computed } from 'vue';
-
 import { useNamespace } from '@vben-core/composables';
 import { ChevronDown, ChevronRight } from '@vben-core/icons';
 import { VbenIcon } from '@vben-core/shadcn-ui';
+import { computed } from 'vue';
 
 import { useMenuContext } from '../hooks';
 
 interface Props extends MenuItemProps {
-  isMenuMore: boolean;
+  isMenuMore?: boolean;
   isTopLevelMenuSubmenu: boolean;
   level?: number;
 }

@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import type { SegmentedItem } from './types';
 
-import { computed } from 'vue';
-
 import { TabsTrigger } from 'radix-vue';
+import { computed } from 'vue';
 
 import { Tabs, TabsContent, TabsList } from '../../ui';
 import TabsIndicator from './tabs-indicator.vue';
 
 interface Props {
   defaultValue?: string;
-  tabs: SegmentedItem[];
+  tabs?: SegmentedItem[];
 }
 
 const props = withDefaults(defineProps<Props>(), {

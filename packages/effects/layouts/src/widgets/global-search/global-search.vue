@@ -21,7 +21,7 @@ defineOptions({
 });
 
 const props = withDefaults(
-  defineProps<{ enableShortcutKey?: boolean; menus: MenuRecordRaw[] }>(),
+  defineProps<{ enableShortcutKey?: boolean; menus?: MenuRecordRaw[] }>(),
   {
     enableShortcutKey: true,
     menus: () => [],

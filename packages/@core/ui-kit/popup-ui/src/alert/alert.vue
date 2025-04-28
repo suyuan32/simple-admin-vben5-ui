@@ -25,7 +25,9 @@ import {
 } from '@vben-core/shadcn-ui';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
-import { computed, h, nextTick, ref, watch } from 'vue';
+import { computed, h, nextTick, ref } from 'vue';
+
+import { provideAlertContext } from './alert';
 
 const props = withDefaults(defineProps<AlertProps>(), {
   bordered: true,
@@ -38,14 +40,16 @@ const open = defineModel<boolean>('open', { default: false });
 const { $t } = useSimpleLocale();
 const components = globalShareState.getComponents();
 const isConfirm = ref(false);
-watch(open, async (val) => {
-  await nextTick();
-  if (val) {
-    isConfirm.value = false;
-  } else {
-    emits('closed', isConfirm.value);
-  }
-});
+
+function onAlertClosed() {
+  emits('closed', isConfirm.value);
+  isConfirm.value = false;
+}
+
+function onEscapeKeyDown() {
+  isConfirm.value = false;
+}
+
 const getIconRender = computed(() => {
   let iconRender: Component | null = null;
   if (props.icon) {
@@ -88,6 +92,22 @@ const getIconRender = computed(() => {
   }
   return iconRender;
 });
+
+function doCancel() {
+  handleCancel();
+  handleOpenChange(false);
+}
+
+function doConfirm() {
+  handleConfirm();
+  handleOpenChange(false);
+}
+
+provideAlertContext({
+  doCancel,
+  doConfirm,
+});
+
 function handleConfirm() {
   isConfirm.value = true;
   emits('confirm');
@@ -99,6 +119,7 @@ function handleCancel() {
 
 const loading = ref(false);
 async function handleOpenChange(val: boolean) {
+  await nextTick(); // 等待标记isConfirm状态
   if (!val && props.beforeClose) {
     loading.value = true;
     try {
@@ -117,31 +138,33 @@ async function handleOpenChange(val: boolean) {
 <template>
   <AlertDialog :open="open" @update:open="handleOpenChange">
     <AlertDialogContent
-      :centered="centered"
       :class="
         cn(
           containerClass,
-          'left-0 right-0 top-[10vh] mx-auto flex max-h-[80%] flex-col p-0 duration-300 sm:rounded-[var(--radius)] md:w-[520px] md:max-w-[80%]',
+          'left-0 right-0 mx-auto flex max-h-[80%] flex-col p-0 duration-300 sm:rounded-[var(--radius)] md:w-[520px] md:max-w-[80%]',
           {
             'border-border border': bordered,
             'shadow-3xl': !bordered,
-            'top-1/2 !-translate-y-1/2': centered,
           },
         )
       "
+      :centered="centered"
       :open="open"
+      :overlay-blur="overlayBlur"
+      @closed="onAlertClosed"
       @opened="emits('opened')"
+      @escape-key-down="onEscapeKeyDown"
     >
       <div :class="cn('relative flex-1 overflow-y-auto p-3', contentClass)">
         <AlertDialogTitle v-if="title">
           <div class="flex items-center">
             <component :is="getIconRender" class="mr-2" />
             <span class="flex-auto">{{ $t(title) }}</span>
-            <AlertDialogCancel v-if="showCancel">
+            <AlertDialogCancel v-if="showCancel" as-child>
               <VbenButton
                 :disabled="loading"
-                class="rounded-full"
                 size="icon"
+                class="rounded-full"
                 variant="ghost"
                 @click="handleCancel"
               >
@@ -151,22 +174,27 @@ async function handleOpenChange(val: boolean) {
           </div>
         </AlertDialogTitle>
         <AlertDialogDescription>
-          <div class="m-4 mb-6 min-h-[30px]">
+          <div class="m-4 min-h-[30px]">
             <VbenRenderContent :content="content" render-br />
           </div>
           <VbenLoading v-if="loading && contentMasking" :spinning="loading" />
         </AlertDialogDescription>
-        <div :class="`justify-${buttonAlign}`" class="flex justify-end gap-x-2">
-          <AlertDialogCancel v-if="showCancel" :disabled="loading">
+        <div
+          :class="`justify-${buttonAlign}`"
+          class="flex items-center justify-end gap-x-2"
+        >
+          <VbenRenderContent :content="footer" />
+          <AlertDialogCancel v-if="showCancel" as-child>
             <component
               :is="components.DefaultButton || VbenButton"
+              :disabled="loading"
               variant="ghost"
               @click="handleCancel"
             >
               {{ cancelText || $t('cancel') }}
             </component>
           </AlertDialogCancel>
-          <AlertDialogAction>
+          <AlertDialogAction as-child>
             <component
               :is="components.PrimaryButton || VbenButton"
               :loading="loading"

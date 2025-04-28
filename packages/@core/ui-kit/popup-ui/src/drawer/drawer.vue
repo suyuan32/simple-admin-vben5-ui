@@ -25,7 +25,7 @@ import {
 import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
-import { computed, provide, ref, useId, watch } from 'vue';
+import { computed, provide, ref, unref, useId, watch } from 'vue';
 
 interface Props extends DrawerProps {
   drawerApi?: ExtendedDrawerApi;
@@ -34,6 +34,7 @@ interface Props extends DrawerProps {
 const props = withDefaults(defineProps<Props>(), {
   appendToMain: false,
   closeIconPlacement: 'right',
+  destroyOnClose: true,
   drawerApi: undefined,
   submitting: false,
   zIndex: 1000,
@@ -62,6 +63,7 @@ const {
   confirmText,
   contentClass,
   description,
+  destroyOnClose,
   footer: showFooter,
   footerClass,
   header: showHeader,
@@ -130,6 +132,29 @@ const getAppendTo = computed(() => {
     ? `#${ELEMENT_ID_MAIN_CONTENT}>div:not(.absolute)>div`
     : undefined;
 });
+
+/**
+ * destroyOnClose功能完善
+ */
+// 是否打开过
+const hasOpened = ref(false);
+const isClosed = ref(true);
+watch(
+  () => state?.value?.isOpen,
+  (value) => {
+    isClosed.value = false;
+    if (value && !unref(hasOpened)) {
+      hasOpened.value = true;
+    }
+  },
+);
+function handleClosed() {
+  isClosed.value = true;
+  props.drawerApi?.onClosed();
+}
+const getForceMount = computed(() => {
+  return !unref(destroyOnClose) && unref(hasOpened);
+});
 </script>
 <template>
   <Sheet
@@ -143,15 +168,17 @@ const getAppendTo = computed(() => {
         cn('flex w-[520px] flex-col', drawerClass, {
           '!w-full': isMobile || placement === 'bottom' || placement === 'top',
           'max-h-[100vh]': placement === 'bottom' || placement === 'top',
+          hidden: isClosed,
         })
       "
       :modal="modal"
       :open="state?.isOpen"
       :side="placement"
       :z-index="zIndex"
+      :force-mount="getForceMount"
       :overlay-blur="overlayBlur"
       @close-auto-focus="handleFocusOutside"
-      @closed="() => drawerApi?.onClosed()"
+      @closed="handleClosed"
       @escape-key-down="escapeKeyDown"
       @focus-outside="handleFocusOutside"
       @interact-outside="interactOutside"
@@ -273,7 +300,7 @@ const getAppendTo = computed(() => {
               {{ cancelText || $t('cancel') }}
             </slot>
           </component>
-
+          <slot name="center-footer"></slot>
           <component
             :is="components.PrimaryButton || VbenButton"
             v-if="showConfirmButton"

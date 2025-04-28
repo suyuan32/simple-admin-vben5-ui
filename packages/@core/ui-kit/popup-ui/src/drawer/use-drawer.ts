@@ -20,7 +20,9 @@ import { DrawerApi } from './drawer-api';
 
 const USER_DRAWER_INJECT_KEY = Symbol('VBEN_DRAWER_INJECT');
 
-const DEFAULT_DRAWER_PROPS: Partial<DrawerProps> = {};
+const DEFAULT_DRAWER_PROPS: Partial<DrawerProps> = {
+  destroyOnClose: true,
+};
 
 export function setDefaultDrawerProps(props: Partial<DrawerProps>) {
   Object.assign(DEFAULT_DRAWER_PROPS, props);

@@ -11,7 +11,7 @@ import { useRouter } from 'vue-router';
 import Title from './auth-title.vue';
 
 interface Props {
-  formSchema: VbenFormSchema[];
+  formSchema?: VbenFormSchema[];
   /**
    * @zh_CN 是否处于加载处理状态
    */
