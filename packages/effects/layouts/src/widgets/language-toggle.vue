@@ -11,7 +11,8 @@ defineOptions({
   name: 'LanguageToggle',
 });
 
-async function handleUpdate(value: string) {
+async function handleUpdate(value: string | undefined) {
+  if (!value) return;
   const locale = value as SupportedLanguagesType;
   updatePreferences({
     app: {

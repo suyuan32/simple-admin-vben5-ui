@@ -2,8 +2,8 @@
 import { oauthLoginCallback } from '#/api/sys/oauthProvider';
 import { getPermCode } from '#/api/sys/user';
 import { useAuthStore } from '#/store';
-import { DEFAULT_HOME_PATH } from '@vben/constants';
 import { $t } from '@vben/locales';
+import { preferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { message, notification } from 'ant-design-vue';
 import { defineComponent, ref } from 'vue';
@@ -38,7 +38,9 @@ export default defineComponent({
 
         accessStore.setAccessCodes(accessCodes.data);
 
-        await router.push(userInfo?.homePath || DEFAULT_HOME_PATH);
+        await router.push(
+          userInfo?.homePath || preferences.app.defaultHomePath,
+        );
 
         if (userInfo?.nickname) {
           notification.success({

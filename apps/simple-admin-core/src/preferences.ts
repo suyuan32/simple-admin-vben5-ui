@@ -12,6 +12,7 @@ export const overridesPreferences = defineOverridesPreferences({
     defaultAvatar:
       'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
     accessMode: 'backend',
+    defaultHomePath: '/dashboard',
   },
   logo: {
     enable: true,

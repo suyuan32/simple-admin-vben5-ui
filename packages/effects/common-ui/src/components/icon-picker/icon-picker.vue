@@ -19,8 +19,9 @@ import {
   VbenIconButton,
   VbenPopover,
 } from '@vben-core/shadcn-ui';
-import { refDebounced, watchDebounced } from '@vueuse/core';
-import { computed, ref, watch, watchEffect } from 'vue';
+import { isFunction } from '@vben-core/shared/utils';
+import { objectOmit, refDebounced, watchDebounced } from '@vueuse/core';
+import { computed, ref, useAttrs, watch, watchEffect } from 'vue';
 
 import { fetchIconsData } from './icons';
 
@@ -60,6 +61,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   change: [string];
 }>();
+
+const attrs = useAttrs();
 
 const modelValue = defineModel({ default: '', type: String });
 
@@ -162,62 +165,75 @@ const searchInputProps = computed(() => {
   };
 });
 
+function updateCurrentSelect(v: string) {
+  currentSelect.value = v;
+  const eventKey = `onUpdate:${props.modelValueProp}`;
+  if (attrs[eventKey] && isFunction(attrs[eventKey])) {
+    attrs[eventKey](v);
+  }
+}
+const getBindAttrs = computed(() => {
+  return objectOmit(attrs, [`onUpdate:${props.modelValueProp}`]);
+});
+
 defineExpose({ toggleOpenState, open, close });
 </script>
 <template>
   <VbenPopover
     v-model:open="visible"
     :content-props="{ align: 'end', alignOffset: -11, sideOffset: 8 }"
-    content-class="p-0 pt-3"
+    content-class="p-0 pt-3 w-full"
+    trigger-class="w-full"
   >
     <template #trigger>
       <template v-if="props.type === 'input'">
         <component
-          :is="inputComponent"
           v-if="props.inputComponent"
+          :is="inputComponent"
           :[modelValueProp]="currentSelect"
-          :aria-label="$t('ui.iconPicker.placeholder')"
+          :[`onUpdate:${modelValueProp}`]="updateCurrentSelect"
           :placeholder="$t('ui.iconPicker.placeholder')"
+          :aria-label="$t('ui.iconPicker.placeholder')"
           aria-expanded="visible"
           role="combobox"
-          v-bind="$attrs"
+          v-bind="getBindAttrs"
         >
           <template #[iconSlot]>
             <VbenIcon
               :icon="currentSelect || Grip"
-              aria-hidden="true"
               class="size-4"
+              aria-hidden="true"
             />
           </template>
         </component>
         <div v-else class="relative w-full">
           <Input
-            v-model="currentSelect"
             :aria-label="$t('ui.iconPicker.placeholder')"
+            v-model="currentSelect"
             :placeholder="$t('ui.iconPicker.placeholder')"
-            aria-expanded="visible"
             class="h-8 w-full pr-8"
             role="combobox"
+            aria-expanded="visible"
             v-bind="$attrs"
           />
           <VbenIcon
             :icon="currentSelect || Grip"
-            aria-hidden="true"
             class="absolute right-1 top-1 size-6"
+            aria-hidden="true"
           />
         </div>
       </template>
       <VbenIcon
-        v-else
         :icon="currentSelect || Grip"
+        v-else
         class="size-4"
         v-bind="$attrs"
       />
     </template>
     <div class="mb-2 flex w-full">
       <component
-        :is="inputComponent"
         v-if="inputComponent"
+        :is="inputComponent"
         v-bind="searchInputProps"
       />
       <Input

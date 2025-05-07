@@ -1,7 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router';
 
+import { LOGIN_PATH } from '@vben/constants';
+import { preferences } from '@vben/preferences';
+
 import { $t } from '#/locales';
-import { DEFAULT_HOME_PATH, LOGIN_PATH } from '@vben/constants';
 
 const BasicLayout = () => import('#/layouts/basic.vue');
 const AuthPageLayout = () => import('#/layouts/auth.vue');
@@ -33,7 +35,7 @@ const coreRoutes: RouteRecordRaw[] = [
     },
     name: 'Root',
     path: '/',
-    redirect: DEFAULT_HOME_PATH,
+    redirect: preferences.app.defaultHomePath,
     children: [],
   },
   {
