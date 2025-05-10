@@ -1,0 +1,17 @@
+{
+  "provider": {
+    "name": "Name",
+    "providerType": "Provider Type",
+    "appid": "App ID",
+    "mchid": "Mch ID",
+    "serialNo": "Serial No",
+    "apiKey": "Api Key",
+    "privateKey": "Private Key",
+    "alipayAppCert": "Alipay App Cert",
+    "alipayRootCert": "Alipay Root Cert",
+    "alipayPublicCert": "Alipay Public Cert",
+    "addProvider": "Add Payment Provider",
+    "editProvider": "Edit Payment Provider",
+    "providerList": "Payment Provider List"
+  }
+}

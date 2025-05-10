@@ -1,0 +1,17 @@
+{
+  "provider": {
+    "name": "名称",
+    "providerType": "类型",
+    "appid": "App ID",
+    "mchid": "商户号",
+    "serialNo": "序列号",
+    "apiKey": "Api Key",
+    "privateKey": "Private Key",
+    "alipayAppCert": "Alipay App Cert",
+    "alipayRootCert": "Alipay Root Cert",
+    "alipayPublicCert": "Alipay Public Cert",
+    "addProvider": "添加支付提供商",
+    "editProvider": "编辑支付提供商",
+    "providerList": "支付提供商列表"
+  }
+}

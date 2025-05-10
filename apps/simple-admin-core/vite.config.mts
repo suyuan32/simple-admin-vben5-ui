@@ -31,6 +31,12 @@ export default defineConfig(async () => {
             target: 'http://localhost:9100/',
             ws: true,
           },
+          '/payment-api': {
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/payment-api/, ''),
+            target: 'http://localhost:9200/',
+            ws: true,
+          },
         },
       },
     },
