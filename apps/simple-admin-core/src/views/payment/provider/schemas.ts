@@ -23,32 +23,8 @@ export const tableColumns: VxeGridProps = {
       field: 'appid',
     },
     {
-      title: $t('payment.provider.mchid'),
-      field: 'mchid',
-    },
-    {
-      title: $t('payment.provider.serialNo'),
-      field: 'serialNo',
-    },
-    {
-      title: $t('payment.provider.apiKey'),
-      field: 'apiKey',
-    },
-    {
-      title: $t('payment.provider.privateKey'),
-      field: 'privateKey',
-    },
-    {
-      title: $t('payment.provider.alipayAppCert'),
-      field: 'alipayAppCert',
-    },
-    {
-      title: $t('payment.provider.alipayRootCert'),
-      field: 'alipayRootCert',
-    },
-    {
-      title: $t('payment.provider.alipayPublicCert'),
-      field: 'alipayPublicCert',
+      title: $t('payment.provider.sandbox'),
+      field: 'sandbox',
     },
 
     {
@@ -62,26 +38,6 @@ export const tableColumns: VxeGridProps = {
 export const searchFormSchemas: VbenFormProps = {
   schema: [
     {
-      fieldName: 'createdAtBegin',
-      label: $t('payment.provider.createdAtBegin'),
-      component: 'InputNumber',
-    },
-    {
-      fieldName: 'createdAtEnd',
-      label: $t('payment.provider.createdAtEnd'),
-      component: 'InputNumber',
-    },
-    {
-      fieldName: 'updatedAtBegin',
-      label: $t('payment.provider.updatedAtBegin'),
-      component: 'InputNumber',
-    },
-    {
-      fieldName: 'updatedAtEnd',
-      label: $t('payment.provider.updatedAtEnd'),
-      component: 'InputNumber',
-    },
-    {
       fieldName: 'name',
       label: $t('payment.provider.name'),
       component: 'Input',
@@ -94,21 +50,6 @@ export const searchFormSchemas: VbenFormProps = {
     {
       fieldName: 'appid',
       label: $t('payment.provider.appid'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'mchid',
-      label: $t('payment.provider.mchid'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'serialNo',
-      label: $t('payment.provider.serialNo'),
-      component: 'Input',
-    },
-    {
-      fieldName: 'apiKey',
-      label: $t('payment.provider.apiKey'),
       component: 'Input',
     },
   ],
@@ -133,7 +74,14 @@ export const dataFormSchemas: VbenFormProps = {
     {
       fieldName: 'providerType',
       label: $t('payment.provider.providerType'),
-      component: 'Input',
+      component: 'Select',
+      componentProps: {
+        options: [
+          { label: $t('payment.provider.alipay'), value: 'alipay' },
+          { label: $t('payment.provider.wechatpay'), value: 'wechat_pay' },
+        ],
+        class: 'w-full',
+      },
     },
     {
       fieldName: 'appid',
@@ -144,36 +92,100 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'mchid',
       label: $t('payment.provider.mchid'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'wechat_pay';
+        },
+      },
     },
     {
       fieldName: 'serialNo',
       label: $t('payment.provider.serialNo'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'wechat_pay';
+        },
+      },
     },
     {
       fieldName: 'apiKey',
       label: $t('payment.provider.apiKey'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'wechat_pay';
+        },
+      },
     },
     {
       fieldName: 'privateKey',
       label: $t('payment.provider.privateKey'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'wechat_pay';
+        },
+      },
     },
     {
       fieldName: 'alipayAppCert',
       label: $t('payment.provider.alipayAppCert'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'alipay';
+        },
+      },
     },
     {
       fieldName: 'alipayRootCert',
       label: $t('payment.provider.alipayRootCert'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'alipay';
+        },
+      },
     },
     {
       fieldName: 'alipayPublicCert',
       label: $t('payment.provider.alipayPublicCert'),
       component: 'Input',
+      dependencies: {
+        triggerFields: ['providerType'],
+        show(values, _) {
+          return values.providerType === 'alipay';
+        },
+      },
+    },
+    {
+      fieldName: 'notifyUrl',
+      label: $t('payment.provider.notifyUrl'),
+      component: 'Input',
+    },
+    {
+      fieldName: 'orderExpiredTime',
+      label: $t('payment.provider.orderExpiredTime'),
+      component: 'InputNumber',
+    },
+    {
+      fieldName: 'sandbox',
+      label: $t('payment.provider.sandbox'),
+      component: 'RadioButtonGroup',
+      defaultValue: true,
+      componentProps: {
+        options: [
+          { label: $t('common.on'), value: true },
+          { label: $t('common.off'), value: false },
+        ],
+      },
     },
   ],
 };

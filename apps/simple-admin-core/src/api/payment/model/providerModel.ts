@@ -17,6 +17,9 @@ export interface ProviderInfo {
   alipayAppCert?: string;
   alipayRootCert?: string;
   alipayPublicCert?: string;
+  sandbox?: boolean;
+  notifyUrl?: string;
+  orderExpiredTime?: number;
 }
 
 /**

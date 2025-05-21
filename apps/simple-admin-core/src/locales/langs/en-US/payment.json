@@ -1,5 +1,5 @@
 {
-  "provider": {
+   "provider": {
     "name": "Name",
     "providerType": "Provider Type",
     "appid": "App ID",
@@ -12,6 +12,30 @@
     "alipayPublicCert": "Alipay Public Cert",
     "addProvider": "Add Payment Provider",
     "editProvider": "Edit Payment Provider",
-    "providerList": "Payment Provider List"
-  }
+    "providerList": "Payment Provider List",
+    "notifyUrl": "Callback URL",
+    "sandbox": "Sandbox",
+     "orderExpiredTime": "Order Expired Time (Minute)"
+   },
+  "preOrder": {
+    "orderNo": "Order No",
+    "userId": "User ID",
+    "prepayId": "Prepay ID",
+    "transactionId": "Transaction ID",
+    "outTradeNo": "Out Trade No",
+    "tradeType": "Trade Type",
+    "price": "Price",
+    "attach": "Attach",
+    "notifyData": "Notify Data",
+    "tradeState": "Trade State",
+    "expiredAt": "Expired At",
+    "paidAt": "Paid At",
+    "mqStatus": "Mq Status",
+    "errCode": "Err Code",
+    "errCodeDesc": "Err Code Description",
+    "providerId": "Provider ID",
+    "addPreOrder": "Add PreOrder",
+    "editPreOrder": "Edit PreOrder",
+    "preOrderList": "PreOrder List"
+  },
 }
