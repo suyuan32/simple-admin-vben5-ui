@@ -52,11 +52,11 @@
     "@wangeditor-next/editor-for-vue": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
+    "json-bigint": "catalog:",
     "pinia": "catalog:",
     "remeda": "catalog:",
     "vue": "catalog:",
     "vue-codemirror": "catalog:",
-    "vue-router": "catalog:",
-    "json-bigint": "catalog:"
+    "vue-router": "catalog:"
   }
 }
