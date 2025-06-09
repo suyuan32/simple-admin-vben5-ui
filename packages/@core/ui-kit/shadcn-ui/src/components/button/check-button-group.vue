@@ -17,6 +17,8 @@ const props = withDefaults(defineProps<VbenButtonGroupProps>(), {
   multiple: false,
   showIcon: true,
   size: 'middle',
+  allowClear: false,
+  maxCount: 0,
 });
 const emit = defineEmits(['btnClick']);
 const btnDefaultProps = computed(() => {
@@ -80,12 +82,22 @@ async function onBtnClick(value: ValueType) {
     if (innerValue.value.includes(value)) {
       innerValue.value = innerValue.value.filter((item) => item !== value);
     } else {
+      if (props.maxCount > 0 && innerValue.value.length >= props.maxCount) {
+        innerValue.value = innerValue.value.slice(0, props.maxCount - 1);
+      }
       innerValue.value.push(value);
     }
     modelValue.value = innerValue.value;
   } else {
-    innerValue.value = [value];
-    modelValue.value = value;
+    if (props.allowClear && innerValue.value.includes(value)) {
+      innerValue.value = [];
+      modelValue.value = undefined;
+      emit('btnClick', undefined);
+      return;
+    } else {
+      innerValue.value = [value];
+      modelValue.value = value;
+    }
   }
   emit('btnClick', value);
 }
@@ -108,16 +120,23 @@ async function onBtnClick(value: ValueType) {
       v-bind="btnDefaultProps"
       :variant="innerValue.includes(btn.value) ? 'default' : 'outline'"
       @click="onBtnClick(btn.value)"
+      type="button"
     >
       <div v-if="props.showIcon" class="icon-wrapper">
-        <LoaderCircle
-          class="animate-spin"
-          v-if="loadingValues.includes(btn.value)"
-        />
-        <CircleCheckBig v-else-if="innerValue.includes(btn.value)" />
-        <Circle v-else />
+        <slot
+          :checked="innerValue.includes(btn.value)"
+          :loading="loadingValues.includes(btn.value)"
+          name="icon"
+        >
+          <LoaderCircle
+            v-if="loadingValues.includes(btn.value)"
+            class="animate-spin"
+          />
+          <CircleCheckBig v-else-if="innerValue.includes(btn.value)" />
+          <Circle v-else />
+        </slot>
       </div>
-      <slot :label="btn.label" :value="btn.value" name="option">
+      <slot :data="btn" :label="btn.label" :value="btn.value" name="option">
         <VbenRenderContent :content="btn.label" />
       </slot>
     </Button>
@@ -125,6 +144,9 @@ async function onBtnClick(value: ValueType) {
 </template>
 <style lang="scss" scoped>
 .vben-check-button-group {
+  display: flex;
+  flex-wrap: wrap;
+
   &:deep(.size-large) button {
     .icon-wrapper {
       margin-right: 0.3rem;
@@ -155,6 +177,17 @@ async function onBtnClick(value: ValueType) {
         width: 0.65rem;
         height: 0.65rem;
       }
+    }
+  }
+
+  &.no-gap > :deep(button):nth-of-type(1) {
+    border-right-width: 0;
+  }
+
+  &.no-gap {
+    :deep(button + button) {
+      margin-right: -1px;
+      border-left-width: 1px;
     }
   }
 }

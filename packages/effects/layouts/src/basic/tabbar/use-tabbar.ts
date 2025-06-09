@@ -17,7 +17,7 @@ import {
   X,
 } from '@vben/icons';
 import { $t, useI18n } from '@vben/locales';
-import { useAccessStore, useTabbarStore } from '@vben/stores';
+import { getTabKey, useAccessStore, useTabbarStore } from '@vben/stores';
 import { filterTree } from '@vben/utils';
 import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
@@ -41,8 +41,11 @@ export function useTabbar() {
     toggleTabPin,
   } = useTabs();
 
+  /**
+   * 当前路径对应的tab的key
+   */
   const currentActive = computed(() => {
-    return route.fullPath;
+    return getTabKey(route);
   });
 
   const { locale } = useI18n();
@@ -70,7 +73,8 @@ export function useTabbar() {
 
   // 点击tab,跳转路由
   const handleClick = (key: string) => {
-    router.push(key);
+    const { fullPath, path } = tabbarStore.getTabByKey(key);
+    router.push(fullPath || path);
   };
 
   // 关闭tab
@@ -97,7 +101,7 @@ export function useTabbar() {
   );
 
   watch(
-    () => route.path,
+    () => route.fullPath,
     () => {
       const meta = route.matched?.[route.matched.length - 1]?.meta;
       tabbarStore.addTab({
@@ -155,7 +159,7 @@ export function useTabbar() {
       },
       {
         disabled: disabledRefresh,
-        handler: refreshTab,
+        handler: () => refreshTab(),
         icon: RotateCw,
         key: 'reload',
         text: $t('preferences.tabbar.contextMenu.reload'),

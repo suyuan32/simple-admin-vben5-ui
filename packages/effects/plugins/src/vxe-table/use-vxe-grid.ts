@@ -1,3 +1,5 @@
+import type { BaseFormComponentType } from '@vben-core/form-ui';
+
 import type { ExtendedVxeGridApi, VxeGridProps } from './types';
 
 import { useStore } from '@vben-core/shared/store';
@@ -6,16 +8,19 @@ import { defineComponent, h, onBeforeUnmount } from 'vue';
 import { VxeGridApi } from './api';
 import VxeGrid from './use-vxe-grid.vue';
 
-export function useVbenVxeGrid(options: VxeGridProps) {
+export function useVbenVxeGrid<
+  T extends Record<string, any> = any,
+  D extends BaseFormComponentType = BaseFormComponentType,
+>(options: VxeGridProps<T, D>) {
   // const IS_REACTIVE = isReactive(options);
   const api = new VxeGridApi(options);
-  const extendedApi: ExtendedVxeGridApi = api as ExtendedVxeGridApi;
+  const extendedApi: ExtendedVxeGridApi<T, D> = api as ExtendedVxeGridApi<T, D>;
   extendedApi.useStore = (selector) => {
     return useStore(api.store, selector);
   };
 
   const Grid = defineComponent(
-    (props: VxeGridProps, { attrs, slots }) => {
+    (props: VxeGridProps<T>, { attrs, slots }) => {
       onBeforeUnmount(() => {
         api.unmount();
       });

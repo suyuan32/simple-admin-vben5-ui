@@ -17,7 +17,6 @@ const props = withDefaults(defineProps<TreeProps>(), {
   autoCheckParent: true,
   bordered: false,
   checkStrictly: false,
-  childrenField: 'children',
   defaultExpandedKeys: () => [],
   defaultExpandedLevel: 0,
   disabled: false,
@@ -28,6 +27,7 @@ const props = withDefaults(defineProps<TreeProps>(), {
   showIcon: true,
   transition: true,
   valueField: 'value',
+  childrenField: 'children',
 });
 
 const emits = defineEmits<{
@@ -188,6 +188,7 @@ defineExpose({
     :items="treeData"
     :model-value="treeValue"
     v-model:expanded="expanded as string[]"
+    :default-expanded="defaultExpandedKeys as string[]"
     :class="
       cn(
         'text-blackA11 container select-none list-none rounded-lg p-2 text-sm font-medium',
@@ -195,7 +196,6 @@ defineExpose({
         bordered ? 'border' : '',
       )
     "
-    :default-expanded="defaultExpandedKeys as string[]"
     :multiple="multiple"
     :disabled="disabled"
     :selection-behavior="allowClear || multiple ? 'toggle' : 'replace'"
@@ -209,7 +209,6 @@ defineExpose({
     <TransitionGroup :name="transition ? 'fade' : ''">
       <TreeItem
         v-for="item in flattenItems"
-        :key="item._id"
         v-slot="{
           isExpanded,
           isSelected,
@@ -217,20 +216,26 @@ defineExpose({
           handleSelect,
           handleToggle,
         }"
+        :key="item._id"
         :class="
           cn('cursor-pointer', getNodeClass?.(item), {
             'data-[selected]:bg-accent': !multiple,
+            'cursor-not-allowed': disabled,
           })
         "
         :style="{ 'padding-left': `${item.level - 0.5}rem` }"
         class="tree-node focus:ring-grass8 my-0.5 flex items-center rounded px-2 py-1 outline-none focus:ring-2"
-        v-bind="item.bind"
+        v-bind="
+          Object.assign(item.bind, {
+            onfocus: disabled ? 'this.blur()' : undefined,
+          })
+        "
         @select="
           (event) => {
             if (event.detail.originalEvent.type === 'click') {
               event.preventDefault();
             }
-            onSelect(item, event.detail.isSelected);
+            !disabled && onSelect(item, event.detail.isSelected);
           }
         "
         @toggle="
@@ -238,14 +243,14 @@ defineExpose({
             if (event.detail.originalEvent.type === 'click') {
               event.preventDefault();
             }
-            onToggle(item);
+            !disabled && onToggle(item);
           }
         "
       >
         <ChevronRight
           v-if="item.hasChildren"
-          :class="{ 'rotate-90': isExpanded }"
           class="size-4 cursor-pointer transition"
+          :class="{ 'rotate-90': isExpanded }"
           @click.stop="
             () => {
               handleToggle();
@@ -259,10 +264,11 @@ defineExpose({
         <Checkbox
           v-if="multiple"
           :checked="isSelected"
+          :disabled="disabled"
           :indeterminate="isIndeterminate"
           @click="
             () => {
-              handleSelect();
+              !disabled && handleSelect();
               // onSelect(item, !isSelected);
             }
           "
@@ -273,16 +279,16 @@ defineExpose({
             (_event) => {
               // $event.stopPropagation();
               // $event.preventDefault();
-              handleSelect();
+              !disabled && handleSelect();
               // onSelect(item, !isSelected);
             }
           "
         >
           <slot name="node" v-bind="item">
             <IconifyIcon
+              class="size-4"
               v-if="showIcon && get(item.value, iconField)"
               :icon="get(item.value, iconField)"
-              class="size-4"
             />
             {{ get(item.value, labelField) }}
           </slot>

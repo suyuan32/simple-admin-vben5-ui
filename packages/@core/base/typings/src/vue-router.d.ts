@@ -48,6 +48,10 @@ interface RouteMeta {
    */
   frameSrc?: string;
   /**
+   * 路由的完整路径作为key（默认true）
+   */
+  fullPathKey?: boolean;
+  /**
    * 当前路由的子级在菜单中不展现
    * @default false
    */
@@ -120,10 +124,13 @@ interface RouteMeta {
 }
 
 // 定义递归类型以将 RouteRecordRaw 的 component 属性更改为 string
-type RouteRecordStringComponent<T = string> = {
+type RouteRecordStringComponent<T = string> = Omit<
+  RouteRecordRaw,
+  'children' | 'component'
+> & {
   children?: RouteRecordStringComponent<T>[];
   component: T;
-} & Omit<RouteRecordRaw, 'children' | 'component'>;
+};
 
 type ComponentRecordType = Record<string, () => Promise<Component>>;
 

@@ -197,3 +197,4 @@ catalog:
   vue-json-viewer: ^3.0.4
   '@vueuse/motion': ^2.2.6
   secure-ls: ^2.0.0
+  json-bigint: ^1.0.0

@@ -4,7 +4,7 @@ import { useVbenModal } from '@vben-core/popup-ui';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 interface Props {
-  // 轮训时间，分钟
+  // 轮询时间，分钟
   checkUpdatesInterval?: number;
   // 检查更新的地址
   checkUpdateUrl?: string;
@@ -44,6 +44,7 @@ async function getVersionTag() {
     const response = await fetch(props.checkUpdateUrl, {
       cache: 'no-cache',
       method: 'HEAD',
+      redirect: 'manual',
     });
 
     return (
