@@ -2,6 +2,16 @@
 import type { DrawerProps, ExtendedDrawerApi } from './drawer';
 
 import {
+  computed,
+  onDeactivated,
+  provide,
+  ref,
+  unref,
+  useId,
+  watch,
+} from 'vue';
+
+import {
   useIsMobile,
   usePriorityValues,
   useSimpleLocale,
@@ -25,7 +35,6 @@ import {
 import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
-import { computed, provide, ref, unref, useId, watch } from 'vue';
 
 interface Props extends DrawerProps {
   drawerApi?: ExtendedDrawerApi;
@@ -92,6 +101,16 @@ const {
 //     }
 //   },
 // );
+
+/**
+ * 在开启keepAlive情况下 直接通过浏览器按钮/手势等返回 不会关闭弹窗
+ */
+onDeactivated(() => {
+  // 如果弹窗没有被挂载到内容区域，则关闭弹窗
+  if (!appendToMain.value) {
+    props.drawerApi?.close();
+  }
+});
 
 function interactOutside(e: Event) {
   if (!closeOnClickModal.value || submitting.value) {
