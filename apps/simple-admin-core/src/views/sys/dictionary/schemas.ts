@@ -133,7 +133,6 @@ export const detailTableColumns: VxeGridProps<DictionaryDetailInfo> = {
           return h(InputNumber, {
             modelValue: e.row.sort,
             onInput: (n) => {
-              console.log(n);
               e.row.sort = Number(n);
             },
           });
