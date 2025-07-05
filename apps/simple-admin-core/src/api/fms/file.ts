@@ -1,17 +1,22 @@
-import { requestClient } from '#/api/request';
-
-import {
-  type BaseDataResp,
-  type BaseListReq,
-  type BaseResp,
-  type BaseUUIDsReq,
+import type {
+  BaseDataResp,
+  BaseListReq,
+  BaseResp,
+  BaseUUIDsReq,
 } from '../model/baseModel';
-import { type FileListResp, type updateFileInfoReq } from './model/fileModel';
+import type {
+  FileDeleteReq,
+  FileListResp,
+  updateFileInfoReq,
+} from './model/fileModel';
+
+import { requestClient } from '#/api/request';
 // import { type UploadApiResp } from '@/api/sys/model/uploadModel';
 // import { type AxiosProgressEvent } from 'axios';
 
 enum Api {
   DeleteFile = '/fms-api/file/delete',
+  DeleteFileByUrl = '/fms-api/file/delete_by_url',
   DownloadFile = '/fms-api/file/download',
   GetFileList = '/fms-api/file/list',
   SetFileStatus = '/fms-api/file/status',
@@ -67,3 +72,11 @@ export const setFileStatus = (id: string, status: number) =>
 
 export const downloadFile = (id: number) =>
   requestClient.download(`${Api.DownloadFile}/${id}`);
+
+/**
+ *  author: Ryan Su
+ *  @description: delete files
+ */
+export const deleteFileByUrl = (params: FileDeleteReq) => {
+  return requestClient.post<BaseResp>(Api.DeleteFileByUrl, params);
+};

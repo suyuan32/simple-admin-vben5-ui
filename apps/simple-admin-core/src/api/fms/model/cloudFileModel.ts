@@ -1,4 +1,4 @@
-import { type BaseListResp } from '../../model/baseModel';
+import type { BaseListResp } from '../../model/baseModel';
 
 /**
  *  @description: CloudFile info response
@@ -22,3 +22,11 @@ export interface CloudFileInfo {
  */
 
 export type CloudFileListResp = BaseListResp<CloudFileInfo>;
+
+/**
+ *  @description: CloudFile deletion request
+ */
+
+export interface CloudFileDeleteReq {
+  url: string;
+}

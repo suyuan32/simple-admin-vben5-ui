@@ -1,4 +1,4 @@
-import { type BaseListResp } from '../../model/baseModel';
+import type { BaseListResp } from '../../model/baseModel';
 
 /**
  *  author: Ryan Su
@@ -39,4 +39,12 @@ export interface updateFileInfoReq {
   id: string;
   name: string;
   tagIds: number[];
+}
+
+/**
+ *  @description: file deletion request
+ */
+
+export interface FileDeleteReq {
+  url: string;
 }

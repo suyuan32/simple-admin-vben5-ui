@@ -1,20 +1,23 @@
-import {
-  type BaseDataResp,
-  type BaseListReq,
-  type BaseResp,
-  type BaseUUIDReq,
-  type BaseUUIDsReq,
+import type {
+  BaseDataResp,
+  BaseListReq,
+  BaseResp,
+  BaseUUIDReq,
+  BaseUUIDsReq,
 } from '#/api/model/baseModel';
-import { requestClient } from '#/api/request';
 
-import {
-  type CloudFileInfo,
-  type CloudFileListResp,
+import type {
+  CloudFileDeleteReq,
+  CloudFileInfo,
+  CloudFileListResp,
 } from './model/cloudFileModel';
+
+import { requestClient } from '#/api/request';
 
 enum Api {
   CreateCloudFile = '/fms-api/cloud_file/create',
   DeleteCloudFile = '/fms-api/cloud_file/delete',
+  DeleteCloudFileByUrl = '/fms-api/cloud_file/delete_by_url',
   GetCloudFileById = '/fms-api/cloud_file',
   GetCloudFileList = '/fms-api/cloud_file/list',
   UpdateCloudFile = '/fms-api/cloud_file/update',
@@ -69,3 +72,10 @@ export const getCloudFileById = (params: BaseUUIDReq) => {
 export function uploadCloudFile(file: File, provider: string = '') {
   return requestClient.upload(Api.uploadFile, { file, provider });
 }
+
+/**
+ *  @description: Delete cloud file by url
+ */
+export const deleteCloudFileByUrl = (params: CloudFileDeleteReq) => {
+  return requestClient.post<BaseResp>(Api.DeleteCloudFileByUrl, params);
+};
