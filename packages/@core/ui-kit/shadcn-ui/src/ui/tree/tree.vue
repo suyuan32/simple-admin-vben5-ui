@@ -284,7 +284,11 @@ defineExpose({
         "
       >
         <ChevronRight
-          v-if="item.hasChildren"
+          v-if="
+            item.hasChildren &&
+            Array.isArray(item.value[childrenField]) &&
+            item.value[childrenField].length > 0
+          "
           class="size-4 cursor-pointer transition"
           :class="{ 'rotate-90': isExpanded }"
           @click.stop="
