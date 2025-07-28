@@ -9,9 +9,15 @@ import type {
   FormShape,
 } from '../types';
 
-import { Form } from '@vben-core/shadcn-ui';
-import { cn, isString, mergeWithArrayOverride } from '@vben-core/shared/utils';
 import { computed } from 'vue';
+
+import { Form } from '@vben-core/shadcn-ui';
+import {
+  cn,
+  isFunction,
+  isString,
+  mergeWithArrayOverride,
+} from '@vben-core/shared/utils';
 
 import { provideFormRenderProps } from './context';
 import { useExpandable } from './expandable';
@@ -21,7 +27,7 @@ import { getBaseRules, getDefaultValueInZodStack } from './helper';
 interface Props extends FormRenderProps {}
 
 const props = withDefaults(
-  defineProps<{ globalCommonConfig?: FormCommonConfig } & Props>(),
+  defineProps<Props & { globalCommonConfig?: FormCommonConfig }>(),
   {
     collapsedRows: 1,
     commonConfig: () => ({}),
@@ -79,10 +85,10 @@ const formCollapsed = computed(() => {
 });
 
 const computedSchema = computed(
-  (): ({
+  (): (Omit<FormSchema, 'formFieldProps'> & {
     commonComponentProps: Record<string, any>;
     formFieldProps: Record<string, any>;
-  } & Omit<FormSchema, 'formFieldProps'>)[] => {
+  })[] => {
     const {
       colon = false,
       componentProps = {},
@@ -109,6 +115,17 @@ const computedSchema = computed(
           ? keepIndex <= index
           : false;
 
+      // 处理函数形式的formItemClass
+      let resolvedSchemaFormItemClass = schema.formItemClass;
+      if (isFunction(schema.formItemClass)) {
+        try {
+          resolvedSchemaFormItemClass = schema.formItemClass();
+        } catch (error) {
+          console.error('Error calling formItemClass function:', error);
+          resolvedSchemaFormItemClass = '';
+        }
+      }
+
       return {
         colon,
         disabled,
@@ -132,7 +149,7 @@ const computedSchema = computed(
           'flex-shrink-0',
           { hidden },
           formItemClass,
-          schema.formItemClass,
+          resolvedSchemaFormItemClass,
         ),
         labelClass: cn(labelClass, schema.labelClass),
       };
