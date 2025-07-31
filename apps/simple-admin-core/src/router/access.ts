@@ -38,6 +38,19 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
       menuData.data.data.forEach((val, _idx, _arr) => {
         if (val.component === 'LAYOUT') {
           val.component = '';
+        } else if (
+          val.component === 'IFrame' &&
+          val.meta.realPath !== '' &&
+          val.meta.realPath !== undefined
+        ) {
+          val.meta.link = val.meta.realPath;
+          val.type = 'link';
+        } else if (
+          val.component === 'IFrame' &&
+          val.meta.frameSrc !== undefined &&
+          val.meta.frameSrc !== ''
+        ) {
+          val.type = 'embedded';
         }
 
         val.meta.hideInMenu = val.meta.hideMenu as any;
