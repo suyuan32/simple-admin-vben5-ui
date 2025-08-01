@@ -1,6 +1,11 @@
 <script lang="ts" setup>
-import type { MenuRecordRaw } from '@vben/types';
 import type { SetupContext } from 'vue';
+import type { RouteLocationNormalizedLoaded } from 'vue-router';
+
+import type { MenuRecordRaw } from '@vben/types';
+
+import { computed, onMounted, useSlots, watch } from 'vue';
+import { useRoute } from 'vue-router';
 
 import { useRefresh } from '@vben/hooks';
 import { $t, i18n } from '@vben/locales';
@@ -11,9 +16,9 @@ import {
 } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { cloneDeep, mapTree } from '@vben/utils';
+
 import { VbenAdminLayout } from '@vben-core/layout-ui';
 import { VbenBackTop, VbenLogo } from '@vben-core/shadcn-ui';
-import { computed, useSlots, watch } from 'vue';
 
 import { Breadcrumb, CheckUpdates, Preferences } from '../widgets';
 import { LayoutContent, LayoutContentSpinner } from './content';
@@ -150,6 +155,23 @@ function clickLogo() {
   emit('clickLogo');
 }
 
+function autoCollapseMenuByRouteMeta(route: RouteLocationNormalizedLoaded) {
+  // 只在双列模式下生效
+  if (
+    preferences.app.layout === 'sidebar-mixed-nav' &&
+    route.meta &&
+    route.meta.hideInMenu
+  ) {
+    sidebarExtraVisible.value = false;
+  }
+}
+
+const route = useRoute();
+
+onMounted(() => {
+  autoCollapseMenuByRouteMeta(route);
+});
+
 watch(
   () => preferences.app.layout,
   async (val) => {
@@ -201,12 +223,12 @@ const headerSlots = computed(() => {
     :sidebar-fixed-button="preferences.sidebar.fixedButton"
     :sidebar-expand-on-hover="preferences.sidebar.expandOnHover"
     :sidebar-extra-collapse="preferences.sidebar.extraCollapse"
-    :side-collapse-width="preferences.sidebar.collapseWidth"
-    :sidebar-hidden="preferences.sidebar.hidden"
     :sidebar-extra-collapsed-width="preferences.sidebar.extraCollapsedWidth"
+    :sidebar-hidden="preferences.sidebar.hidden"
+    :sidebar-mixed-width="preferences.sidebar.mixedWidth"
     :sidebar-theme="sidebarTheme"
     :sidebar-width="preferences.sidebar.width"
-    :sidebar-mixed-width="preferences.sidebar.mixedWidth"
+    :side-collapse-width="preferences.sidebar.collapseWidth"
     :tabbar-enable="preferences.tabbar.enable"
     :tabbar-height="preferences.tabbar.height"
     :z-index="preferences.app.zIndex"

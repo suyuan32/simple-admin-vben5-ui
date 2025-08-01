@@ -31,6 +31,10 @@ function useNavigation() {
     return route?.meta?.openInNewWindow ?? false;
   };
 
+  const resolveHref = (path: string): string => {
+    return router.resolve(path).href;
+  };
+
   const navigation = async (path: string) => {
     try {
       const route = routeMetaMap.get(path);
@@ -39,7 +43,7 @@ function useNavigation() {
       if (isHttpUrl(path)) {
         openWindow(path, { target: '_blank' });
       } else if (openInNewWindow) {
-        openRouteInNewWindow(path);
+        openRouteInNewWindow(resolveHref(path));
       } else {
         await router.push({
           path,
