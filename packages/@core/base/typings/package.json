@@ -1,6 +1,6 @@
 {
   "name": "@vben-core/typings",
-  "version": "5.5.8",
+  "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -38,7 +38,7 @@
     }
   },
   "dependencies": {
-    "vue": "catalog:",
+    "vue": "^3.5.18",
     "vue-router": "catalog:"
   }
 }

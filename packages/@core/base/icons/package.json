@@ -1,6 +1,6 @@
 {
   "name": "@vben-core/icons",
-  "version": "5.5.8",
+  "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -36,6 +36,6 @@
   "dependencies": {
     "@iconify/vue": "catalog:",
     "lucide-vue-next": "catalog:",
-    "vue": "catalog:"
+    "vue": "^3.5.18"
   }
 }

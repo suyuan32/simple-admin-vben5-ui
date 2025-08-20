@@ -1,6 +1,6 @@
 {
   "name": "@vben-core/form-ui",
-  "version": "5.5.8",
+  "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -45,7 +45,7 @@
     "@vee-validate/zod": "catalog:",
     "@vueuse/core": "catalog:",
     "vee-validate": "catalog:",
-    "vue": "catalog:",
+    "vue": "^3.5.18",
     "zod": "catalog:",
     "zod-defaults": "catalog:"
   }

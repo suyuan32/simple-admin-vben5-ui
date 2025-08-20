@@ -3,6 +3,8 @@ import type { ZodType } from 'zod';
 
 import type { FormSchema, MaybeComponentProps } from '../types';
 
+import { computed, nextTick, onUnmounted, useTemplateRef, watch } from 'vue';
+
 import { CircleAlert } from '@vben-core/icons';
 import {
   FormControl,
@@ -14,9 +16,9 @@ import {
   VbenTooltip,
 } from '@vben-core/shadcn-ui';
 import { cn, isFunction, isObject, isString } from '@vben-core/shared/utils';
+
 import { toTypedSchema } from '@vee-validate/zod';
 import { useFieldError, useFormValues } from 'vee-validate';
-import { computed, nextTick, onUnmounted, useTemplateRef, watch } from 'vue';
 
 import { injectComponentRefMap } from '../use-form-context';
 import { injectRenderFormProps, useFormContext } from './context';
@@ -46,9 +48,9 @@ const {
   renderComponentContent,
   rules,
 } = defineProps<
-  {
+  Props & {
     commonComponentProps: MaybeComponentProps;
-  } & Props
+  }
 >();
 
 const { componentBindEventMap, componentMap, isVertical } = useFormContext();
@@ -57,7 +59,7 @@ const values = useFormValues();
 const errors = useFieldError(fieldName);
 const fieldComponentRef = useTemplateRef<HTMLInputElement>('fieldComponentRef');
 const formApi = formRenderProps.form;
-const compact = formRenderProps.compact;
+const compact = computed(() => formRenderProps.compact);
 const isInValid = computed(() => errors.value?.length > 0);
 
 const FieldComponent = computed(() => {
@@ -293,7 +295,7 @@ onUnmounted(() => {
         'form-is-required': shouldRequired,
         'flex-col': isVertical,
         'flex-row items-center': !isVertical,
-        'pb-6': !compact,
+        'pb-4': !compact,
         'pb-2': compact,
       }"
       class="relative flex"
@@ -339,8 +341,8 @@ onUnmounted(() => {
                   'border-destructive focus:border-destructive hover:border-destructive/80 focus:shadow-[0_0_0_2px_rgba(255,38,5,0.06)]':
                     isInValid,
                 }"
-                :disabled="shouldDisabled"
                 v-bind="createComponentProps(slotProps)"
+                :disabled="shouldDisabled"
               >
                 <template
                   v-for="name in renderContentKey"
@@ -383,8 +385,8 @@ onUnmounted(() => {
           </FormDescription>
         </div>
 
-        <Transition v-if="!compact" name="slide-up">
-          <FormMessage class="absolute bottom-1" />
+        <Transition name="slide-up" v-if="!compact">
+          <FormMessage class="absolute" />
         </Transition>
       </div>
     </FormItem>

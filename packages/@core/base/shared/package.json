@@ -1,6 +1,6 @@
 {
   "name": "@vben-core/shared",
-  "version": "5.5.8",
+  "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -79,10 +79,10 @@
     }
   },
   "dependencies": {
-    "@ctrl/tinycolor": "catalog:",
+    "@ctrl/tinycolor": "^4.1.0",
     "@tanstack/vue-store": "catalog:",
     "@vue/shared": "catalog:",
-    "clsx": "catalog:",
+    "clsx": "^2.1.1",
     "dayjs": "catalog:",
     "defu": "catalog:",
     "lodash.clonedeep": "catalog:",

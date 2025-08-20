@@ -1,6 +1,6 @@
 {
   "name": "@vben/stores",
-  "version": "5.5.8",
+  "version": "5.5.9",
   "homepage": "https://github.com/vbenjs/vue-vben-admin",
   "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
   "repository": {
@@ -23,10 +23,10 @@
     "@vben-core/preferences": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben-core/typings": "workspace:*",
-    "pinia": "catalog:",
+    "pinia": "2.2.2",
     "pinia-plugin-persistedstate": "catalog:",
     "secure-ls": "catalog:",
-    "vue": "catalog:",
+    "vue": "^3.5.18",
     "vue-router": "catalog:"
   }
 }
