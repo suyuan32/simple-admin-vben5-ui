@@ -1,8 +1,11 @@
+import type { DataNode } from 'ant-design-vue/es/vc-tree/interface';
+
 import type { Recordable } from '@vben/types';
 
-import { array2tree } from '@axolo/tree-array';
-import { type DataNode } from 'ant-design-vue/es/vc-tree/interface';
+import { arrayToTree } from 'performant-array-to-tree';
 import { forEachObj, map, pick } from 'remeda';
+
+import { ParentIdEnum } from '#/enums/common';
 
 export interface buildNodeOption {
   labelField: string;
@@ -36,18 +39,26 @@ export function buildDataNode(data: any, options: buildNodeOption): DataNode[] {
       }
     });
 
+    if (
+      tmpData[options.parentKeyField] === 0 ||
+      tmpData[options.parentKeyField] === ParentIdEnum.DEFAULT
+    ) {
+      tmpData[options.parentKeyField] = null;
+    }
+
     return tmpData;
   });
 
-  const treeConv = array2tree(treeNodeData, {
-    idKey: options.idKeyField,
-    parentKey: options.parentKeyField,
-    childrenKey: options.childrenKeyField,
+  const treeConv = arrayToTree(treeNodeData, {
+    id: options.idKeyField,
+    parentId: options.parentKeyField,
+    childrenField: options.childrenKeyField,
+    dataField: null,
   });
 
   // add default label
   if (options.defaultValue) {
-    treeConv.push(options.defaultValue);
+    treeConv.push(options.defaultValue as DataNode);
   }
   return treeConv as DataNode[];
 }
@@ -79,18 +90,26 @@ export function buildTreeNode(
       }
     });
 
+    if (
+      tmpData[options.parentKeyField] === 0 ||
+      tmpData[options.parentKeyField] === ParentIdEnum.DEFAULT
+    ) {
+      tmpData[options.parentKeyField] = null;
+    }
+
     return tmpData;
   });
 
-  const treeConv = array2tree(treeNodeData, {
-    idKey: options.idKeyField,
-    parentKey: options.parentKeyField,
-    childrenKey: options.childrenKeyField,
+  const treeConv = arrayToTree(treeNodeData, {
+    id: options.idKeyField,
+    parentId: options.parentKeyField,
+    childrenField: options.childrenKeyField,
+    dataField: null,
   });
 
   // add default label
   if (options.defaultValue) {
-    treeConv.push(options.defaultValue);
+    treeConv.push(options.defaultValue as DataNode);
   }
   return treeConv as Recordable<any>[];
 }

@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "catalog:",
-    "@axolo/tree-array": "catalog:",
+    "performant-array-to-tree": "catalog:",
     "@codemirror/lang-json": "catalog:",
     "@codemirror/language": "catalog:",
     "@codemirror/legacy-modes": "catalog:",

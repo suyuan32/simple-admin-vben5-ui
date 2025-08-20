@@ -1,17 +1,21 @@
-import type { RouteItem } from '#/api/sys/model/menuModel';
 import type {
   ComponentRecordType,
   GenerateMenuAndRoutesOptions,
 } from '@vben/types';
 
+import type { RouteItem } from '#/api/sys/model/menuModel';
+
+import { generateAccessible } from '@vben/access';
+import { preferences } from '@vben/preferences';
+
+import { message } from 'ant-design-vue';
+import { arrayToTree } from 'performant-array-to-tree';
+
 import { getMenuListByRole } from '#/api/sys/menu';
+import { ParentIdEnum } from '#/enums/common';
 import { BasicLayout, IFrame } from '#/layouts';
 import { $t } from '#/locales';
 import { useAuthStore } from '#/store';
-import { array2tree } from '@axolo/tree-array';
-import { generateAccessible } from '@vben/access';
-import { preferences } from '@vben/preferences';
-import { message } from 'ant-design-vue';
 
 const forbiddenComponent = () => import('#/views/_core/fallback/forbidden.vue');
 
@@ -53,6 +57,10 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
           val.type = 'embedded';
         }
 
+        if (val.parentId === ParentIdEnum.DEFAULT) {
+          val.parentId = null;
+        }
+
         val.meta.hideInMenu = val.meta.hideMenu as any;
         val.meta.hideInTab = val.meta.hideTab as any;
         val.meta.hideInBreadcrumb = val.meta.hideBreadcrumb as any;
@@ -65,8 +73,9 @@ async function generateAccess(options: GenerateMenuAndRoutesOptions) {
         }
       });
 
-      const treeData: RouteItem[] = array2tree(
+      const treeData: RouteItem[] = arrayToTree(
         menuData.data.data.filter((val) => val.path !== ''),
+        { dataField: null },
       ) as RouteItem[];
       treeData.forEach((val, idx, arr) => {
         if (val.component === '' && arr[idx]) {

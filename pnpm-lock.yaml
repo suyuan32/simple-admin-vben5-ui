@@ -9,9 +9,6 @@ catalogs:
     '@ant-design/icons-vue':
       specifier: ^7.0.1
       version: 7.0.1
-    '@axolo/tree-array':
-      specifier: ^0.6.0
-      version: 0.6.0
     '@changesets/changelog-github':
       specifier: ^0.5.1
       version: 0.5.1
@@ -342,6 +339,9 @@ catalogs:
     ora:
       specifier: ^8.2.0
       version: 8.2.0
+    performant-array-to-tree:
+      specifier: ^1.11.0
+      version: 1.11.0
     pinia-plugin-persistedstate:
       specifier: ^4.5.0
       version: 4.5.0
@@ -662,9 +662,6 @@ importers:
       '@ant-design/icons-vue':
         specifier: 'catalog:'
         version: 7.0.1(vue@3.5.18(typescript@5.9.2))
-      '@axolo/tree-array':
-        specifier: 'catalog:'
-        version: 0.6.0
       '@codemirror/lang-json':
         specifier: 'catalog:'
         version: 6.0.2
@@ -740,6 +737,9 @@ importers:
       json-bigint:
         specifier: 'catalog:'
         version: 1.0.0
+      performant-array-to-tree:
+        specifier: 'catalog:'
+        version: 1.11.0
       pinia:
         specifier: ^3.0.3
         version: 3.0.3(typescript@5.9.2)(vue@3.5.18(typescript@5.9.2))
@@ -1817,9 +1817,6 @@ packages:
   '@ast-grep/napi@0.37.0':
     resolution: {integrity: sha512-Hb4o6h1Pf6yRUAX07DR4JVY7dmQw+RVQMW5/m55GoiAT/VRoKCWBtIUPPOnqDVhbx1Cjfil9b6EDrgJsUAujEQ==}
     engines: {node: '>= 10'}
-
-  '@axolo/tree-array@0.6.0':
-    resolution: {integrity: sha512-jsT7AOpWud1Jr1Jfem+pMvopWJ9HlJCyiIw1ToMA1YkN3fEb+izAG+jNTGPfMyA/XTLzY2JPQ6TF61QAJXPLXw==}
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -8176,6 +8173,9 @@ packages:
   perfect-debounce@1.0.0:
     resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
 
+  performant-array-to-tree@1.11.0:
+    resolution: {integrity: sha512-YwCqIDvnaebXaKuKQhI5yJD6ryDc3FxvoeX/5ougXTKDUWb7s5S2BuBgIyftCa4sBe1+ZU5Kmi4RJy+pjjjrpw==}
+
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
@@ -10697,8 +10697,6 @@ snapshots:
       '@ast-grep/napi-win32-arm64-msvc': 0.37.0
       '@ast-grep/napi-win32-ia32-msvc': 0.37.0
       '@ast-grep/napi-win32-x64-msvc': 0.37.0
-
-  '@axolo/tree-array@0.6.0': {}
 
   '@babel/code-frame@7.27.1':
     dependencies:
@@ -17882,6 +17880,8 @@ snapshots:
   pend@1.2.0: {}
 
   perfect-debounce@1.0.0: {}
+
+  performant-array-to-tree@1.11.0: {}
 
   picocolors@1.1.1: {}
 
