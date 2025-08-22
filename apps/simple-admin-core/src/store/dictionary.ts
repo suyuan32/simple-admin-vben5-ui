@@ -1,6 +1,7 @@
+import type { DefaultOptionType } from 'ant-design-vue/lib/select';
+
 import { ref } from 'vue';
 
-import { type DefaultOptionType } from 'ant-design-vue/lib/select';
 import { defineStore } from 'pinia';
 
 import { GetDictionaryDetailByDictionaryName } from '#/api/sys/dictionaryDetail';
@@ -20,8 +21,7 @@ const requestCache = new Map<
 
 const CACHE_TIME = 500; // 500ms
 
-export const useDictionaryStore = defineStore({
-  id: 'dictionary',
+export const useDictionaryStore = defineStore('dictionary', {
   state: () => {
     return {
       data: JSON.stringify([...new Map<string, DictionaryData>()]),
