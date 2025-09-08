@@ -36,9 +36,6 @@ catalogs:
     '@commitlint/config-conventional':
       specifier: ^19.8.1
       version: 19.8.1
-    '@element-plus/icons-vue':
-      specifier: ^2.3.2
-      version: 2.3.2
     '@eslint/js':
       specifier: ^9.35.0
       version: 9.35.0
@@ -93,9 +90,6 @@ catalogs:
     '@types/html-minifier-terser':
       specifier: ^7.0.2
       version: 7.0.2
-    '@types/json-bigint':
-      specifier: ^1.0.4
-      version: 1.0.4
     '@types/jsonwebtoken':
       specifier: ^9.0.10
       version: 9.0.10
@@ -234,9 +228,6 @@ catalogs:
     echarts:
       specifier: ^5.6.0
       version: 5.6.0
-    element-plus:
-      specifier: ^2.11.2
-      version: 2.11.2
     eslint:
       specifier: ^9.35.0
       version: 9.35.0
@@ -471,9 +462,6 @@ catalogs:
     unbuild:
       specifier: ^3.6.1
       version: 3.6.1
-    unplugin-element-plus:
-      specifier: ^0.10.0
-      version: 0.10.0
     vee-validate:
       specifier: ^4.15.1
       version: 4.15.1
@@ -767,112 +755,6 @@ importers:
       vue-router:
         specifier: 'catalog:'
         version: 4.5.1(vue@3.5.21(typescript@5.9.2))
-
-  apps/simple-admin-core-ele:
-    dependencies:
-      '@codemirror/lang-json':
-        specifier: 'catalog:'
-        version: 6.0.2
-      '@codemirror/language':
-        specifier: 'catalog:'
-        version: 6.11.3
-      '@codemirror/legacy-modes':
-        specifier: 'catalog:'
-        version: 6.5.1
-      '@element-plus/icons-vue':
-        specifier: 'catalog:'
-        version: 2.3.2(vue@3.5.21(typescript@5.9.2))
-      '@iconify/vue':
-        specifier: 'catalog:'
-        version: 5.0.0(vue@3.5.21(typescript@5.9.2))
-      '@uiw/codemirror-theme-github':
-        specifier: 'catalog:'
-        version: 4.25.1(@codemirror/language@6.11.3)(@codemirror/state@6.4.1)(@codemirror/view@6.35.0)
-      '@vben/access':
-        specifier: workspace:*
-        version: link:../../packages/effects/access
-      '@vben/common-ui':
-        specifier: workspace:*
-        version: link:../../packages/effects/common-ui
-      '@vben/constants':
-        specifier: workspace:*
-        version: link:../../packages/constants
-      '@vben/hooks':
-        specifier: workspace:*
-        version: link:../../packages/effects/hooks
-      '@vben/icons':
-        specifier: workspace:*
-        version: link:../../packages/icons
-      '@vben/layouts':
-        specifier: workspace:*
-        version: link:../../packages/effects/layouts
-      '@vben/locales':
-        specifier: workspace:*
-        version: link:../../packages/locales
-      '@vben/plugins':
-        specifier: workspace:*
-        version: link:../../packages/effects/plugins
-      '@vben/preferences':
-        specifier: workspace:*
-        version: link:../../packages/preferences
-      '@vben/request':
-        specifier: workspace:*
-        version: link:../../packages/effects/request
-      '@vben/stores':
-        specifier: workspace:*
-        version: link:../../packages/stores
-      '@vben/styles':
-        specifier: workspace:*
-        version: link:../../packages/styles
-      '@vben/types':
-        specifier: workspace:*
-        version: link:../../packages/types
-      '@vben/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 13.9.0(vue@3.5.21(typescript@5.9.2))
-      '@wangeditor-next/editor':
-        specifier: 'catalog:'
-        version: 5.6.45
-      '@wangeditor-next/editor-for-vue':
-        specifier: 'catalog:'
-        version: 5.1.14(@wangeditor-next/editor@5.6.45)(vue@3.5.21(typescript@5.9.2))
-      dayjs:
-        specifier: 'catalog:'
-        version: 1.11.18
-      element-plus:
-        specifier: 'catalog:'
-        version: 2.11.2(vue@3.5.21(typescript@5.9.2))
-      json-bigint:
-        specifier: 'catalog:'
-        version: 1.0.0
-      performant-array-to-tree:
-        specifier: 'catalog:'
-        version: 1.11.0
-      pinia:
-        specifier: ^3.0.3
-        version: 3.0.3(typescript@5.9.2)(vue@3.5.21(typescript@5.9.2))
-      remeda:
-        specifier: 'catalog:'
-        version: 2.30.0
-      vue:
-        specifier: ^3.5.21
-        version: 3.5.21(typescript@5.9.2)
-      vue-codemirror:
-        specifier: 'catalog:'
-        version: 6.1.1(codemirror@6.0.1)(vue@3.5.21(typescript@5.9.2))
-      vue-router:
-        specifier: 'catalog:'
-        version: 4.5.1(vue@3.5.21(typescript@5.9.2))
-    devDependencies:
-      '@types/json-bigint':
-        specifier: 'catalog:'
-        version: 1.0.4
-      unplugin-element-plus:
-        specifier: 'catalog:'
-        version: 0.10.0
 
   internal/lint-configs/commitlint-config:
     dependencies:
@@ -3256,11 +3138,6 @@ packages:
   '@dual-bundle/import-meta-resolve@4.1.0':
     resolution: {integrity: sha512-+nxncfwHM5SgAtrVzgpzJOI1ol0PkumhVo469KCf9lUi21IGcY90G98VuHm9VRrUypmAzawAHO9bs6hqeADaVg==}
 
-  '@element-plus/icons-vue@2.3.2':
-    resolution: {integrity: sha512-OzIuTaIfC8QXEPmJvB4Y4kw34rSXdCJzxcD1kFStBvr8bK6X1zQAYDo0CNMjojnfTqRQCJ0I7prlErcoRiET2A==}
-    peerDependencies:
-      vue: ^3.5.21
-
   '@emnapi/core@1.4.3':
     resolution: {integrity: sha512-4m62DuCE07lw01soJwPiBGC0nAww0Q+RY70VZ+n49yDIO13yyinhbWCeNnaob0lakDtWQzSdtNWzJeOJt2ma+g==}
 
@@ -4345,9 +4222,6 @@ packages:
   '@swc/helpers@0.5.13':
     resolution: {integrity: sha512-UoKGxQ3r5kYI9dALKJapMmuK+1zWM/H17Z1+iwnNmzcJRnfFuevZs375TA5rW31pu4BS4NoSy1fRsexDXfWn5w==}
 
-  '@sxzz/popperjs-es@2.11.7':
-    resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
-
   '@tailwindcss/nesting@0.0.0-insiders.565cd3e':
     resolution: {integrity: sha512-WhHoFBx19TnH/c+xLwT/sxei6+4RpdfiyG3MYXfmLaMsADmVqBkF7B6lDalgZD9YdM459MF7DtxVbWkOrV7IaQ==}
     peerDependencies:
@@ -4430,9 +4304,6 @@ packages:
   '@types/html-minifier-terser@7.0.2':
     resolution: {integrity: sha512-mm2HqV22l8lFQh4r2oSsOEVea+m0qqxEmwpc9kC1p/XzmjLWrReR9D/GRs8Pex2NX/imyEH9c5IU/7tMBQCHOA==}
 
-  '@types/json-bigint@1.0.4':
-    resolution: {integrity: sha512-ydHooXLbOmxBbubnA7Eh+RpBzuaIiQjh8WGJYQB50JFGFrdxW7JzVlyEV7fAXw0T2sqJ1ysTneJbiyNLqZRAag==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -4441,9 +4312,6 @@ packages:
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha512-asx5hIG9Qmf/1oStypjanR7iKTv0gXQ1Ov/jfrX6kS/EO0OFni8orbmGCn0672NHR3kXHwpAwR+B368ZGN/2rA==}
-
-  '@types/lodash-es@4.17.12':
-    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
 
   '@types/lodash.clonedeep@4.5.9':
     resolution: {integrity: sha512-19429mWC+FyaAhOLzsS8kZUsI+/GmBAQ0HFiCPsKGU+7pBXOQWhyrY6xNNDwUSX8SMZMJvuFVMF9O5dQOlQK9Q==}
@@ -4507,9 +4375,6 @@ packages:
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-
-  '@types/web-bluetooth@0.0.16':
-    resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}
 
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
@@ -5005,9 +4870,6 @@ packages:
     peerDependencies:
       vue: ^3.5.21
 
-  '@vueuse/core@9.13.0':
-    resolution: {integrity: sha512-pujnclbeHWxxPRqXWmdkKV5OX4Wk4YeK7wusHqRwU0Q7EFusHoqNA/aPhB6KCh9hEqJkLAJo7bb0Lh9b+OIVzw==}
-
   '@vueuse/integrations@13.9.0':
     resolution: {integrity: sha512-SDobKBbPIOe0cVL7QxMzGkuUGHvWTdihi9zOrrWaWUgFKe15cwEcwfWmgrcNzjT6kHnNmWuTajPHoIzUjYNYYQ==}
     peerDependencies:
@@ -5056,9 +4918,6 @@ packages:
   '@vueuse/metadata@13.9.0':
     resolution: {integrity: sha512-1AFRvuiGphfF7yWixZa0KwjYH8ulyjDCC0aFgrGRz8+P4kvDFSdXLVfTk5xAN9wEuD1J6z4/myMoYbnHoX07zg==}
 
-  '@vueuse/metadata@9.13.0':
-    resolution: {integrity: sha512-gdU7TKNAUVlXXLbaF+ZCfte8BjRJQWPCa2J55+7/h+yDtzw3vOoGQDRXzI6pyKyo6bXFT5/QoPE4hAknExjRLQ==}
-
   '@vueuse/motion@3.0.3':
     resolution: {integrity: sha512-4B+ITsxCI9cojikvrpaJcLXyq0spj3sdlzXjzesWdMRd99hhtFI6OJ/1JsqwtF73YooLe0hUn/xDR6qCtmn5GQ==}
     peerDependencies:
@@ -5076,9 +4935,6 @@ packages:
     resolution: {integrity: sha512-e89uuTLMh0U5cZ9iDpEI2senqPGfbPRTHM/0AaQkcxnpqjkZqDYP8rpfm7edOz8s+pOCOROEy1PIveSW8+fL5g==}
     peerDependencies:
       vue: ^3.5.21
-
-  '@vueuse/shared@9.13.0':
-    resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
   '@vxe-ui/core@4.2.12':
     resolution: {integrity: sha512-g6gNDykKrKLzxsDDFDYTD/6tWrV9AfSaU7WIlKCO67BSXgKDMaEVTsH7ZZ7fI5qkOO9DH1vo07kbacyBNx7gSQ==}
@@ -6392,11 +6248,6 @@ packages:
 
   electron-to-chromium@1.5.214:
     resolution: {integrity: sha512-TpvUNdha+X3ybfU78NoQatKvQEm1oq3lf2QbnmCEdw+Bd9RuIAY+hJTvq1avzHM0f7EJfnH3vbCnbzKzisc/9Q==}
-
-  element-plus@2.11.2:
-    resolution: {integrity: sha512-sTMDXtgeqy17TUsBSH/DL3h1/5sqIOVUUgXFoVbdD8lWWYssKrDX50CEYy4k29tYJhPHKZyFSwcLJsIajr+dDA==}
-    peerDependencies:
-      vue: ^3.5.21
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -7895,13 +7746,6 @@ packages:
   lodash-es@4.17.21:
     resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
 
-  lodash-unified@1.0.3:
-    resolution: {integrity: sha512-WK9qSozxXOD7ZJQlpSqOT+om2ZfcT4yO+03FuzAHD0wF6S0l0090LRPDx3vhTTLZ8cFKpBn+IOcVXK6qOcIlfQ==}
-    peerDependencies:
-      '@types/lodash-es': '*'
-      lodash: '*'
-      lodash-es: '*'
-
   lodash.camelcase@4.3.0:
     resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
 
@@ -8073,9 +7917,6 @@ packages:
 
   mdn-data@2.21.0:
     resolution: {integrity: sha512-+ZKPQezM5vYJIkCxaC+4DTnRrVZR1CgsKLu5zsQERQx6Tea8Y+wMx5A24rq8A8NepCeatIQufVAekKNgiBMsGQ==}
-
-  memoize-one@6.0.0:
-    resolution: {integrity: sha512-rkpe71W0N0c0Xz6QD0eJETuWAJGnJ9afsl1srmwPrI+yBCkge5EycXXbYRyvL29zZVUWQCY7InPRCv3GDXuZNw==}
 
   meow@12.1.1:
     resolution: {integrity: sha512-BhXM0Au22RwUneMPwSCnyhTOizdWoIEPU9sp0Aqa1PnDMR5Wv2FGXYDjuzJEIX+Eo2Rb8xuYe5jrnm5QowQFkw==}
@@ -8398,9 +8239,6 @@ packages:
   normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
-
-  normalize-wheel-es@1.2.0:
-    resolution: {integrity: sha512-Wj7+EJQ8mSuXr2iWfnujrimU35R2W4FAErEyTmJoJ7ucwTn2hOUSsRehMb5RSYkxXGTM7Y9QpvPmp++w5ftoJw==}
 
   npm-run-path@5.3.0:
     resolution: {integrity: sha512-ppwTtiJZq0O/ai0z7yfudtBpWIoxM8yE6nHi1X47eFR2EWORqfbu6CnPlNsjeN683eT0qG6H/Pyf9fCcvjnnnQ==}
@@ -10464,10 +10302,6 @@ packages:
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
     engines: {node: '>= 10.0.0'}
-
-  unplugin-element-plus@0.10.0:
-    resolution: {integrity: sha512-oRSW0x6U58xBOWKy8TcoVZNA8ElIpfp3TUJRLQI6ey/E9PpjHl9/deeTAZNt8D57Li4OA4pCJtM6p2cb4Ff4ZA==}
-    engines: {node: '>=18.12.0'}
 
   unplugin-utils@0.2.4:
     resolution: {integrity: sha512-8U/MtpkPkkk3Atewj1+RcKIjb5WBimZ/WSLhhR3w6SsIj8XJuKTacSP8g+2JhfSGw0Cb125Y+2zA/IzJZDVbhA==}
@@ -12949,10 +12783,6 @@ snapshots:
 
   '@dual-bundle/import-meta-resolve@4.1.0': {}
 
-  '@element-plus/icons-vue@2.3.2(vue@3.5.21(typescript@5.9.2))':
-    dependencies:
-      vue: 3.5.21(typescript@5.9.2)
-
   '@emnapi/core@1.4.3':
     dependencies:
       '@emnapi/wasi-threads': 1.0.2
@@ -14009,8 +13839,6 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@sxzz/popperjs-es@2.11.7': {}
-
   '@tailwindcss/nesting@0.0.0-insiders.565cd3e(postcss@8.5.6)':
     dependencies:
       postcss: 8.5.6
@@ -14089,8 +13917,6 @@ snapshots:
 
   '@types/html-minifier-terser@7.0.2': {}
 
-  '@types/json-bigint@1.0.4': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
@@ -14102,10 +13928,6 @@ snapshots:
     dependencies:
       '@types/ms': 2.1.0
       '@types/node': 22.15.30
-
-  '@types/lodash-es@4.17.12':
-    dependencies:
-      '@types/lodash': 4.17.13
 
   '@types/lodash.clonedeep@4.5.9':
     dependencies:
@@ -14170,8 +13992,6 @@ snapshots:
   '@types/sortablejs@1.15.8': {}
 
   '@types/trusted-types@2.0.7': {}
-
-  '@types/web-bluetooth@0.0.16': {}
 
   '@types/web-bluetooth@0.0.20': {}
 
@@ -14874,16 +14694,6 @@ snapshots:
       '@vueuse/shared': 13.9.0(vue@3.5.21(typescript@5.9.2))
       vue: 3.5.21(typescript@5.9.2)
 
-  '@vueuse/core@9.13.0(vue@3.5.21(typescript@5.9.2))':
-    dependencies:
-      '@types/web-bluetooth': 0.0.16
-      '@vueuse/metadata': 9.13.0
-      '@vueuse/shared': 9.13.0(vue@3.5.21(typescript@5.9.2))
-      vue-demi: 0.14.10(vue@3.5.21(typescript@5.9.2))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
-
   '@vueuse/integrations@13.9.0(async-validator@4.2.5)(axios@1.11.0)(change-case@5.4.4)(focus-trap@7.6.0)(jwt-decode@4.0.0)(nprogress@0.2.0)(qrcode@1.5.4)(sortablejs@1.15.6)(vue@3.5.21(typescript@5.9.2))':
     dependencies:
       '@vueuse/core': 13.9.0(vue@3.5.21(typescript@5.9.2))
@@ -14902,8 +14712,6 @@ snapshots:
   '@vueuse/metadata@10.11.1': {}
 
   '@vueuse/metadata@13.9.0': {}
-
-  '@vueuse/metadata@9.13.0': {}
 
   '@vueuse/motion@3.0.3(magicast@0.3.5)(vue@3.5.21(typescript@5.9.2))':
     dependencies:
@@ -14933,13 +14741,6 @@ snapshots:
   '@vueuse/shared@13.9.0(vue@3.5.21(typescript@5.9.2))':
     dependencies:
       vue: 3.5.21(typescript@5.9.2)
-
-  '@vueuse/shared@9.13.0(vue@3.5.21(typescript@5.9.2))':
-    dependencies:
-      vue-demi: 0.14.10(vue@3.5.21(typescript@5.9.2))
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - vue
 
   '@vxe-ui/core@4.2.12(vue@3.5.21(typescript@5.9.2))':
     dependencies:
@@ -16417,27 +16218,6 @@ snapshots:
   electron-to-chromium@1.5.194: {}
 
   electron-to-chromium@1.5.214: {}
-
-  element-plus@2.11.2(vue@3.5.21(typescript@5.9.2)):
-    dependencies:
-      '@ctrl/tinycolor': 4.1.0
-      '@element-plus/icons-vue': 2.3.2(vue@3.5.21(typescript@5.9.2))
-      '@floating-ui/dom': 1.6.12
-      '@popperjs/core': '@sxzz/popperjs-es@2.11.7'
-      '@types/lodash': 4.17.13
-      '@types/lodash-es': 4.17.12
-      '@vueuse/core': 9.13.0(vue@3.5.21(typescript@5.9.2))
-      async-validator: 4.2.5
-      dayjs: 1.11.18
-      escape-html: 1.0.3
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-      lodash-unified: 1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21)
-      memoize-one: 6.0.0
-      normalize-wheel-es: 1.2.0
-      vue: 3.5.21(typescript@5.9.2)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
 
   emoji-regex@10.4.0: {}
 
@@ -18123,12 +17903,6 @@ snapshots:
 
   lodash-es@4.17.21: {}
 
-  lodash-unified@1.0.3(@types/lodash-es@4.17.12)(lodash-es@4.17.21)(lodash@4.17.21):
-    dependencies:
-      '@types/lodash-es': 4.17.12
-      lodash: 4.17.21
-      lodash-es: 4.17.21
-
   lodash.camelcase@4.3.0: {}
 
   lodash.castarray@4.4.0: {}
@@ -18286,8 +18060,6 @@ snapshots:
   mdn-data@2.12.2: {}
 
   mdn-data@2.21.0: {}
-
-  memoize-one@6.0.0: {}
 
   meow@12.1.1: {}
 
@@ -18656,8 +18428,6 @@ snapshots:
   normalize-path@3.0.0: {}
 
   normalize-range@0.1.2: {}
-
-  normalize-wheel-es@1.2.0: {}
 
   npm-run-path@5.3.0:
     dependencies:
@@ -20817,13 +20587,6 @@ snapshots:
   universalify@0.1.2: {}
 
   universalify@2.0.1: {}
-
-  unplugin-element-plus@0.10.0:
-    dependencies:
-      es-module-lexer: 1.7.0
-      magic-string: 0.30.17
-      unplugin: 2.3.5
-      unplugin-utils: 0.2.4
 
   unplugin-utils@0.2.4:
     dependencies:
