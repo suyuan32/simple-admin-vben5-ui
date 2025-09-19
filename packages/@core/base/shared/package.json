@@ -79,7 +79,7 @@
     }
   },
   "dependencies": {
-    "@ctrl/tinycolor": "^4.1.0",
+    "@ctrl/tinycolor": "^4.2.0",
     "@tanstack/vue-store": "catalog:",
     "@vue/shared": "catalog:",
     "clsx": "^2.1.1",

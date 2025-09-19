@@ -3,9 +3,11 @@ import type { DialogContentEmits, DialogContentProps } from 'radix-vue';
 
 import type { SheetVariants } from './sheet';
 
-import { cn } from '@vben-core/shared/utils';
-import { DialogContent, DialogPortal, useForwardPropsEmits } from 'radix-vue';
 import { computed, ref } from 'vue';
+
+import { cn } from '@vben-core/shared/utils';
+
+import { DialogContent, useForwardPropsEmits } from 'radix-vue';
 
 import { sheetVariants } from './sheet';
 import SheetOverlay from './SheetOverlay.vue';
@@ -29,7 +31,7 @@ const props = withDefaults(defineProps<SheetContentProps>(), {
 });
 
 const emits = defineEmits<
-  { close: []; closed: []; opened: [] } & DialogContentEmits
+  DialogContentEmits & { close: []; closed: []; opened: [] }
 >();
 
 const delegatedProps = computed(() => {
@@ -71,7 +73,7 @@ function onAnimationEnd(event: AnimationEvent) {
 </script>
 
 <template>
-  <DialogPortal :to="appendTo">
+  <Teleport defer :to="appendTo">
     <Transition name="fade">
       <SheetOverlay
         v-if="open && modal"
@@ -101,5 +103,5 @@ function onAnimationEnd(event: AnimationEvent) {
         <Cross2Icon class="h-5 w-" />
       </DialogClose> -->
     </DialogContent>
-  </DialogPortal>
+  </Teleport>
 </template>

@@ -102,7 +102,7 @@ function selectColor() {
 
 watch(
   () => [modelValue.value, props.isDark] as [BuiltinThemeType, boolean],
-  ([themeType, isDark]) => {
+  ([themeType, isDark], [_, isDarkPrev]) => {
     const theme = builtinThemePresets.value.find(
       (item) => item.type === themeType,
     );
@@ -111,7 +111,9 @@ watch(
         ? theme.darkPrimaryColor || theme.primaryColor
         : theme.primaryColor;
 
-      themeColorPrimary.value = primaryColor || theme.color;
+      if (!(theme.type === 'custom' && isDark !== isDarkPrev)) {
+        themeColorPrimary.value = primaryColor || theme.color;
+      }
     }
   },
 );

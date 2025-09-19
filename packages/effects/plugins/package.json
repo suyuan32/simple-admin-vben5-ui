@@ -40,7 +40,7 @@
     "@vueuse/core": "catalog:",
     "@vueuse/motion": "catalog:",
     "echarts": "catalog:",
-    "vue": "catalog:",
+    "vue": "^3.5.21",
     "vxe-pc-ui": "catalog:",
     "vxe-table": "catalog:"
   }

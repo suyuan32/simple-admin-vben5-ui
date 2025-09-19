@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "catalog:",
-    "performant-array-to-tree": "catalog:",
     "@codemirror/lang-json": "catalog:",
     "@codemirror/language": "catalog:",
     "@codemirror/legacy-modes": "catalog:",
@@ -53,9 +52,10 @@
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
     "json-bigint": "catalog:",
-    "pinia": "catalog:",
+    "performant-array-to-tree": "catalog:",
+    "pinia": "^3.0.3",
     "remeda": "catalog:",
-    "vue": "catalog:",
+    "vue": "^3.5.21",
     "vue-codemirror": "catalog:",
     "vue-router": "catalog:"
   }
