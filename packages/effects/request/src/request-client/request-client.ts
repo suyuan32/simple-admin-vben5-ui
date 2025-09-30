@@ -37,6 +37,7 @@ function getParamsSerializer(
 }
 
 class RequestClient {
+  public addRequestInterceptor: InterceptorManager['addRequestInterceptor'];
   public addResponseInterceptor: InterceptorManager['addResponseInterceptor'];
 
   public download: FileDownloader['download'];
@@ -46,6 +47,7 @@ class RequestClient {
   public postSSE: SSE['postSSE'];
   // 刷新token队列
   public refreshTokenQueue: ((token: string) => void)[] = [];
+  public requestSSE: SSE['requestSSE'];
   public upload: FileUploader['upload'];
   private readonly instance: AxiosInstance;
 
