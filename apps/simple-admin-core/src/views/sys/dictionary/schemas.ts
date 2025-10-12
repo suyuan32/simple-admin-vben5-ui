@@ -25,7 +25,7 @@ export const tableColumns: VxeGridProps = {
     },
     {
       title: $t('sys.dictionary.isPublic'),
-      field: 'status',
+      field: 'isPublic',
       slots: {
         default: (e) =>
           h(Switch, {
