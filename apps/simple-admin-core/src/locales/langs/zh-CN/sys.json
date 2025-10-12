@@ -228,7 +228,8 @@
     "addDictionary": "添加字典",
     "addDictionaryDetail": "添加键值",
     "editDictionary": "编辑字典",
-    "editDictionaryDetail": "编辑键值"
+    "editDictionaryDetail": "编辑键值",
+    "isPublic": "是否公开访问"
   },
   "oauth": {
     "providerList": "第三方列表",

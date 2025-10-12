@@ -228,7 +228,8 @@
     "addDictionary": "Add Dictionary",
     "addDictionaryDetail": "Add Key/Value",
     "editDictionary": "Edit Dictionary",
-    "editDictionaryDetail": "Edit Key/Value"
+    "editDictionaryDetail": "Edit Key/Value",
+    "isPublic": "Public Access"
   },
   "oauth": {
     "providerList": "Provider List",

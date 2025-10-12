@@ -1,4 +1,4 @@
-import { type BaseListResp } from '../../model/baseModel';
+import type { BaseListResp } from '../../model/baseModel';
 
 /**
  *  @description: Dictionary info response
@@ -11,6 +11,7 @@ export interface DictionaryInfo {
   name?: string;
   status?: number;
   desc?: string;
+  isPublic?: boolean;
 }
 
 /**

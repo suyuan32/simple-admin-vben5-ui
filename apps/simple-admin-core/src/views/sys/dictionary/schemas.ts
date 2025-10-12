@@ -1,9 +1,10 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { DictionaryDetailInfo } from '#/api/sys/model/dictionaryDetailModel';
 
 import { h } from 'vue';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { InputNumber, Switch } from 'ant-design-vue';
@@ -23,6 +24,24 @@ export const tableColumns: VxeGridProps = {
       field: 'name',
     },
     {
+      title: $t('sys.dictionary.isPublic'),
+      field: 'status',
+      slots: {
+        default: (e) =>
+          h(Switch, {
+            checked: e.row.isPublic,
+            onClick: () => {
+              const newStatus = !e.row.isPublic;
+              updateDictionary({ id: e.row.id, isPublic: newStatus }).then(
+                () => {
+                  e.row.isPublic = newStatus;
+                },
+              );
+            },
+          }),
+      },
+    },
+    {
       title: $t('common.status'),
       field: 'status',
       slots: {
@@ -38,7 +57,6 @@ export const tableColumns: VxeGridProps = {
           }),
       },
     },
-
     {
       title: $t('common.createTime'),
       field: 'createdAt',
@@ -87,6 +105,18 @@ export const dataFormSchemas: VbenFormProps = {
       label: $t('common.description'),
       component: 'Input',
       rules: z.string().max(200).optional(),
+    },
+    {
+      fieldName: 'isPublic',
+      label: $t('sys.dictionary.isPublic'),
+      component: 'RadioButtonGroup',
+      defaultValue: false,
+      componentProps: {
+        options: [
+          { label: $t('common.yes'), value: true },
+          { label: $t('common.no'), value: false },
+        ],
+      },
     },
     {
       fieldName: 'status',
