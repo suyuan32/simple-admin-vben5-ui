@@ -85,7 +85,7 @@ Simple Admin UI 是基于 vue-vben-admin v5 二次开发的为 Simple Admin 专�
 
 ## 快速开始
 
-[快速开始文档](https://doc.ryansu.pro/zh/guide/basic-config/env_setting.html)
+[快速开始文档](https://doc.ryansu.tech/zh/guide/basic-config/all_in_one.html)
 
 ## 更新日志
 
@@ -93,7 +93,6 @@ Simple Admin UI 是基于 vue-vben-admin v5 二次开发的为 Simple Admin 专�
 
 ## 项目地址
 
-- [Simple-Admin-ui](https://github.com/suyuan32/Simple-Admin-ui)
 - [Simple-Admin](https://github.com/suyuan32/Simple-Admin)
 
 ## 如何贡献

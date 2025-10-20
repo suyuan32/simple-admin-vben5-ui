@@ -85,7 +85,7 @@ Simple Admin Vben5 UI is a modern UI for Simple Admin. It is based on vue-vben-a
 
 ## Quick Start
 
-[Quick Start Document](https://doc.ryansu.pro/en/guide/basic-config/env_setting.html)
+[Quick Start Document](https://doc.ryansu.tech/guide/basic-config/all_in_one.html)
 
 ## Change Log
 
@@ -93,7 +93,6 @@ Simple Admin Vben5 UI is a modern UI for Simple Admin. It is based on vue-vben-a
 
 ## Project
 
-- [Simple-Admin-ui](https://github.com/suyuan32/Simple-Admin-ui)
 - [Simple-Admin](https://github.com/suyuan32/Simple-Admin)
 
 ## How to contribute
