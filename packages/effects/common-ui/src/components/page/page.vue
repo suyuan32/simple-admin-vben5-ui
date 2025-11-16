@@ -95,7 +95,7 @@ onMounted(() => {
     >
       <slot name="footer">
         <div
-          class="flex h-4 w-full items-center justify-center text-gray-400 dark:text-gray-500"
+          class="flex h-4 w-full items-center justify-center overflow-hidden truncate text-gray-400 dark:text-gray-500"
         >
           <span>
             Powered &nbsp; by &nbsp;
