@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import type { ClassType } from '@vben-core/typings';
 import type {
   HoverCardContentProps,
   HoverCardRootEmits,
   HoverCardRootProps,
-} from 'radix-vue';
+} from 'reka-ui';
 
-import { useForwardPropsEmits } from 'radix-vue';
+import type { ClassType } from '@vben-core/typings';
+
 import { computed } from 'vue';
+
+import { useForwardPropsEmits } from 'reka-ui';
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '../../ui';
 

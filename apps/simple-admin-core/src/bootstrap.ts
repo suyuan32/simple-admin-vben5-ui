@@ -1,18 +1,21 @@
-import { $t, setupI18n } from '#/locales';
+import { createApp, watchEffect } from 'vue';
+
 import { registerAccessDirective } from '@vben/access';
-import { registerLoadingDirective } from '@vben/common-ui/es/loading';
+import { registerLoadingDirective } from '@vben/common-ui';
 import { preferences } from '@vben/preferences';
 import { initStores } from '@vben/stores';
+import '@vben/styles';
+import '@vben/styles/antd';
+
 import { useTitle } from '@vueuse/core';
-import { createApp, watchEffect } from 'vue';
+
+import { $t, setupI18n } from '#/locales';
+import { router } from '#/router';
 
 import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
-import { router } from './router';
-
-import '@vben/styles';
-import '@vben/styles/antd';
+import { initTimezone } from './timezone-init';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -21,11 +24,11 @@ async function bootstrap(namespace: string) {
   // 初始化表单组件
   await initSetupVbenForm();
 
-  // // 设置弹窗的默认配置
+  // 设置弹窗的默认配置
   // setDefaultModalProps({
   //   fullscreenButton: false,
   // });
-  // // 设置抽屉的默认配置
+  // 设置抽屉的默认配置
   // setDefaultDrawerProps({
   //   zIndex: 1020,
   // });
@@ -43,6 +46,9 @@ async function bootstrap(namespace: string) {
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
+
+  // 初始化时区HANDLER
+  initTimezone();
 
   // 安装权限指令
   registerAccessDirective(app);

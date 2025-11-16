@@ -1,16 +1,19 @@
 <script lang="ts" setup>
+import { computed, useSlots } from 'vue';
+
 import { useRefresh } from '@vben/hooks';
 import { RotateCw } from '@vben/icons';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
+
 import { VbenFullScreen, VbenIconButton } from '@vben-core/shadcn-ui';
-import { computed, useSlots } from 'vue';
 
 import {
   GlobalSearch,
   LanguageToggle,
   PreferencesButton,
   ThemeToggle,
+  TimezoneButton,
 } from '../../widgets';
 
 interface Props {
@@ -64,15 +67,21 @@ const rightSlots = computed(() => {
       name: 'language-toggle',
     });
   }
-  if (preferences.widget.fullscreen) {
+  if (preferences.widget.timezone) {
     list.push({
       index: REFERENCE_VALUE + 40,
+      name: 'timezone',
+    });
+  }
+  if (preferences.widget.fullscreen) {
+    list.push({
+      index: REFERENCE_VALUE + 50,
       name: 'fullscreen',
     });
   }
   if (preferences.widget.notification) {
     list.push({
-      index: REFERENCE_VALUE + 50,
+      index: REFERENCE_VALUE + 60,
       name: 'notification',
     });
   }
@@ -163,6 +172,9 @@ function clearPreferencesAndLogout() {
         </template>
         <template v-else-if="slot.name === 'fullscreen'">
           <VbenFullScreen class="mr-1" />
+        </template>
+        <template v-else-if="slot.name === 'timezone'">
+          <TimezoneButton class="mr-1 mt-[2px]" />
         </template>
       </slot>
     </template>

@@ -1,8 +1,10 @@
 import type { TabsProps } from './types';
 
-import { VbenScrollbar } from '@vben-core/shadcn-ui';
-import { useDebounceFn } from '@vueuse/core';
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+
+import { VbenScrollbar } from '@vben-core/shadcn-ui';
+
+import { useDebounceFn } from '@vueuse/core';
 
 type DomElement = Element | null | undefined;
 
@@ -57,7 +59,7 @@ export function useTabsViewScroll(props: TabsProps) {
     }
 
     const viewportEl = scrollbarEl?.querySelector(
-      'div[data-radix-scroll-area-viewport]',
+      'div[data-reka-scroll-area-viewport]',
     );
 
     scrollViewportEl.value = viewportEl;

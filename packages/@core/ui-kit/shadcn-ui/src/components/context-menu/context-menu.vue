@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import type { ClassType } from '@vben-core/typings';
 import type {
   ContextMenuContentProps,
   ContextMenuRootEmits,
   ContextMenuRootProps,
-} from 'radix-vue';
+} from 'reka-ui';
+
+import type { ClassType } from '@vben-core/typings';
 
 import type { IContextMenuItem } from './interface';
 
-import { useForwardPropsEmits } from 'radix-vue';
 import { computed } from 'vue';
+
+import { useForwardPropsEmits } from 'reka-ui';
 
 import {
   ContextMenu,
@@ -21,14 +23,14 @@ import {
 } from '../../ui/context-menu';
 
 const props = defineProps<
-  {
+  ContextMenuRootProps & {
     class?: ClassType;
     contentClass?: ClassType;
     contentProps?: ContextMenuContentProps;
     handlerData?: Record<string, any>;
     itemClass?: ClassType;
     menus: (data: any) => IContextMenuItem[];
-  } & ContextMenuRootProps
+  }
 >();
 
 const emits = defineEmits<ContextMenuRootEmits>();

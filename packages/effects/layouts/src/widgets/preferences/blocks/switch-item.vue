@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { CircleHelp } from '@vben/icons';
-import { Switch, VbenTooltip } from '@vben-core/shadcn-ui';
 import { useSlots } from 'vue';
+
+import { CircleHelp } from '@vben/icons';
+
+import { Switch, VbenTooltip } from '@vben-core/shadcn-ui';
 
 defineOptions({
   name: 'PreferenceSwitchItem',
@@ -48,6 +50,6 @@ function handleClick() {
     <span v-if="$slots.shortcut" class="ml-auto mr-2 text-xs opacity-60">
       <slot name="shortcut"></slot>
     </span>
-    <Switch v-model:checked="checked" @click.stop />
+    <Switch v-model="checked" @click.stop />
   </div>
 </template>

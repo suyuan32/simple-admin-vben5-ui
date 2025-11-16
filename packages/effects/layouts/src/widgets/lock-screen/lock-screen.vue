@@ -1,12 +1,15 @@
 <script setup lang="ts">
+import { computed, reactive, ref } from 'vue';
+
 import { LockKeyhole } from '@vben/icons';
 import { $t, useI18n } from '@vben/locales';
 import { storeToRefs, useAccessStore } from '@vben/stores';
+
 import { useScrollLock } from '@vben-core/composables';
 import { useVbenForm, z } from '@vben-core/form-ui';
 import { VbenAvatar, VbenButton } from '@vben-core/shadcn-ui';
+
 import { useDateFormat, useNow } from '@vueuse/core';
-import { computed, reactive, ref } from 'vue';
 
 interface Props {
   avatar?: string;
@@ -34,7 +37,7 @@ const date = useDateFormat(now, 'YYYY-MM-DD dddd', { locales: locale.value });
 const showUnlockForm = ref(false);
 const { lockScreenPassword } = storeToRefs(accessStore);
 
-const [Form, { form, validate }] = useVbenForm(
+const [Form, { form, validate, getFieldComponentRef }] = useVbenForm(
   reactive({
     commonConfig: {
       hideLabel: true,
@@ -72,6 +75,13 @@ async function handleSubmit() {
 
 function toggleUnlockForm() {
   showUnlockForm.value = !showUnlockForm.value;
+  if (showUnlockForm.value) {
+    requestAnimationFrame(() => {
+      getFieldComponentRef('password')
+        ?.$el?.querySelector('[name="password"]')
+        ?.focus();
+    });
+  }
 }
 
 useScrollLock();

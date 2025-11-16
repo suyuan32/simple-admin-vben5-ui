@@ -2,18 +2,20 @@
 import type {
   DropdownMenuContentEmits,
   DropdownMenuContentProps,
-} from 'radix-vue';
+} from 'reka-ui';
+
+import { computed } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
+
 import {
   DropdownMenuContent,
   DropdownMenuPortal,
   useForwardPropsEmits,
-} from 'radix-vue';
-import { computed } from 'vue';
+} from 'reka-ui';
 
 const props = withDefaults(
-  defineProps<{ class?: any } & DropdownMenuContentProps>(),
+  defineProps<DropdownMenuContentProps & { class?: any }>(),
   {
     sideOffset: 4,
   },

@@ -1,18 +1,17 @@
 <script setup lang="ts">
-import type {
-  ContextMenuContentEmits,
-  ContextMenuContentProps,
-} from 'radix-vue';
+import type { ContextMenuContentEmits, ContextMenuContentProps } from 'reka-ui';
+
+import { computed } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
+
 import {
   ContextMenuContent,
   ContextMenuPortal,
   useForwardPropsEmits,
-} from 'radix-vue';
-import { computed } from 'vue';
+} from 'reka-ui';
 
-const props = defineProps<{ class?: any } & ContextMenuContentProps>();
+const props = defineProps<ContextMenuContentProps & { class?: any }>();
 const emits = defineEmits<ContextMenuContentEmits>();
 
 const delegatedProps = computed(() => {

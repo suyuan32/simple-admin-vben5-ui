@@ -1,35 +1,35 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import type { AlertDialogContentEmits, AlertDialogContentProps } from 'reka-ui';
+
 import type { ClassType } from '@vben-core/typings';
-import type {
-  AlertDialogContentEmits,
-  AlertDialogContentProps,
-} from 'radix-vue';
+
+import { computed, ref } from 'vue';
 
 import { cn } from '@vben-core/shared/utils';
+
 import {
   AlertDialogContent,
   AlertDialogPortal,
   useForwardPropsEmits,
-} from 'radix-vue';
-import { computed, ref } from 'vue';
+} from 'reka-ui';
 
 import AlertDialogOverlay from './AlertDialogOverlay.vue';
 
 const props = withDefaults(
   defineProps<
-    {
+    AlertDialogContentProps & {
       centered?: boolean;
       class?: ClassType;
       modal?: boolean;
       open?: boolean;
       overlayBlur?: number;
       zIndex?: number;
-    } & AlertDialogContentProps
+    }
   >(),
   { modal: true },
 );
 const emits = defineEmits<
-  { close: []; closed: []; opened: [] } & AlertDialogContentEmits
+  AlertDialogContentEmits & { close: []; closed: []; opened: [] }
 >();
 
 const delegatedProps = computed(() => {
@@ -58,7 +58,7 @@ defineExpose({
 
 <template>
   <AlertDialogPortal>
-    <Transition appear name="fade">
+    <Transition name="fade" appear>
       <AlertDialogOverlay
         v-if="open && modal"
         :style="{
@@ -72,6 +72,9 @@ defineExpose({
     </Transition>
     <AlertDialogContent
       ref="contentRef"
+      :style="{ ...(zIndex ? { zIndex } : {}), position: 'fixed' }"
+      @animationend="onAnimationEnd"
+      v-bind="forwarded"
       :class="
         cn(
           'z-popup bg-background p-6 shadow-lg outline-none sm:rounded-xl',
@@ -88,9 +91,6 @@ defineExpose({
           props.class,
         )
       "
-      :style="{ ...(zIndex ? { zIndex } : {}), position: 'fixed' }"
-      v-bind="forwarded"
-      @animationend="onAnimationEnd"
     >
       <slot></slot>
     </AlertDialogContent>

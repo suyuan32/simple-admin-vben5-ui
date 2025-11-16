@@ -1,6 +1,5 @@
 import type { AxiosResponseHeaders, RequestClientOptions } from '@vben/request';
 
-import { useAuthStore } from '#/store';
 import { useAppConfig } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
@@ -18,6 +17,8 @@ import { cloneDeep } from '@vben/utils';
 import { message } from 'ant-design-vue';
 import JSONBigInt from 'json-bigint';
 
+import { useAuthStore } from '#/store';
+
 import { refreshTokenApi } from './core';
 
 const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
@@ -28,11 +29,15 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
     baseURL,
     transformResponse: (data: any, header: AxiosResponseHeaders) => {
       // storeAsString指示将BigInt存储为字符串，设为false则会存储为内置的BigInt类型
-      return header.getContentType()?.toString().includes('application/json')
-        ? cloneDeep(
-            JSONBigInt({ storeAsString: true, strict: true }).parse(data),
-          )
-        : data;
+      if (
+        header.getContentType()?.toString().includes('application/json') &&
+        typeof data === 'string'
+      ) {
+        return cloneDeep(
+          JSONBigInt({ storeAsString: true, strict: true }).parse(data),
+        );
+      }
+      return data;
     },
   });
 
