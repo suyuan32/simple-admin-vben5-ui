@@ -23,7 +23,7 @@
     "@vben-core/preferences": "workspace:*",
     "@vben-core/shared": "workspace:*",
     "@vben-core/typings": "workspace:*",
-    "pinia": "^3.0.3",
+    "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "catalog:",
     "secure-ls": "catalog:",
     "vue": "catalog:",
