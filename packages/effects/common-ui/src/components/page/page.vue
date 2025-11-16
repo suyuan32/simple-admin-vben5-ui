@@ -3,9 +3,10 @@ import type { StyleValue } from 'vue';
 
 import type { PageProps } from './types';
 
+import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
+
 import { CSS_VARIABLE_LAYOUT_CONTENT_HEIGHT } from '@vben-core/shared/constants';
 import { cn } from '@vben-core/shared/utils';
-import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 defineOptions({
   name: 'Page',
@@ -89,11 +90,19 @@ onMounted(() => {
       <slot></slot>
     </div>
     <div
-      v-if="$slots.footer"
       ref="footerRef"
-      :class="cn('bg-card align-center flex px-6 py-4', footerClass)"
+      :class="cn('bg-card align-center flex px-6 py-1', footerClass)"
     >
-      <slot name="footer"></slot>
+      <slot name="footer">
+        <div
+          class="flex h-4 w-full items-center justify-center text-gray-400 dark:text-gray-500"
+        >
+          <span>
+            Powered &nbsp; by &nbsp;
+            <a href="https://doc.ryansu.tech/zh/">Simple &nbsp; Admin</a>
+          </span>
+        </div>
+      </slot>
     </div>
   </div>
 </template>
