@@ -31,6 +31,7 @@ const defaultPreferences: Preferences = {
     watermark: false,
     watermarkContent: '',
     zIndex: 200,
+    defaultHomePath: '/dashboard',
   },
   breadcrumb: {
     enable: true,

@@ -126,6 +126,7 @@ export const useDynamicConfigStore = defineStore('dynamic-config', {
           },
           widget: {
             notification: this.showNotice,
+            timezone: false,
           },
         });
         updatePreferences(overridesPreferences);
