@@ -15,8 +15,7 @@ const defaultPreferences: Preferences = {
     contentPaddingLeft: 0,
     contentPaddingRight: 0,
     contentPaddingTop: 0,
-    defaultAvatar:
-      'https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png',
+    defaultAvatar: '/img/logo.png',
     dynamicTitle: true,
     enableCheckUpdates: true,
     enablePreferences: true,
@@ -65,7 +64,7 @@ const defaultPreferences: Preferences = {
   logo: {
     enable: true,
     fit: 'contain',
-    source: `https://simpleadmin-2024.oss-cn-shanghai.aliyuncs.com/logo.png`,
+    source: `/img/logo.png`,
   },
   navigation: {
     accordion: true,
