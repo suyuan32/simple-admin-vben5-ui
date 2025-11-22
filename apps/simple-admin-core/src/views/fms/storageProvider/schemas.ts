@@ -127,6 +127,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'region',
       label: $t('fms.storageProvider.region'),
       component: 'Input',
+      rules: 'required',
     },
     {
       fieldName: 'isDefault',
