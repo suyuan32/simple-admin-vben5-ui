@@ -1,10 +1,13 @@
 <script lang="ts" setup>
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 import type { CloudFileInfo } from '#/api/fms/model/cloudFileModel';
+import type { ActionItem } from '#/components/table/table-action';
 
 import { h, ref } from 'vue';
 
-import { Page, useVbenModal, type VbenFormProps } from '@vben/common-ui';
+import { Page, useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useClipboard } from '@vueuse/core';
@@ -15,7 +18,7 @@ import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import { deleteCloudFile, getCloudFileList } from '#/api/fms/cloudFile';
 import { getStorageProviderList } from '#/api/fms/storageProvider';
 import { ApiSelect, UploadDragger } from '#/components/form';
-import { type ActionItem, TableAction } from '#/components/table/table-action';
+import { TableAction } from '#/components/table/table-action';
 
 import CloudFileForm from './form.vue';
 import { searchFormSchemas, tableColumns } from './schemas';
@@ -249,7 +252,7 @@ function handleDownloadImage() {
 const { copy } = useClipboard();
 
 function handleCopyPath(record: any) {
-  copy(record.publicPath);
+  copy(record.url);
   message.success($t('common.successful'));
 }
 
