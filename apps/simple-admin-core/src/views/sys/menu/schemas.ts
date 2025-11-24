@@ -1,13 +1,17 @@
-import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { VbenFormProps } from '@vben/common-ui';
+
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
+import { h } from 'vue';
+
+import { $t } from '@vben/locales';
+
+import { Icon } from '@iconify/vue';
+import { Tag } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
 import { getMenuList } from '#/api/sys/menu';
 import { ParentIdEnum } from '#/enums/common';
-import { Icon } from '@iconify/vue';
-import { $t } from '@vben/locales';
-import { Tag } from 'ant-design-vue';
-import { h } from 'vue';
 
 export const tableColumns: VxeGridProps = {
   columns: [
@@ -167,12 +171,6 @@ export const dataFormSchemas: VbenFormProps = {
       formItemClass: 'col-span-2 items-baseline',
       // eslint-disable-next-line regexp/no-super-linear-backtracking
       rules: z.string().regex(/^(\/?(:)?[\w-]+)*$/gm, $t('common.wrongFormat')),
-      dependencies: {
-        triggerFields: ['menuType'],
-        show(_values, formApi) {
-          return formApi.values.menuType !== 2;
-        },
-      },
     },
     {
       fieldName: 'component',
