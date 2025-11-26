@@ -4,14 +4,18 @@ import type {
   DefaultOptionType,
   FilterFunc,
 } from 'ant-design-vue/lib/vc-select/Select';
+
 import type { PropType } from 'vue';
 
-import { get } from '#/utils/object';
+import { computed, ref, unref, watch } from 'vue';
+
 import { $t } from '@vben/locales';
+
 import { useVModel } from '@vueuse/core';
 import { Select } from 'ant-design-vue';
-import { isFunction, omit } from 'remeda';
-import { computed, ref, unref, watch } from 'vue';
+import { isFunction, isNumber, omit } from 'remeda';
+
+import { get } from '#/utils/object';
 
 type OptionsItem = {
   [name: string]: any;
@@ -182,8 +186,10 @@ async function searchFetch(value: string) {
       searchParam[props.searchField] = value;
     }
 
-    searchParam.page = 1;
-    searchParam.pageSize = 10;
+    searchParam.page = isNumber(props.params.page) ? props.params.page : 1;
+    searchParam.pageSize = isNumber(props.params.pageSize)
+      ? props.params.pageSize
+      : 10;
 
     const res = await api(searchParam);
     if (Array.isArray(res)) {
