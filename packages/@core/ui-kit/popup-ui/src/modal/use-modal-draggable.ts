@@ -5,14 +5,16 @@
 
 import type { ComputedRef, Ref } from 'vue';
 
-import { unrefElement } from '@vueuse/core';
 import { onBeforeUnmount, onMounted, reactive, ref, watchEffect } from 'vue';
+
+import { unrefElement } from '@vueuse/core';
 
 export function useModalDraggable(
   targetRef: Ref<HTMLElement | undefined>,
   dragRef: Ref<HTMLElement | undefined>,
   draggable: ComputedRef<boolean>,
   containerSelector?: ComputedRef<string | undefined>,
+  centered?: ComputedRef<boolean>,
 ) {
   const transform = reactive({
     offsetX: 0,
@@ -72,7 +74,10 @@ export function useModalDraggable(
       transform.offsetY = moveY;
 
       if (targetRef.value) {
-        targetRef.value.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        const isCentered = centered?.value;
+        targetRef.value.style.transform = isCentered
+          ? `translate(${moveX}px, calc(-50% + ${moveY}px))`
+          : `translate(${moveX}px, ${moveY}px)`;
         dragging.value = true;
       }
     };
@@ -107,7 +112,7 @@ export function useModalDraggable(
 
     const target = unrefElement(targetRef);
     if (target) {
-      target.style.transform = 'none';
+      target.style.transform = '';
     }
   };
 

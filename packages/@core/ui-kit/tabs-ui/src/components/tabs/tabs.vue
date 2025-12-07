@@ -3,9 +3,10 @@ import type { TabDefinition } from '@vben-core/typings';
 
 import type { TabConfig, TabsProps } from '../../types';
 
+import { computed } from 'vue';
+
 import { Pin, X } from '@vben-core/icons';
 import { VbenContextMenu, VbenIcon } from '@vben-core/shadcn-ui';
-import { computed } from 'vue';
 
 interface Props extends TabsProps {}
 
@@ -88,14 +89,14 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
         :key="tab.key"
         :class="[
           {
-            'is-active dark:bg-accent bg-primary/15': tab.key === active,
+            'is-active bg-primary/15 dark:bg-accent': tab.key === active,
             draggable: !tab.affixTab,
             'affix-tab': tab.affixTab,
           },
           typeWithClass.content,
         ]"
         :data-index="i"
-        class="tab-item [&:not(.is-active)]:hover:bg-accent translate-all group relative flex cursor-pointer select-none"
+        class="tab-item translate-all [&:not(.is-active)]:hover:bg-accent group relative flex cursor-pointer select-none"
         data-tab-item="true"
         @click="active = tab.key"
         @mousedown="onMouseDown($event, tab)"
@@ -114,7 +115,7 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
               <!-- close-icon -->
               <X
                 v-show="!tab.affixTab && tabsView.length > 1 && tab.closable"
-                class="hover:bg-accent stroke-accent-foreground/80 hover:stroke-accent-foreground dark:group-[.is-active]:text-accent-foreground group-[.is-active]:text-primary size-3 cursor-pointer rounded-full transition-all"
+                class="stroke-accent-foreground/80 hover:bg-accent hover:stroke-accent-foreground group-[.is-active]:text-primary dark:group-[.is-active]:text-accent-foreground size-3 cursor-pointer rounded-full transition-all"
                 @click.stop="() => emit('close', tab.key)"
               />
               <Pin

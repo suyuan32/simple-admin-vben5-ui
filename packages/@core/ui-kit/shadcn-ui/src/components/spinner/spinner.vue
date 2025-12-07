@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { cn } from '@vben-core/shared/utils';
 import { ref, watch } from 'vue';
+
+import { cn } from '@vben-core/shared/utils';
 
 interface Props {
   class?: string;

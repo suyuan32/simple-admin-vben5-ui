@@ -3,6 +3,8 @@ import type { Component } from 'vue';
 
 import type { AlertProps } from './alert';
 
+import { computed, h, nextTick, ref } from 'vue';
+
 import { useSimpleLocale } from '@vben-core/composables';
 import {
   CircleAlert,
@@ -25,7 +27,6 @@ import {
 } from '@vben-core/shadcn-ui';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
-import { computed, h, nextTick, ref } from 'vue';
 
 import { provideAlertContext } from './alert';
 

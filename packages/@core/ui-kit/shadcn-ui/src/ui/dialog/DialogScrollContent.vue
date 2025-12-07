@@ -33,7 +33,7 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits);
   <DialogPortal>
     <DialogOverlay
       :style="{ zIndex }"
-      class="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 border-border absolute inset-0 grid place-items-center overflow-y-auto border bg-black/80"
+      class="border-border data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 absolute inset-0 grid place-items-center overflow-y-auto border bg-black/80"
     >
       <DialogContent
         :class="

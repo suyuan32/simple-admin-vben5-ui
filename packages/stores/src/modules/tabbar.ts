@@ -129,7 +129,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
         if (
           maxNumOfOpenTab > 0 &&
           this.tabs.filter((tab) => tab.name === routeTab.name).length >=
-          maxNumOfOpenTab
+            maxNumOfOpenTab
         ) {
           // 关闭第一个
           const index = this.tabs.findIndex(
@@ -504,7 +504,7 @@ export const useTabbarStore = defineStore('core-tabbar', {
     affixTabs(): TabDefinition[] {
       const affixTabs = this.tabs.filter((tab) => isAffixTab(tab));
 
-      return affixTabs.sort((a, b) => {
+      return affixTabs.toSorted((a, b) => {
         const orderA = (a.meta?.affixTabOrder ?? 0) as number;
         const orderB = (b.meta?.affixTabOrder ?? 0) as number;
         return orderA - orderB;
@@ -571,10 +571,10 @@ function cloneTab(route: TabDefinition): TabDefinition {
     ...opt,
     matched: (matched
       ? matched.map((item) => ({
-        meta: item.meta,
-        name: item.name,
-        path: item.path,
-      }))
+          meta: item.meta,
+          name: item.name,
+          path: item.path,
+        }))
       : undefined) as RouteRecordNormalized[],
     meta: {
       ...meta,

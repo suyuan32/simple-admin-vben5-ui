@@ -1,8 +1,9 @@
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 import type { Recordable } from '@vben/types';
 
-import { $t } from '#/locales';
 import type { ComponentType } from './component';
+
+import { h } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
 import { $te } from '@vben/locales';
@@ -11,9 +12,11 @@ import {
   useVbenVxeGrid as useGrid,
 } from '@vben/plugins/vxe-table';
 import { get, isFunction, isString } from '@vben/utils';
+
 import { objectOmit } from '@vueuse/core';
 import { Button, Image, Popconfirm, Switch, Tag } from 'ant-design-vue';
-import { h } from 'vue';
+
+import { $t } from '#/locales';
 
 import { useVbenForm } from './form';
 
@@ -61,13 +64,14 @@ setupVbenVxeTable({
 
     // 表格配置项可以用 cellRender: { name: 'CellImage' },
     vxeUI.renderer.add('CellImage', {
-      renderTableDefault(_renderOpts, params) {
+      renderTableDefault(renderOpts, params) {
+        const { props } = renderOpts;
         const { column, row } = params;
         return (row[column.field] as string).endsWith('png') ||
           (row[column.field] as string).endsWith('jpg') ||
           (row[column.field] as string).endsWith('jpeg') ||
           (row[column.field] as string).endsWith('svg')
-          ? h(Image, { src: row[column.field] })
+          ? h(Image, { src: row[column.field], ...props })
           : '';
       },
     });

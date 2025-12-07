@@ -3,9 +3,10 @@ import type { TabDefinition } from '@vben-core/typings';
 
 import type { TabConfig, TabsProps } from '../../types';
 
+import { computed, ref } from 'vue';
+
 import { Pin, X } from '@vben-core/icons';
 import { VbenContextMenu, VbenIcon } from '@vben-core/shadcn-ui';
-import { computed, ref } from 'vue';
 
 interface Props extends TabsProps {}
 
@@ -138,19 +139,19 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
               <!-- close-icon -->
               <X
                 v-show="!tab.affixTab && tabsView.length > 1 && tab.closable"
-                class="hover:bg-accent stroke-accent-foreground/80 hover:stroke-accent-foreground text-accent-foreground/80 group-[.is-active]:text-accent-foreground mt-[2px] size-3 cursor-pointer rounded-full transition-all"
+                class="stroke-accent-foreground/80 text-accent-foreground/80 hover:bg-accent hover:stroke-accent-foreground group-[.is-active]:text-accent-foreground mt-[2px] size-3 cursor-pointer rounded-full transition-all"
                 @click.stop="() => emit('close', tab.key)"
               />
               <Pin
                 v-show="tab.affixTab && tabsView.length > 1 && tab.closable"
-                class="hover:text-accent-foreground text-accent-foreground/80 group-[.is-active]:text-accent-foreground mt-[1px] size-3.5 cursor-pointer rounded-full transition-all"
+                class="text-accent-foreground/80 hover:text-accent-foreground group-[.is-active]:text-accent-foreground mt-[1px] size-3.5 cursor-pointer rounded-full transition-all"
                 @click.stop="() => emit('unpin', tab)"
               />
             </div>
 
             <!-- tab-item-main -->
             <div
-              class="tabs-chrome__item-main group-[.is-active]:text-primary dark:group-[.is-active]:text-accent-foreground text-accent-foreground z-[2] mx-[calc(var(--gap)*2)] my-0 flex h-full items-center overflow-hidden rounded-tl-[5px] rounded-tr-[5px] pl-2 pr-4 duration-150"
+              class="tabs-chrome__item-main text-accent-foreground group-[.is-active]:text-primary dark:group-[.is-active]:text-accent-foreground z-[2] mx-[calc(var(--gap)*2)] my-0 flex h-full items-center overflow-hidden rounded-tl-[5px] rounded-tr-[5px] pl-2 pr-4 duration-150"
             >
               <VbenIcon
                 v-if="showIcon"

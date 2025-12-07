@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue';
 
-import { VbenScrollbar } from '@vben-core/shadcn-ui';
-import { useScrollLock } from '@vueuse/core';
 import { computed, shallowRef, useSlots, watchEffect } from 'vue';
+
+import { VbenScrollbar } from '@vben-core/shadcn-ui';
+
+import { useScrollLock } from '@vueuse/core';
 
 import { SidebarCollapseButton, SidebarFixedButton } from './widgets';
 
@@ -262,7 +264,7 @@ function handleMouseleave() {
       theme,
       {
         'bg-sidebar-deep': isSidebarMixed,
-        'bg-sidebar border-border border-r': !isSidebarMixed,
+        'border-border bg-sidebar border-r': !isSidebarMixed,
       },
     ]"
     :style="style"

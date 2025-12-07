@@ -10,12 +10,11 @@ import '@vben/styles/antd';
 import { useTitle } from '@vueuse/core';
 
 import { $t, setupI18n } from '#/locales';
-import { router } from '#/router';
 
 import { initComponentAdapter } from './adapter/component';
 import { initSetupVbenForm } from './adapter/form';
 import App from './app.vue';
-import { initTimezone } from './timezone-init';
+import { router } from './router';
 
 async function bootstrap(namespace: string) {
   // 初始化组件适配器
@@ -46,9 +45,6 @@ async function bootstrap(namespace: string) {
 
   // 配置 pinia-tore
   await initStores(app, { namespace });
-
-  // 初始化时区HANDLER
-  initTimezone();
 
   // 安装权限指令
   registerAccessDirective(app);

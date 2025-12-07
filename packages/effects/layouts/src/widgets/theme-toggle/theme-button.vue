@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { VbenButton } from '@vben-core/shadcn-ui';
 import { computed, nextTick } from 'vue';
+
+import { VbenButton } from '@vben-core/shadcn-ui';
 
 interface Props {
   /**
@@ -65,7 +66,7 @@ function toggleTheme(event: MouseEvent) {
     ];
     const animate = document.documentElement.animate(
       {
-        clipPath: isDark.value ? [...clipPath].reverse() : clipPath,
+        clipPath: isDark.value ? [...clipPath].toReversed() : clipPath,
       },
       {
         duration: 450,
@@ -134,8 +135,8 @@ function toggleTheme(event: MouseEvent) {
   &__sun {
     @apply fill-foreground/90 stroke-none;
 
-    transition: transform 1.6s cubic-bezier(0.25, 0, 0.2, 1);
     transform-origin: center center;
+    transition: transform 1.6s cubic-bezier(0.25, 0, 0.2, 1);
 
     &:hover > svg > & {
       @apply fill-foreground/90;
@@ -145,10 +146,10 @@ function toggleTheme(event: MouseEvent) {
   &__sun-beams {
     @apply stroke-foreground/90 stroke-[2px];
 
+    transform-origin: center center;
     transition:
       transform 1.6s cubic-bezier(0.5, 1.5, 0.75, 1.25),
       opacity 0.6s cubic-bezier(0.25, 0, 0.3, 1);
-    transform-origin: center center;
 
     &:hover > svg > & {
       @apply stroke-foreground;

@@ -2,14 +2,16 @@ import type { DeepPartial } from '@vben-core/typings';
 
 import type { InitialOptions, Preferences } from './types';
 
+import { markRaw, reactive, readonly, watch } from 'vue';
+
 import { StorageManager } from '@vben-core/shared/cache';
 import { isMacOs, merge } from '@vben-core/shared/utils';
+
 import {
   breakpointsTailwind,
   useBreakpoints,
   useDebounceFn,
 } from '@vueuse/core';
-import { markRaw, reactive, readonly, watch } from 'vue';
 
 import { defaultPreferences } from './config';
 import { updateCSSVariables } from './update-css-variables';
@@ -35,113 +37,6 @@ class PreferenceManager {
       (preference: Preferences) => this._savePreferences(preference),
       150,
     );
-  }
-
-  /**
-   * 保存偏好设置
-   * @param {Preferences} preference - 需要保存的偏好设置
-   */
-  private _savePreferences(preference: Preferences) {
-    this.cache?.setItem(STORAGE_KEY, preference);
-    this.cache?.setItem(STORAGE_KEY_LOCALE, preference.app.locale);
-    this.cache?.setItem(STORAGE_KEY_THEME, preference.theme.mode);
-  }
-
-  /**
-   * 处理更新的键值
-   * 根据更新的键值执行相应的操作。
-   * @param {DeepPartial<Preferences>} updates - 部分更新的偏好设置
-   */
-  private handleUpdates(updates: DeepPartial<Preferences>) {
-    const themeUpdates = updates.theme || {};
-    const appUpdates = updates.app || {};
-    if (themeUpdates && Object.keys(themeUpdates).length > 0) {
-      updateCSSVariables(this.state);
-    }
-
-    if (
-      Reflect.has(appUpdates, 'colorGrayMode') ||
-      Reflect.has(appUpdates, 'colorWeakMode')
-    ) {
-      this.updateColorMode(this.state);
-    }
-  }
-
-  private initPlatform() {
-    const dom = document.documentElement;
-    dom.dataset.platform = isMacOs() ? 'macOs' : 'window';
-  }
-
-  /**
-   *  从缓存中加载偏好设置。如果缓存中没有找到对应的偏好设置，则返回默认偏好设置。
-   */
-  private loadCachedPreferences() {
-    return this.cache?.getItem<Preferences>(STORAGE_KEY);
-  }
-
-  /**
-   * 加载偏好设置
-   * @returns {Preferences} 加载的偏好设置
-   */
-  private loadPreferences(): Preferences {
-    return this.loadCachedPreferences() || { ...defaultPreferences };
-  }
-
-  /**
-   * 监听状态和系统偏好设置的变化。
-   */
-  private setupWatcher() {
-    if (this.isInitialized) {
-      return;
-    }
-
-    // 监听断点，判断是否移动端
-    const breakpoints = useBreakpoints(breakpointsTailwind);
-    const isMobile = breakpoints.smaller('md');
-    watch(
-      () => isMobile.value,
-      (val) => {
-        this.updatePreferences({
-          app: { isMobile: val },
-        });
-      },
-      { immediate: true },
-    );
-
-    // 监听系统主题偏好设置变化
-    window
-      .matchMedia('(prefers-color-scheme: dark)')
-      .addEventListener('change', ({ matches: isDark }) => {
-        // 如果偏好设置中主题模式为auto，则跟随系统更新
-        if (this.state.theme.mode === 'auto') {
-          this.updatePreferences({
-            theme: { mode: isDark ? 'dark' : 'light' },
-          });
-          // 恢复为auto模式
-          this.updatePreferences({
-            theme: { mode: 'auto' },
-          });
-        }
-      });
-  }
-
-  /**
-   * 更新页面颜色模式（灰色、色弱）
-   * @param preference
-   */
-  private updateColorMode(preference: Preferences) {
-    if (preference.app) {
-      const { colorGrayMode, colorWeakMode } = preference.app;
-      const dom = document.documentElement;
-      const COLOR_WEAK = 'invert-mode';
-      const COLOR_GRAY = 'grayscale-mode';
-      colorWeakMode
-        ? dom.classList.add(COLOR_WEAK)
-        : dom.classList.remove(COLOR_WEAK);
-      colorGrayMode
-        ? dom.classList.add(COLOR_GRAY)
-        : dom.classList.remove(COLOR_GRAY);
-    }
   }
 
   clearCache() {
@@ -226,6 +121,112 @@ class PreferenceManager {
     // 根据更新的键值执行相应的操作
     this.handleUpdates(updates);
     this.savePreferences(this.state);
+  }
+
+  /**
+   * 保存偏好设置
+   * @param {Preferences} preference - 需要保存的偏好设置
+   */
+  private _savePreferences(preference: Preferences) {
+    this.cache?.setItem(STORAGE_KEY, preference);
+    this.cache?.setItem(STORAGE_KEY_LOCALE, preference.app.locale);
+    this.cache?.setItem(STORAGE_KEY_THEME, preference.theme.mode);
+  }
+
+  /**
+   * 处理更新的键值
+   * 根据更新的键值执行相应的操作。
+   * @param {DeepPartial<Preferences>} updates - 部分更新的偏好设置
+   */
+  private handleUpdates(updates: DeepPartial<Preferences>) {
+    const themeUpdates = updates.theme || {};
+    const appUpdates = updates.app || {};
+    if (
+      (themeUpdates && Object.keys(themeUpdates).length > 0) ||
+      Reflect.has(themeUpdates, 'fontSize')
+    ) {
+      updateCSSVariables(this.state);
+    }
+
+    if (
+      Reflect.has(appUpdates, 'colorGrayMode') ||
+      Reflect.has(appUpdates, 'colorWeakMode')
+    ) {
+      this.updateColorMode(this.state);
+    }
+  }
+
+  private initPlatform() {
+    const dom = document.documentElement;
+    dom.dataset.platform = isMacOs() ? 'macOs' : 'window';
+  }
+
+  /**
+   *  从缓存中加载偏好设置。如果缓存中没有找到对应的偏好设置，则返回默认偏好设置。
+   */
+  private loadCachedPreferences() {
+    return this.cache?.getItem<Preferences>(STORAGE_KEY);
+  }
+
+  /**
+   * 加载偏好设置
+   * @returns {Preferences} 加载的偏好设置
+   */
+  private loadPreferences(): Preferences {
+    return this.loadCachedPreferences() || { ...defaultPreferences };
+  }
+
+  /**
+   * 监听状态和系统偏好设置的变化。
+   */
+  private setupWatcher() {
+    if (this.isInitialized) {
+      return;
+    }
+
+    // 监听断点，判断是否移动端
+    const breakpoints = useBreakpoints(breakpointsTailwind);
+    const isMobile = breakpoints.smaller('md');
+    watch(
+      () => isMobile.value,
+      (val) => {
+        this.updatePreferences({
+          app: { isMobile: val },
+        });
+      },
+      { immediate: true },
+    );
+
+    // 监听系统主题偏好设置变化
+    window
+      .matchMedia('(prefers-color-scheme: dark)')
+      .addEventListener('change', ({ matches: isDark }) => {
+        // 如果偏好设置中主题模式为auto，则跟随系统更新
+        if (this.state.theme.mode === 'auto') {
+          this.updatePreferences({
+            theme: { mode: isDark ? 'dark' : 'light' },
+          });
+          // 恢复为auto模式
+          this.updatePreferences({
+            theme: { mode: 'auto' },
+          });
+        }
+      });
+  }
+
+  /**
+   * 更新页面颜色模式（灰色、色弱）
+   * @param preference
+   */
+  private updateColorMode(preference: Preferences) {
+    if (preference.app) {
+      const { colorGrayMode, colorWeakMode } = preference.app;
+      const dom = document.documentElement;
+      const COLOR_WEAK = 'invert-mode';
+      const COLOR_GRAY = 'grayscale-mode';
+      dom.classList.toggle(COLOR_WEAK, colorWeakMode);
+      dom.classList.toggle(COLOR_GRAY, colorGrayMode);
+    }
   }
 }
 

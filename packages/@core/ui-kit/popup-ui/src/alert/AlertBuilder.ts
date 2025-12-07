@@ -1,12 +1,14 @@
-import type { Recordable } from '@vben-core/typings';
 import type { Component, VNode } from 'vue';
 
+import type { Recordable } from '@vben-core/typings';
+
 import type { AlertProps, BeforeCloseScope, PromptProps } from './alert';
+
+import { h, nextTick, ref, render } from 'vue';
 
 import { useSimpleLocale } from '@vben-core/composables';
 import { Input, VbenRenderContent } from '@vben-core/shadcn-ui';
 import { isFunction, isString } from '@vben-core/shared/utils';
-import { h, nextTick, ref, render } from 'vue';
 
 import Alert from './alert.vue';
 
@@ -142,24 +144,26 @@ export async function vbenPrompt<T = any>(
 
   const modelValue = ref<T | undefined>(defaultValue);
   const inputComponentRef = ref<null | VNode>(null);
-  const staticContents: Component[] = [];
-
-  staticContents.push(h(VbenRenderContent, { content, renderBr: true }));
+  const staticContents: Component[] = [
+    h(VbenRenderContent, { content, renderBr: true }),
+  ];
 
   const modelPropName = _modelPropName || 'modelValue';
   const componentProps = { ..._componentProps };
 
   // 每次渲染时都会重新计算的内容函数
   const contentRenderer = () => {
-    const currentProps = { ...componentProps };
+    const currentProps = {
+      ...componentProps,
+      [modelPropName]: modelValue.value,
+      [`onUpdate:${modelPropName}`]: (val: T) => {
+        modelValue.value = val;
+      },
+    };
 
     // 设置当前值
-    currentProps[modelPropName] = modelValue.value;
 
     // 设置更新处理函数
-    currentProps[`onUpdate:${modelPropName}`] = (val: T) => {
-      modelValue.value = val;
-    };
 
     // 创建输入组件
     inputComponentRef.value = h(

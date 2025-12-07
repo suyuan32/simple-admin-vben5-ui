@@ -55,7 +55,7 @@ li {
 }
 
 li a {
-  @apply text-muted-foreground bg-accent relative mr-9 flex h-7 items-center py-0 pl-[5px] pr-2 text-[13px];
+  @apply bg-accent text-muted-foreground relative mr-9 flex h-7 items-center py-0 pl-[5px] pr-2 text-[13px];
 }
 
 li a > span {
