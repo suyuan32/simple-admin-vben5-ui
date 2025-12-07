@@ -7,6 +7,12 @@ import type { ComponentType } from './component';
 
 import { setupVbenForm, useVbenForm as useForm, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
+import { preferences } from '@vben/preferences';
+
+import i18next from 'i18next';
+import { zodI18nMap } from 'zod-i18n-map';
+import translation from 'zod-i18n-map/locales/es/zod.json';
+import zhTranslation from 'zod-i18n-map/locales/zh-CN/zod.json';
 
 async function initSetupVbenForm() {
   setupVbenForm<ComponentType>({
@@ -40,6 +46,16 @@ async function initSetupVbenForm() {
     },
   });
 }
+
+// zod init i18n
+i18next.init({
+  lng: preferences.app.locale,
+  resources: {
+    es: { zod: translation },
+    zh: { zod: zhTranslation },
+  },
+});
+z.setErrorMap(zodI18nMap);
 
 const useVbenForm = useForm<ComponentType>;
 

@@ -51,13 +51,15 @@
     "@wangeditor-next/editor-for-vue": "catalog:",
     "ant-design-vue": "catalog:",
     "dayjs": "catalog:",
+    "i18next": "catalog:",
     "json-bigint": "catalog:",
     "performant-array-to-tree": "catalog:",
-    "pinia": "^3.0.4",
+    "pinia": "catalog:",
     "remeda": "catalog:",
-    "vue": "^3.5.24",
+    "vue": "catalog:",
     "vue-codemirror": "catalog:",
-    "vue-router": "catalog:"
+    "vue-router": "catalog:",
+    "zod-i18n-map": "catalog:"
   },
   "devDependencies": {
     "@types/json-bigint": "catalog:"
