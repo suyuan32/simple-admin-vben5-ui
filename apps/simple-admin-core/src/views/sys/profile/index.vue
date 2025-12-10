@@ -62,7 +62,7 @@ function copyToken() {
 </script>
 
 <template>
-  <Page>
+  <Page auto-content-height>
     <Row>
       <Col :span="11">
         <Card :title="$t('sys.user.profile')">
