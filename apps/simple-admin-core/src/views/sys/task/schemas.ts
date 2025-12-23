@@ -1,8 +1,9 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { h } from 'vue';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Switch, Tag } from 'ant-design-vue';
@@ -92,25 +93,25 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('sys.task.name'),
       component: 'Input',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
     },
     {
       fieldName: 'taskGroup',
       label: $t('sys.task.taskGroup'),
       component: 'Input',
-      rules: z.string().max(40),
+      rules: z.string().min(1).max(40),
     },
     {
       fieldName: 'cronExpression',
       label: $t('sys.task.cronExpression'),
       component: 'Input',
-      rules: z.string().max(80),
+      rules: z.string().min(1).max(80),
     },
     {
       fieldName: 'pattern',
       label: $t('sys.task.pattern'),
       component: 'Input',
-      rules: z.string().max(100),
+      rules: z.string().min(1).max(100),
     },
     {
       fieldName: 'payload',

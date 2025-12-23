@@ -120,7 +120,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('sys.menu.menuName'),
       component: 'Input',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
       formItemClass: 'col-span-1',
       help: $t('sys.menu.menuNameHelp'),
     },
@@ -128,7 +128,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'title',
       label: $t('sys.menu.menuTitle'),
       component: 'Input',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
       formItemClass: 'col-span-1',
     },
     {
@@ -161,7 +161,7 @@ export const dataFormSchemas: VbenFormProps = {
       label: $t('sys.apis.serviceName'),
       component: 'Input',
       formItemClass: 'col-span-2 items-baseline',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
     },
     {
       fieldName: 'path',

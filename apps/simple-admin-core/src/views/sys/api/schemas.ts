@@ -1,8 +1,9 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { h } from 'vue';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Tag } from 'ant-design-vue';
@@ -122,26 +123,26 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'path',
       label: $t('sys.apis.path'),
       component: 'Input',
-      rules: z.string().max(200),
+      rules: z.string().min(1).max(200),
     },
     {
       fieldName: 'serviceName',
       label: $t('sys.apis.serviceName'),
       component: 'Input',
       help: $t('sys.apis.serviceNameHelpMessage'),
-      rules: z.string().max(20),
+      rules: z.string().min(1).max(20),
     },
     {
       fieldName: 'group',
       label: $t('sys.apis.group'),
       component: 'Input',
-      rules: z.string().max(80),
+      rules: z.string().min(1).max(80),
     },
     {
       fieldName: 'description',
       label: $t('sys.apis.description'),
       component: 'Input',
-      rules: z.string().max(100),
+      rules: z.string().min(1).max(100),
     },
     {
       fieldName: 'method',

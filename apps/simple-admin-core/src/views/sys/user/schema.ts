@@ -1,8 +1,9 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { h } from 'vue';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { message, Switch } from 'ant-design-vue';
@@ -133,13 +134,13 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'username',
       label: $t('sys.login.username'),
       component: 'Input',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
     },
     {
       fieldName: 'nickname',
       label: $t('sys.user.nickname'),
       component: 'Input',
-      rules: z.string().max(40),
+      rules: z.string().min(1).max(40),
     },
     {
       fieldName: 'description',
@@ -165,7 +166,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'email',
       label: $t('sys.login.email'),
       component: 'Input',
-      rules: z.string().email(),
+      rules: z.string().email().optional(),
     },
     {
       fieldName: 'password',

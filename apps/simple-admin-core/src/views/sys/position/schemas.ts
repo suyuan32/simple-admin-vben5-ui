@@ -1,8 +1,9 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { h } from 'vue';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { Switch } from 'ant-design-vue';
@@ -94,25 +95,26 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('sys.position.name'),
       component: 'Input',
-      rules: z.string().max(50),
+      rules: z.string().min(1).max(50),
     },
     {
       fieldName: 'code',
       label: $t('sys.position.code'),
       component: 'Input',
-      rules: z.string().max(20),
+      rules: z.string().min(1).max(20),
     },
     {
       fieldName: 'remark',
       label: $t('common.remark'),
       component: 'Input',
-      rules: z.string().max(200),
+      rules: z.string().max(200).optional(),
     },
     {
       fieldName: 'sort',
       label: $t('common.sort'),
       component: 'InputNumber',
       rules: z.number().max(10_000),
+      defaultValue: 1,
     },
     {
       fieldName: 'status',

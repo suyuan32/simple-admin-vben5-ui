@@ -1,4 +1,5 @@
-import { type VbenFormProps } from '@vben/common-ui';
+import type { VbenFormProps } from '@vben/common-ui';
+
 import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
@@ -21,13 +22,13 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'nickname',
       label: $t('sys.user.nickname'),
       component: 'Input',
-      rules: z.string().max(40),
+      rules: z.string().min(1).max(40),
     },
     {
       fieldName: 'mobile',
       label: $t('sys.login.mobile'),
       component: 'Input',
-      rules: z.string().max(20).optional(),
+      rules: z.string().min(1).max(20).optional(),
     },
     {
       fieldName: 'email',

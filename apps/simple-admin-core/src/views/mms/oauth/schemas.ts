@@ -1,6 +1,7 @@
+import type { VbenFormProps } from '@vben/common-ui';
+
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
-import { type VbenFormProps } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
@@ -54,49 +55,49 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'name',
       label: $t('common.name'),
       component: 'Input',
-      rules: z.string().max(30),
+      rules: z.string().min(1).max(30),
     },
     {
       fieldName: 'clientId',
       label: $t('sys.oauth.clientId'),
       component: 'Input',
-      rules: z.string().max(80),
+      rules: z.string().min(1).max(80),
     },
     {
       fieldName: 'clientSecret',
       label: $t('sys.oauth.clientSecret'),
       component: 'Input',
-      rules: z.string().max(100),
+      rules: z.string().min(1).max(100),
     },
     {
       fieldName: 'redirectUrl',
       label: $t('sys.oauth.redirectURL'),
       component: 'Input',
-      rules: z.string().max(300),
+      rules: z.string().min(1).max(300),
     },
     {
       fieldName: 'scopes',
       label: $t('sys.oauth.scope'),
       component: 'Input',
-      rules: z.string().max(100),
+      rules: z.string().max(100).optional(),
     },
     {
       fieldName: 'authUrl',
       label: $t('sys.oauth.authURL'),
       component: 'Input',
-      rules: z.string().max(300),
+      rules: z.string().min(1).max(300),
     },
     {
       fieldName: 'tokenUrl',
       label: $t('sys.oauth.tokenURL'),
       component: 'Input',
-      rules: z.string().max(300),
+      rules: z.string().min(1).max(300),
     },
     {
       fieldName: 'infoUrl',
       label: $t('sys.oauth.infoURL'),
       component: 'Input',
-      rules: z.string().max(300),
+      rules: z.string().min(1).max(300),
     },
     {
       fieldName: 'authStyle',
