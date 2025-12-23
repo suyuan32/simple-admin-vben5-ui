@@ -1,12 +1,16 @@
-import type { VxeGridProps } from '#/adapter/vxe-table';
 import type { VbenFormProps } from '@vben/common-ui';
+
+import type { VxeGridProps } from '#/adapter/vxe-table';
+
+import { h } from 'vue';
+
+import { $t } from '@vben/locales';
+
+import { Switch } from 'ant-design-vue';
 
 import { z } from '#/adapter/form';
 import { getDepartmentList, updateDepartment } from '#/api/sys/department';
 import { ParentIdEnum } from '#/enums/common';
-import { $t } from '@vben/locales';
-import { Switch } from 'ant-design-vue';
-import { h } from 'vue';
 
 export const tableColumns: VxeGridProps = {
   columns: [
@@ -118,12 +122,13 @@ export const dataFormSchemas: VbenFormProps = {
         disabled: true,
       },
       help: $t('sys.department.ancestorsHelpMessage'),
+      hide: true,
     },
     {
       fieldName: 'leader',
       label: $t('sys.department.leader'),
       component: 'Input',
-      rules: z.string().max(20),
+      rules: z.string().min(1).max(20),
     },
     {
       fieldName: 'phone',
