@@ -152,7 +152,7 @@ export const dataFormSchemas: VbenFormProps = {
     {
       fieldName: 'icon',
       label: $t('sys.menu.icon'),
-      component: 'Input', // todo: icon picker
+      component: 'IconPicker',
       help: $t('sys.menu.iconHelp'),
       rules: 'required',
     },
