@@ -12,7 +12,7 @@ import { openWindow } from '@vben/utils';
 
 import { Card, TypographyTitle } from 'ant-design-vue';
 
-const version = 'v1.7.7';
+const version = 'v1.7.9';
 
 // 同样，这里的 url 也可以使用以 http 开头的外部链接
 const quickNavItems: WorkbenchQuickNavItem[] = [
