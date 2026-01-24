@@ -119,7 +119,7 @@ function setupAccessGuard(router: Router) {
     }
 
     // 初始化动态配置
-    dynamicConfigStore.getDynamicConfigFromServer();
+    await dynamicConfigStore.getDynamicConfigFromServer();
 
     return {
       ...router.resolve(decodeURIComponent(redirectPath)),
