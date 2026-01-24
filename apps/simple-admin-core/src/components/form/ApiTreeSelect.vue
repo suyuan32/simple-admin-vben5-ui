@@ -1,15 +1,20 @@
 <script lang="ts" setup>
-import type { Recordable } from '@vben/types';
 import type { SelectValue } from 'ant-design-vue/es/select';
+
 import type { PropType } from 'vue';
 
-import { get } from '#/utils/object';
-import { buildTreeNode } from '#/utils/tree';
+import type { Recordable } from '@vben/types';
+
+import { onMounted, ref, unref, watch } from 'vue';
+
 import { $t } from '@vben/locales';
+
 import { useVModel } from '@vueuse/core';
 import { TreeSelect } from 'ant-design-vue';
 import { isArray, isFunction } from 'remeda';
-import { onMounted, ref, unref, watch } from 'vue';
+
+import { get } from '#/utils/object';
+import { buildTreeNode } from '#/utils/tree';
 
 const props = defineProps({
   value: {
@@ -98,7 +103,9 @@ async function fetch() {
   treeData.value = [];
   let result;
   try {
-    result = await api(props.params);
+    result = await (props.params
+      ? api(props.params)
+      : api({ page: 1, pageSize: 10 }));
   } catch (error) {
     console.error(error);
   }

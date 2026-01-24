@@ -186,10 +186,15 @@ async function searchFetch(value: string) {
       searchParam[props.searchField] = value;
     }
 
-    searchParam.page = isNumber(props.params.page) ? props.params.page : 1;
-    searchParam.pageSize = isNumber(props.params.pageSize)
-      ? props.params.pageSize
-      : 10;
+    if (props.params) {
+      searchParam.page = isNumber(props.params.page) ? props.params.page : 1;
+      searchParam.pageSize = isNumber(props.params.pageSize)
+        ? props.params.pageSize
+        : 10;
+    } else {
+      searchParam.page = 1;
+      searchParam.pageSize = 2;
+    }
 
     const res = await api(searchParam);
     if (Array.isArray(res)) {
