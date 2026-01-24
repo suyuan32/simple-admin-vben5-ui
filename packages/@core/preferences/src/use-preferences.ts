@@ -1,5 +1,6 @@
-import { diff } from '@vben-core/shared/utils';
 import { computed } from 'vue';
+
+import { diff } from '@vben-core/shared/utils';
 
 import { preferencesManager } from './preferences';
 import { isDarkTheme } from './update-css-variables';
@@ -135,7 +136,7 @@ function usePreferences() {
   });
 
   /**
-   * @zh_CN 登录注册页面布局是否为左侧
+   * @zh_CN 登录注册页面布局是否为右侧
    */
   const authPanelRight = computed(() => {
     return appPreferences.value.authPageLayout === 'panel-right';
