@@ -114,6 +114,7 @@ const extraVisible = defineModel<boolean>('extraVisible');
 const isLocked = useScrollLock(document.body);
 const slots = useSlots();
 
+// @ts-expect-error unused
 const asideRef = shallowRef<HTMLDivElement | null>();
 
 const hiddenSideStyle = computed((): CSSProperties => calcMenuWidthStyle(true));

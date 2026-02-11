@@ -50,9 +50,11 @@ const props = withDefaults(defineProps<Props>(), {
 const components = globalShareState.getComponents();
 
 const contentRef = ref();
+// @ts-expect-error unused
 const wrapperRef = ref<HTMLElement>();
 const dialogRef = ref();
 const headerRef = ref();
+// @ts-expect-error unused
 const footerRef = ref();
 
 const id = useId();
@@ -326,8 +328,8 @@ function handleClosed() {
       </VbenIconButton>
 
       <DialogFooter
-        v-if="showFooter"
         ref="footerRef"
+        v-if="showFooter"
         :class="
           cn(
             'flex-row items-center justify-end p-2',

@@ -40,10 +40,10 @@ type DragAction =
 // DOM 引用
 const containerRef = ref<HTMLDivElement | null>(null);
 const bgImageRef = ref<HTMLImageElement | null>(null);
-const maskRef = ref<HTMLDivElement | null>(null);
+// const maskRef = ref<HTMLDivElement | null>(null);
 const maskViewRef = ref<HTMLDivElement | null>(null);
 const cropperRef = ref<HTMLDivElement | null>(null);
-const cropperViewRef = ref<HTMLDivElement | null>(null);
+// const cropperViewRef = ref<HTMLDivElement | null>(null);
 
 // 响应式数据
 const isCropperVisible = ref<boolean>(false);
@@ -739,7 +739,6 @@ defineExpose({ getCropImage });
 
       <!-- 遮罩层 -->
       <div
-        ref="maskRef"
         class="cropper-mask"
         :style="{
           display: isCropperVisible ? 'block' : 'none',
@@ -773,7 +772,6 @@ defineExpose({ getCropImage });
         }"
       >
         <div
-          ref="cropperViewRef"
           class="cropper-view"
           :style="{
             inset: `${currentDimension[0]}px ${currentDimension[1]}px ${currentDimension[2]}px ${currentDimension[3]}px`,

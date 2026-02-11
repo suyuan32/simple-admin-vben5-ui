@@ -1,8 +1,9 @@
 <script lang="ts">
 import type { Component, PropType } from 'vue';
 
-import { isFunction, isObject, isString } from '@vben-core/shared/utils';
 import { defineComponent, h } from 'vue';
+
+import { isFunction, isObject, isString } from '@vben-core/shared/utils';
 
 export default defineComponent({
   name: 'RenderContent',
@@ -41,14 +42,17 @@ export default defineComponent({
           return props.content;
         }
       }
-      return h(props.content as never, {
-        ...attrs,
-        props: {
-          ...props,
+      return h(
+        props.content as never,
+        {
           ...attrs,
+          props: {
+            ...props,
+            ...attrs,
+          },
         },
         slots,
-      });
+      );
     };
   },
 });

@@ -2,12 +2,14 @@
 import type { BuiltinThemePreset } from '@vben/preferences';
 import type { BuiltinThemeType } from '@vben/types';
 
+import { computed, ref, watch } from 'vue';
+
 import { UserRoundPen } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { BUILT_IN_THEME_PRESETS } from '@vben/preferences';
 import { convertToHsl, TinyColor } from '@vben/utils';
+
 import { useThrottleFn } from '@vueuse/core';
-import { computed, ref, watch } from 'vue';
 
 defineOptions({
   name: 'PreferenceBuiltinTheme',
@@ -56,7 +58,6 @@ function typeView(name: BuiltinThemeType) {
     case 'green': {
       return $t('preferences.theme.builtin.green');
     }
-
     case 'neutral': {
       return $t('preferences.theme.builtin.neutral');
     }

@@ -28,7 +28,9 @@ const emit = defineEmits<{
 }>();
 const active = defineModel<string>('active');
 
+// @ts-expect-error unused
 const contentRef = ref();
+// @ts-expect-error unused
 const tabRef = ref();
 
 const style = computed(() => {
@@ -156,7 +158,7 @@ function onMouseDown(e: MouseEvent, tab: TabConfig) {
               <VbenIcon
                 v-if="showIcon"
                 :icon="tab.icon"
-                class="mr-1 flex size-4 items-center overflow-hidden"
+                class="mr-1 flex size-4 items-center overflow-hidden group-hover:animate-[shrink_0.3s_ease-in-out]"
               />
 
               <span class="flex-1 overflow-hidden whitespace-nowrap text-sm">

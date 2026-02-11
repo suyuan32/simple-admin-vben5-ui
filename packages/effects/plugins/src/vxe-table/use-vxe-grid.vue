@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { VbenFormProps } from '@vben-core/form-ui';
-import type { SetupContext } from 'vue';
 import type {
   VxeGridDefines,
   VxeGridInstance,
@@ -10,7 +8,22 @@ import type {
   VxeToolbarPropTypes,
 } from 'vxe-table';
 
+import type { SetupContext } from 'vue';
+
+import type { VbenFormProps } from '@vben-core/form-ui';
+
 import type { ExtendedVxeGridApi, VxeGridProps } from './types';
+
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  toRaw,
+  useSlots,
+  useTemplateRef,
+  watch,
+} from 'vue';
 
 import { usePriorityValues } from '@vben/hooks';
 import { EmptyIcon } from '@vben/icons';
@@ -23,17 +36,9 @@ import {
   isEqual,
   mergeWithArrayOverride,
 } from '@vben/utils';
+
 import { VbenHelpTooltip, VbenLoading } from '@vben-core/shadcn-ui';
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  toRaw,
-  useSlots,
-  useTemplateRef,
-  watch,
-} from 'vue';
+
 import { VxeButton } from 'vxe-pc-ui';
 import { VxeGrid, VxeUI } from 'vxe-table';
 
@@ -166,6 +171,7 @@ const toolbarOptions = computed(() => {
   }
 
   if (!showToolbar.value) {
+    toolbarConfig.enabled = false;
     return { toolbarConfig };
   }
 
@@ -316,6 +322,7 @@ async function init() {
       '[Vben Vxe Table]: The formConfig in the grid is not supported, please use the `formOptions` props',
     );
   }
+  // @ts-ignore
   props.api?.setState?.({ gridOptions: defaultGridOptions });
   // form 由 vben-form 代替，所以需要保证query相关事件可以拿到参数
   extendProxyOptions(props.api, defaultGridOptions, () =>
@@ -378,9 +385,11 @@ onUnmounted(() => {
       <!-- 左侧操作区域或者title -->
       <template v-if="showToolbar" #toolbar-actions="slotProps">
         <slot v-if="showTableTitle" name="table-title">
-          <div class="mr-1 pl-1 text-[1rem]">
+          <div
+            class="flex items-center justify-center gap-1 text-[1rem] font-bold"
+          >
             {{ tableTitle }}
-            <VbenHelpTooltip v-if="tableTitleHelp" trigger-class="pb-1">
+            <VbenHelpTooltip v-if="tableTitleHelp">
               {{ tableTitleHelp }}
             </VbenHelpTooltip>
           </div>
