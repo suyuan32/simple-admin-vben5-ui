@@ -59,9 +59,7 @@ export const useDictionaryStore = defineStore('dictionary', {
       }
     },
     async fetchDictionaryData(name: string) {
-      const mapData: Map<string, DictionaryData> = new Map(
-        JSON.parse(this.data),
-      );
+
       const result = await GetDictionaryDetailByDictionaryName({ name });
       if (result.code === 0) {
         const dataConv = ref<DefaultOptionType[]>([]);
@@ -79,6 +77,9 @@ export const useDictionaryStore = defineStore('dictionary', {
         }
 
         const dictData: DictionaryData = { data: dataConv.value };
+        const mapData: Map<string, DictionaryData> = new Map(
+          JSON.parse(this.data),
+        );
         mapData.set(name, dictData);
         this.data = JSON.stringify([...mapData.entries()]);
         return dictData;
