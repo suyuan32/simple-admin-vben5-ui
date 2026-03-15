@@ -226,6 +226,14 @@ export const dataFormSchemas: VbenFormProps = {
       rules: 'required',
     },
     {
+      fieldName: 'expiredAt',
+      label: $t('common.expiredAt'),
+      component: 'SimpleTimePicker',
+      componentProps: {
+        timeMode: 'date',
+      },
+    },
+    {
       fieldName: 'status',
       label: $t('common.status'),
       component: 'RadioButtonGroup',

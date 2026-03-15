@@ -1,4 +1,4 @@
-import { type BaseListResp } from '#/api/model/baseModel';
+import type { BaseListResp } from '#/api/model/baseModel';
 
 /**
  *  @description: User info response
@@ -19,6 +19,7 @@ export interface UserInfo {
   avatar?: string;
   departmentId?: number;
   positionIds?: number[];
+  expiredAt?: number;
 }
 
 /**
