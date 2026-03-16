@@ -229,6 +229,7 @@ export const dataFormSchemas: VbenFormProps = {
       fieldName: 'expiredAt',
       label: $t('common.expiredAt'),
       component: 'SimpleTimePicker',
+      defaultValue: 4_070_880_000_000,
       componentProps: {
         timeMode: 'date',
       },
