@@ -1,14 +1,17 @@
 <script lang="ts" setup>
 import type { UploadProps } from 'ant-design-vue';
 
-import { uploadCloudFile } from '#/api/fms/cloudFile';
-import { uploadFile } from '#/api/fms/file';
-import { InboxOutlined } from '@ant-design/icons-vue';
+import { ref, watch } from 'vue';
+
 import { $t } from '@vben/locales';
+
+import { InboxOutlined } from '@ant-design/icons-vue';
 import { useClipboard, useVModel } from '@vueuse/core';
 import { message, UploadDragger } from 'ant-design-vue';
 import { values } from 'remeda';
-import { ref, watch } from 'vue';
+
+import { uploadCloudFile } from '#/api/fms/cloudFile';
+import { uploadFile } from '#/api/fms/file';
 
 defineOptions({
   name: 'UploadDragger',
@@ -79,7 +82,7 @@ watch(
   () => {
     state.value = props.multiple ? values(fileUrlDict) : values(fileUrlDict)[0];
   },
-  { deep: true },
+  { deep: true, immediate: true },
 );
 
 function handleCopyPath(file: any) {

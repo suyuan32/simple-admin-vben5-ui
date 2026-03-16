@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { DefaultOptionType } from 'ant-design-vue/lib/select';
 
-import { useDictionaryStore } from '#/store/dictionary';
+import { onMounted, ref, watch } from 'vue';
+
 import { useVModel } from '@vueuse/core';
 import { Select } from 'ant-design-vue';
-import { onMounted, ref, watch } from 'vue';
+
+import { useDictionaryStore } from '#/store/dictionary';
 
 const props = defineProps({
   dictionaryName: {
@@ -40,6 +42,7 @@ watch(
   (v) => {
     emits('update:value', v);
   },
+  { immediate: true },
 );
 
 async function handleFetch() {

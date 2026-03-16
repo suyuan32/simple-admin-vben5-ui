@@ -1,10 +1,12 @@
 <script lang="ts" setup>
 import type { TransferItem } from 'ant-design-vue/lib/transfer';
 
-import { get } from '#/utils/object';
+import { computed, onMounted, ref, unref, watch } from 'vue';
+
 import { Transfer } from 'ant-design-vue';
 import { isFunction, omit } from 'remeda';
-import { computed, onMounted, ref, unref, watch } from 'vue';
+
+import { get } from '#/utils/object';
 
 const props = defineProps({
   value: { type: Array<string>, default: undefined },
@@ -81,7 +83,7 @@ watch(
   () => {
     fetch();
   },
-  { deep: true },
+  { deep: true, immediate: true },
 );
 
 async function fetch() {

@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
+
 import { useVModel } from '@vueuse/core';
 import { RangePicker } from 'ant-design-vue';
 import dayjs from 'dayjs';
-import { ref, watch } from 'vue';
 
 const props = defineProps({
   timeMode: {
@@ -43,6 +44,7 @@ watch(
     emits('update:value', v);
     emits('change', v);
   },
+  { immediate: true },
 );
 
 function handleChange(v: any) {
