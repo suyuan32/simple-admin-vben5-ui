@@ -32,6 +32,7 @@
     "@codemirror/legacy-modes": "catalog:",
     "@iconify/vue": "catalog:",
     "@tanstack/vue-query": "catalog:",
+    "@vben-core/design": "workspace:*",
     "@uiw/codemirror-theme-github": "catalog:",
     "@vben-core/menu-ui": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
@@ -65,6 +66,7 @@
     "zod-i18n-map": "catalog:"
   },
   "devDependencies": {
+    "@playwright/test": "catalog:",
     "@types/json-bigint": "catalog:"
   }
 }

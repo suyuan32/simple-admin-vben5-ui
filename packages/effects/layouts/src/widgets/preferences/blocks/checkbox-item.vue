@@ -1,9 +1,11 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import type { SelectOption } from '@vben/types';
 
-import { CircleHelp } from '@vben/icons';
-import { VbenCheckButtonGroup, VbenTooltip } from '@vben-core/shadcn-ui';
 import { useSlots } from 'vue';
+
+import { CircleHelp } from '@vben/icons';
+
+import { VbenCheckButtonGroup, VbenTooltip } from '@vben-core/shadcn-ui';
 
 defineOptions({
   name: 'PreferenceCheckboxItem',
@@ -51,10 +53,10 @@ const slots = useSlots();
     </span>
     <VbenCheckButtonGroup
       v-model="inputValue"
+      class="h-8 w-41.25"
+      :options="items"
       :disabled="disabled"
       :multiple="multiple"
-      :options="items"
-      class="h-8 w-[165px]"
       @btn-click="onBtnClick"
     />
   </div>

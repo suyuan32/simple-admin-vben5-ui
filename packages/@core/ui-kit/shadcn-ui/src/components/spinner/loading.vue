@@ -69,7 +69,7 @@ function onTransitionEnd() {
   <div
     :class="
       cn(
-        'z-100 bg-overlay-content dark:bg-overlay absolute left-0 top-0 flex size-full flex-col items-center justify-center transition-all duration-500',
+        'bg-overlay-content dark:bg-overlay absolute top-0 left-0 z-100 flex size-full flex-col items-center justify-center transition-all duration-500',
         {
           'invisible opacity-0': !showSpinner,
         },
@@ -78,7 +78,7 @@ function onTransitionEnd() {
     "
     @transitionend="onTransitionEnd"
   >
-    <slot v-if="renderSpinner" name="icon">
+    <slot name="icon" v-if="renderSpinner">
       <span class="dot relative inline-block size-9 text-3xl">
         <i
           v-for="index in 4"

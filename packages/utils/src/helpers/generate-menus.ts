@@ -6,7 +6,7 @@ import type {
   RouteMeta,
 } from '@vben-core/typings';
 
-import { filterTree, mapTree } from '@vben-core/shared/utils';
+import { filterTree, mapTree, sortTree } from '@vben-core/shared/utils';
 
 /**
  * 根据 routes 生成菜单列表
@@ -43,6 +43,7 @@ function generateMenus(
       link,
       sort,
       title = '',
+      query,
     } = meta;
 
     // 确保菜单名称不为空
@@ -71,6 +72,7 @@ function generateMenus(
       badgeVariants,
       icon,
       name,
+      query,
       sort,
       parent: route.parent,
       parents: route.parents,
@@ -81,7 +83,7 @@ function generateMenus(
   });
 
   // 对菜单进行排序，避免sort=0时被替换成999的问题
-  menus = menus.toSorted((a, b) => (a?.sort ?? 999) - (b?.sort ?? 999));
+  menus = sortTree(menus, (a, b) => (a?.sort ?? 999) - (b?.sort ?? 999));
 
   // 过滤掉隐藏的菜单项
   return filterTree(menus, (menu) => !!menu.show);

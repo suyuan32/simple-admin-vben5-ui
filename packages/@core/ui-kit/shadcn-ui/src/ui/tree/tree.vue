@@ -286,7 +286,7 @@ defineExpose({
     v-slot="{ flattenItems }"
     :class="
       cn(
-        'text-blackA11 container select-none list-none rounded-lg text-sm font-medium',
+        'text-blackA11 container list-none rounded-lg text-sm font-medium select-none',
         $attrs.class as unknown as ClassType,
         bordered ? 'border' : '',
       )
@@ -369,7 +369,7 @@ defineExpose({
             !isNodeDisabled(item) && onToggle(item);
           }
         "
-        class="tree-node focus:ring-grass8 my-0.5 flex items-center rounded p-1 outline-none focus:ring-2"
+        class="tree-node focus:ring-grass8 my-0.5 flex items-center rounded p-1 outline-hidden focus:ring-2"
       >
         <ChevronRight
           v-if="

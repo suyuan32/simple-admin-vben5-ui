@@ -33,7 +33,7 @@ function handleClick(index: number, path?: string) {
               <VbenIcon
                 v-if="showIcon"
                 :icon="item.icon"
-                class="mr-1 size-4 flex-shrink-0"
+                class="mr-1 size-4 shrink-0"
               />
               <span
                 :class="{
@@ -50,12 +50,14 @@ function handleClick(index: number, path?: string) {
   </ul>
 </template>
 <style scoped>
+@reference "@vben/tailwind-config/theme";
+
 li {
   @apply h-7;
 }
 
 li a {
-  @apply bg-accent text-muted-foreground relative mr-9 flex h-7 items-center py-0 pl-[5px] pr-2 text-[13px];
+  @apply bg-accent text-muted-foreground relative mr-9 flex h-7 items-center py-0 pr-2 pl-1.25 text-[13px];
 }
 
 li a > span {
@@ -67,7 +69,7 @@ li:first-child a > span {
 }
 
 li:first-child a {
-  @apply rounded-[4px_0_0_4px] pl-[15px];
+  @apply rounded-l-sm pl-3.75;
 }
 
 li:first-child a::before {
@@ -75,7 +77,7 @@ li:first-child a::before {
 }
 
 li:last-child a {
-  @apply rounded-[0_4px_4px_0] pr-[15px];
+  @apply rounded-r-sm pr-3.75;
 }
 
 li:last-child a::after {
@@ -84,7 +86,7 @@ li:last-child a::after {
 
 li a::before,
 li a::after {
-  @apply border-accent absolute top-0 h-0 w-0 border-[.875rem] border-solid content-[''];
+  @apply border-accent absolute top-0 h-0 w-0 border-14 border-solid content-[''];
 }
 
 li a::before {
