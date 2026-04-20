@@ -28,6 +28,7 @@
     }
   },
   "dependencies": {
+    "@iconify/vue": "catalog:",
     "@vben-core/design": "workspace:*",
     "@vben-core/form-ui": "workspace:*",
     "@vben-core/popup-ui": "workspace:*",
@@ -47,8 +48,7 @@
     "vue": "catalog:",
     "vue-json-viewer": "catalog:",
     "vue-router": "catalog:",
-    "vue-tippy": "catalog:",
-    "@iconify/vue": "catalog:"
+    "vue-tippy": "catalog:"
   },
   "devDependencies": {
     "@types/json-bigint": "catalog:",
