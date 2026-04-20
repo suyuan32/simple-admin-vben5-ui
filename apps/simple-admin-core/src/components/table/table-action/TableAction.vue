@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { ButtonType } from 'ant-design-vue/es/button';
 
+import type { PropType } from 'vue';
+
 import type { ActionItem, PopConfirm } from './types';
 
-import { computed, type PropType, toRaw } from 'vue';
+import { computed, toRaw } from 'vue';
 
 import { useAccess } from '@vben/access';
 import { isBoolean, isFunction } from '@vben/utils';
@@ -117,19 +119,19 @@ const getButtonProps = (action: ActionItem) => {
   let colorClass = '';
   switch (action.color) {
     case 'error': {
-      colorClass = 'text-red-500 hover:!text-red-400';
+      colorClass = '!text-red-500 hover:!text-red-400';
       break;
     }
     case 'success': {
-      colorClass = 'text-green-500 hover:!text-green-400';
+      colorClass = '!text-green-500 hover:!text-green-400';
       break;
     }
     case 'warning': {
-      colorClass = 'text-yellow-500 hover:!text-yellow-400';
+      colorClass = '!text-yellow-500 hover:!text-yellow-400';
       break;
     }
     default: {
-      colorClass = 'text-blue-500 hover:!text-blue-400';
+      colorClass = '!text-blue-500 hover:!text-blue-400';
       break;
     }
   }
