@@ -218,27 +218,25 @@ const handleMenuClick = (e: any) => {
     </Dropdown>
   </div>
 </template>
-<style lang="less">
-.m-table-action {
-  .ant-btn > .iconify + span,
-  .ant-btn > span + .iconify {
-    margin-inline-start: 8px;
-  }
+<style>
+.m-table-action .ant-btn > .iconify + span,
+.m-table-action .ant-btn > span + .iconify {
+  margin-inline-start: 8px;
+}
 
-  .ant-btn > .iconify {
-    display: inline-flex;
-    align-items: center;
-    width: 1em;
-    height: 1em;
-    font-style: normal;
-    line-height: 0;
-    color: inherit;
-    text-align: center;
-    text-transform: none;
-    vertical-align: -0.125em;
-    text-rendering: optimizelegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+.m-table-action .ant-btn > .iconify {
+  display: inline-flex;
+  align-items: center;
+  width: 1em;
+  height: 1em;
+  font-style: normal;
+  line-height: 0;
+  color: inherit;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 </style>

@@ -1,6 +1,6 @@
 export class StateHandler {
   private condition: boolean = false;
-  private rejectCondition: (() => void) | null = null;
+  private rejectCondition: ((reason?: Error) => void) | null = null;
   private resolveCondition: (() => void) | null = null;
 
   // 清理 resolve/reject 函数
@@ -22,7 +22,7 @@ export class StateHandler {
   setConditionFalse() {
     this.condition = false;
     if (this.rejectCondition) {
-      this.rejectCondition();
+      this.rejectCondition(new Error('Condition was set to false'));
       this.clearPromises();
     }
   }

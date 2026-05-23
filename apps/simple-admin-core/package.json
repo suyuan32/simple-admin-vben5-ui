@@ -63,6 +63,7 @@
     "vue": "catalog:",
     "vue-codemirror": "catalog:",
     "vue-router": "catalog:",
+    "zod": "catalog:",
     "zod-i18n-map": "catalog:"
   },
   "devDependencies": {
