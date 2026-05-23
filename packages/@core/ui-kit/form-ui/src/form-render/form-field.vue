@@ -388,7 +388,7 @@ onUnmounted(() => {
           </Button>
         </template>
       </FormLabel>
-      <div class="flex-auto overflow-hidden p-px">
+      <div class="flex-auto overflow-hidden p-px w-full">
         <VbenCollapsible :show-trigger="false" v-model:open="collapseOpen">
           <template #collapsibleContent>
             <div :class="cn('relative flex w-full items-center', wrapperClass)">
