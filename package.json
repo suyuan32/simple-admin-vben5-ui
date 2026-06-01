@@ -1,6 +1,6 @@
 {
   "name": "simple-admin-vben5-ui",
-  "version": "1.8.4",
+  "version": "1.8.6",
   "private": true,
   "keywords": [
     "monorepo",
@@ -65,6 +65,7 @@
     "@vben/oxfmt-config": "workspace:*",
     "@vben/oxlint-config": "workspace:*",
     "@vben/stylelint-config": "workspace:*",
+    "stylelint": "catalog:",
     "@vben/tailwind-config": "workspace:*",
     "@vben/tsconfig": "workspace:*",
     "@vben/turbo-run": "workspace:*",
