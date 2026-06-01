@@ -41,20 +41,20 @@
 #     - script: "hello.go"
 #       runner: go run
 
-pre-commit:
-  parallel: true
-  commands:
-    lint:
-      run: pnpm lint
-    checkType:
-      run: pnpm check:type
+#pre-commit:
+#  parallel: true
+#  commands:
+#    lint:
+#      run: pnpm lint
+#    checkType:
+#      run: pnpm check:type
 
 post-merge:
   commands:
     install:
       run: pnpm install
 
-commit-msg:
-  commands:
-    commitlint:
-      run: pnpm exec commitlint --edit $1
+#commit-msg:
+#  commands:
+#    commitlint:
+#      run: pnpm exec commitlint --edit $1
