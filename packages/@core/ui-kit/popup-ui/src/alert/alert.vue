@@ -14,6 +14,7 @@ import {
   Info,
   X,
 } from '@vben-core/icons';
+import { usePreferences } from '@vben-core/preferences';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -34,8 +35,10 @@ const props = withDefaults(defineProps<AlertProps>(), {
   bordered: true,
   buttonAlign: 'end',
   centered: true,
+  escapeKeyClose: true,
 });
 const emits = defineEmits(['closed', 'confirm', 'opened']);
+const { globalEscapeShortcutKey } = usePreferences();
 const open = defineModel<boolean>('open', { default: false });
 const { $t } = useSimpleLocale();
 const components = globalShareState.getComponents();
@@ -46,8 +49,14 @@ function onAlertClosed() {
   isConfirm.value = false;
 }
 
-function onEscapeKeyDown() {
+function onEscapeKeyDown(e: KeyboardEvent) {
+  // 先标记是按 Esc 触发的（用于后续 isConfirm 判断等）
   isConfirm.value = false;
+
+  // 只有当组件参数和全局配置都为false时才阻止关闭，其任意一个为true都需要让esc生效
+  if (!props.escapeKeyClose && !globalEscapeShortcutKey.value) {
+    e.preventDefault();
+  }
 }
 
 const getIconRender = computed(() => {
@@ -138,22 +147,22 @@ async function handleOpenChange(val: boolean) {
 <template>
   <AlertDialog :open="open" @update:open="handleOpenChange">
     <AlertDialogContent
+      :open="open"
+      :centered="centered"
+      :overlay-blur="overlayBlur"
+      @opened="emits('opened')"
+      @closed="onAlertClosed"
+      @escape-key-down="onEscapeKeyDown($event)"
       :class="
         cn(
           containerClass,
           'inset-x-0 mx-auto flex max-h-[80%] flex-col p-0 duration-300 sm:w-130 sm:max-w-[80%] sm:rounded-(--radius)',
           {
-            'border-border border': bordered,
+            'border border-border': bordered,
             'shadow-3xl': !bordered,
           },
         )
       "
-      :centered="centered"
-      :open="open"
-      :overlay-blur="overlayBlur"
-      @closed="onAlertClosed"
-      @opened="emits('opened')"
-      @escape-key-down="onEscapeKeyDown"
     >
       <div :class="cn('relative flex-1 overflow-y-auto p-3', contentClass)">
         <AlertDialogTitle v-if="title">
@@ -162,13 +171,13 @@ async function handleOpenChange(val: boolean) {
             <span class="flex-auto">{{ $t(title) }}</span>
             <AlertDialogCancel v-if="showCancel" as-child>
               <VbenButton
-                :disabled="loading"
+                variant="ghost"
                 size="icon"
                 class="rounded-full"
-                variant="ghost"
+                :disabled="loading"
                 @click="handleCancel"
               >
-                <X class="text-muted-foreground size-4" />
+                <X class="size-4 text-muted-foreground" />
               </VbenButton>
             </AlertDialogCancel>
           </div>
@@ -180,8 +189,8 @@ async function handleOpenChange(val: boolean) {
           <VbenLoading v-if="loading && contentMasking" :spinning="loading" />
         </AlertDialogDescription>
         <div
-          :class="`justify-${buttonAlign}`"
           class="flex items-center justify-end gap-x-2"
+          :class="`justify-${buttonAlign}`"
         >
           <VbenRenderContent :content="footer" />
           <AlertDialogCancel v-if="showCancel" as-child>
