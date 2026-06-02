@@ -8,7 +8,7 @@ import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { usePreferences } from '@vben/preferences';
 import { Image, message } from 'ant-design-vue';
-import { computed, h, ref } from 'vue';
+import { computed, h, nextTick, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 defineOptions({ name: 'Register' });
@@ -21,6 +21,7 @@ const imgPath = ref<string>('');
 const captchaId = ref<string>('');
 const msgType = ref<string>('');
 const target = ref<string>('');
+const registerFormRef = ref<any>();
 
 const loginType: BasicOption[] = [
   {
@@ -48,6 +49,15 @@ async function getCaptchaData() {
 
 getCaptchaData();
 
+onMounted(async () => {
+  await nextTick();
+  msgType.value = 'captcha';
+  await registerFormRef.value?.getFormApi?.()?.setFieldValue(
+    'selectLoginType',
+    'captcha',
+  );
+});
+
 async function handleSendCaptcha(): Promise<boolean> {
   if (msgType.value === 'email') {
     const result = await getEmailCaptcha({ email: target.value });
@@ -69,7 +79,8 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       label: 'Login Type',
       fieldName: 'selectLoginType',
-      rules: z.string().optional().default('captcha'),
+      defaultValue: 'captcha',
+      rules: z.string().optional(),
       dependencies: {
         triggerFields: ['selectLoginType'],
         trigger(values, _) {
@@ -304,6 +315,7 @@ async function handleRegister(values: any) {
 
 <template>
   <AuthenticationRegister
+    ref="registerFormRef"
     :form-schema="formSchema"
     :loading="loading"
     @submit="handleRegister"

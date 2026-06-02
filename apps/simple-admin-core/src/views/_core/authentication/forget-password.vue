@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { BasicOption, Recordable } from '@vben/types';
 
-import { ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import {
@@ -33,6 +33,7 @@ const emailOrPhonePlaceholder = ref('');
 const target = ref<string>('');
 const msgType = ref<string>('');
 const loading = ref(false);
+const forgetPasswordFormRef = ref<any>();
 
 async function handleSendCaptcha(): Promise<boolean> {
   if (msgType.value === 'email') {
@@ -44,6 +45,15 @@ async function handleSendCaptcha(): Promise<boolean> {
   }
 }
 
+onMounted(async () => {
+  await nextTick();
+  msgType.value = 'email';
+  await forgetPasswordFormRef.value?.getFormApi?.()?.setFieldValue(
+    'selectLoginType',
+    'email',
+  );
+});
+
 const formSchema: VbenFormSchema[] = [
   {
     component: 'VbenSelect',
@@ -52,7 +62,8 @@ const formSchema: VbenFormSchema[] = [
     },
     label: 'Login Type',
     fieldName: 'selectLoginType',
-    rules: z.string().optional().default('email'),
+    defaultValue: 'email',
+    rules: z.string().optional(),
     dependencies: {
       triggerFields: ['selectLoginType'],
       trigger(values, _) {
@@ -169,6 +180,7 @@ async function handleSubmit(value: Recordable<any>) {
 
 <template>
   <AuthenticationForgetPassword
+    ref="forgetPasswordFormRef"
     :form-schema="formSchema"
     :loading="loading"
     :sub-title="$t('sys.login.resetPassword')"

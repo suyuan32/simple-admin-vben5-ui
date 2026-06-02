@@ -9,7 +9,7 @@ import { AuthenticationLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { usePreferences } from '@vben/preferences';
 import { Image } from 'ant-design-vue';
-import { computed, h, ref } from 'vue';
+import { computed, h, nextTick, onMounted, ref } from 'vue';
 
 defineOptions({ name: 'Login' });
 
@@ -36,6 +36,7 @@ const imgPath = ref<string>('');
 const captchaId = ref<string>('');
 const msgType = ref<string>('');
 const target = ref<string>('');
+const loginFormRef = ref<any>();
 
 // get captcha
 async function getCaptchaData() {
@@ -47,6 +48,15 @@ async function getCaptchaData() {
 }
 
 getCaptchaData();
+
+onMounted(async () => {
+  await nextTick();
+  msgType.value = 'captcha';
+  await loginFormRef.value?.getFormApi?.()?.setFieldValue(
+    'selectLoginType',
+    'captcha',
+  );
+});
 
 async function handleSendCaptcha(): Promise<boolean> {
   if (msgType.value === 'email') {
@@ -69,7 +79,8 @@ const formSchema = computed((): VbenFormSchema[] => {
       },
       label: 'Login Type',
       fieldName: 'selectLoginType',
-      rules: z.string().optional().default('captcha'),
+      defaultValue: 'captcha',
+      rules: z.string().optional(),
       formItemClass: 'col-span-2 items-baseline',
       dependencies: {
         triggerFields: ['selectLoginType'],
@@ -281,6 +292,7 @@ async function handleOauthLogin(provider: string) {
 
 <template>
   <AuthenticationLogin
+    ref="loginFormRef"
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
     :show-code-login="false"
