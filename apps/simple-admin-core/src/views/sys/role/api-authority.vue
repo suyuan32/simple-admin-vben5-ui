@@ -11,7 +11,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { message, Tree } from 'ant-design-vue';
-import { clone, concat, isNumber, unique } from 'remeda';
+import { concat, isNumber, unique } from 'remeda';
 
 import {
   createOrUpdateApiAuthority,
@@ -89,56 +89,42 @@ async function getApiData() {
  */
 
 function convertApiTreeData(params: ApiInfo[]): DataNode[] {
-  const finalData: DataNode[] = [];
-  const apiData: DataNode[] = [];
   if (params.length === 0) {
-    return apiData;
+    return [];
   }
 
-  const apiMap = new Map<string, string>();
-  const serviceMap = new Map<string, boolean>();
+  const serviceGroupMap = new Map<string, Map<string, DataNode>>();
   for (const param of params) {
-    apiMap.set(param.group, param.serviceName);
-    serviceMap.set(param.serviceName, true);
-  }
-
-  for (const k of apiMap.keys()) {
-    const apiTmp: DataNode = {
-      title: k,
-      key: k,
-      children: [],
-    };
-
-    for (const param of params) {
-      if (param.group === k) {
-        apiTmp.children?.push({
-          title: param.trans,
-          key: param.id as number,
-          disableCheckbox: param.isRequired,
-        });
-      }
+    let groupMap = serviceGroupMap.get(param.serviceName);
+    if (!groupMap) {
+      groupMap = new Map<string, DataNode>();
+      serviceGroupMap.set(param.serviceName, groupMap);
     }
 
-    apiData.push(apiTmp);
-  }
-
-  for (const k1 of serviceMap.keys()) {
-    const svcTmp: DataNode = {
-      title: k1,
-      key: k1,
-      children: [],
-    };
-
-    for (const apiDatum of apiData) {
-      if (apiMap.get(apiDatum.title) === k1) {
-        svcTmp.children?.push(clone(apiDatum));
-      }
+    let groupNode = groupMap.get(param.group);
+    if (!groupNode) {
+      groupNode = {
+        title: param.group,
+        key: `${param.serviceName}::${param.group}`,
+        children: [],
+      };
+      groupMap.set(param.group, groupNode);
     }
 
-    finalData.push(svcTmp);
+    groupNode.children?.push({
+      title: param.trans,
+      key: param.id as number,
+      disableCheckbox: param.isRequired,
+    });
   }
 
-  return finalData;
+  return Array.from(serviceGroupMap, ([serviceName, groupMap]) => {
+    return {
+      title: serviceName,
+      key: `service::${serviceName}`,
+      children: [...groupMap.values()],
+    };
+  });
 }
 
 /**
