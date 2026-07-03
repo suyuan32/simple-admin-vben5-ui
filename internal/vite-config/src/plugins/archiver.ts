@@ -49,6 +49,7 @@ async function zipFolder(
 ): Promise<void> {
   return new Promise((resolve, reject) => {
     const output = fs.createWriteStream(outputPath);
+
     const archive = archiver('zip', {
       zlib: { level: 9 }, // 设置压缩级别为 9 以实现最高压缩率
     });

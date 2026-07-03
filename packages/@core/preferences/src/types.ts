@@ -123,11 +123,11 @@ interface AppPreferences {
   contentPaddingRight: number;
   /** 内容顶部内边距 */
   contentPaddingTop: number;
-  // /** 应用默认头像 */
+  /** 应用默认头像 */
   defaultAvatar: string;
   /** 默认首页地址 */
   defaultHomePath: string;
-  // /** 开启动态标题 */
+  /** 开启动态标题 */
   dynamicTitle: boolean;
   /** 是否开启检查更新 */
   enableCheckUpdates: boolean;
@@ -228,6 +228,12 @@ interface LogoPreferences {
   enable: boolean;
   /** logo图片适应方式 */
   fit: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down';
+  /** logo高度， 只在 logoMode=full时生效 */
+  fullLogoHeight?: number | string;
+  /** logo 展示类型，icon 图标模式， full 铺满logo区域 */
+  logoMode: 'full' | 'icon';
+  /** logo text是否展示 */
+  showText: boolean;
   /** logo地址 */
   source: string;
   /** 暗色主题logo地址 (可选，若不设置则使用 source) */

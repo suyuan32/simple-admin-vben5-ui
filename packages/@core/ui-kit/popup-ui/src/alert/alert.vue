@@ -145,7 +145,7 @@ async function handleOpenChange(val: boolean) {
 }
 </script>
 <template>
-  <AlertDialog :open="open" @update:open="handleOpenChange">
+  <AlertDialog :modal="false" :open="open" @update:open="handleOpenChange">
     <AlertDialogContent
       :open="open"
       :centered="centered"
@@ -153,10 +153,11 @@ async function handleOpenChange(val: boolean) {
       @opened="emits('opened')"
       @closed="onAlertClosed"
       @escape-key-down="onEscapeKeyDown($event)"
+      @close="handleOpenChange(false)"
       :class="
         cn(
           containerClass,
-          'inset-x-0 mx-auto flex max-h-[80%] flex-col p-0 duration-300 sm:w-130 sm:max-w-[80%] sm:rounded-(--radius)',
+          'flex max-h-[80%] flex-col p-0 duration-300 sm:w-130 sm:max-w-[80%] sm:rounded-(--radius)',
           {
             'border border-border': bordered,
             'shadow-3xl': !bordered,
@@ -197,7 +198,7 @@ async function handleOpenChange(val: boolean) {
             <component
               :is="components.DefaultButton || VbenButton"
               :disabled="loading"
-              variant="ghost"
+              variant="outline"
               @click="handleCancel"
             >
               {{ cancelText || $t('cancel') }}

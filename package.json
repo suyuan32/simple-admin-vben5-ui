@@ -65,7 +65,6 @@
     "@vben/oxfmt-config": "workspace:*",
     "@vben/oxlint-config": "workspace:*",
     "@vben/stylelint-config": "workspace:*",
-    "stylelint": "catalog:",
     "@vben/tailwind-config": "workspace:*",
     "@vben/tsconfig": "workspace:*",
     "@vben/turbo-run": "workspace:*",
@@ -84,6 +83,7 @@
     "oxlint-tsgolint": "catalog:",
     "playwright": "catalog:",
     "rimraf": "catalog:",
+    "stylelint": "catalog:",
     "tailwindcss": "catalog:",
     "tsdown": "catalog:",
     "turbo": "catalog:",
@@ -97,5 +97,5 @@
     "node": "^22.18.0 || ^24.0.0",
     "pnpm": ">=11.0.0"
   },
-  "packageManager": "pnpm@11.5.0"
+  "packageManager": "pnpm@11.9.0"
 }
