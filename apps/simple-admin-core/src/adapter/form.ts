@@ -10,10 +10,7 @@ import { setupVbenForm, useVbenForm as useForm, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { preferences } from '@vben/preferences';
 
-import i18next from 'i18next';
-import { zodI18nMap } from 'zod-i18n-map';
-import translation from 'zod-i18n-map/locales/es/zod.json';
-import zhTranslation from 'zod-i18n-map/locales/zh-CN/zod.json';
+import { en, es, zhCN } from 'zod/v4/locales';
 
 async function initSetupVbenForm() {
   setupVbenForm<ComponentType>({
@@ -48,15 +45,18 @@ async function initSetupVbenForm() {
   });
 }
 
-// zod init i18n
-i18next.init({
-  lng: preferences.app.locale,
-  resources: {
-    es: { zod: translation },
-    zh: { zod: zhTranslation },
-  },
-});
-z.setErrorMap(zodI18nMap);
+// zod i18n: 根据当前语言切换 zod 内置的错误提示语言
+const zodErrorMap: z.ZodErrorMap = (issue) => {
+  const locale = preferences.app.locale;
+  let localeErrorMap = es().localeError;
+  if (locale === 'en-US') {
+    localeErrorMap = en().localeError;
+  } else if (locale.startsWith('zh')) {
+    localeErrorMap = zhCN().localeError;
+  }
+  return localeErrorMap(issue);
+};
+z.config({ localeError: zodErrorMap });
 
 function useVbenForm<
   TFormValues extends FormValues = FormValues,

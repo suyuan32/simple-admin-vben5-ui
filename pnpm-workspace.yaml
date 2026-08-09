@@ -204,9 +204,8 @@ catalog:
   vxe-table: ^4.20.10
   watermark-js-plus: ^1.6.6
   yaml-eslint-parser: ^2.1.0
-  zod: ^3.25.76
-  zod-defaults: 0.1.3
-  zod-i18n-map: ^2.27.0
+  zod: ^4.4.3
+  zod-defaults: 0.2.3
   remeda: ^2.39.0
   i18next: ^25.10.10
   vue-json-pretty: ^2.6.0
