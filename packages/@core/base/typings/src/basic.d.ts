@@ -8,10 +8,15 @@ type SelectOption = BasicOption;
 type TabOption = BasicOption;
 
 interface BasicUserInfo {
+  [key: string]: any;
   /**
    * 头像
    */
   avatar: string;
+  /**
+   * 部门名称
+   */
+  departmentName: string;
   /**
    * 用户昵称
    */
@@ -19,7 +24,7 @@ interface BasicUserInfo {
   /**
    * 用户角色
    */
-  roles?: string[];
+  roleName?: string[];
   /**
    * 用户id
    */

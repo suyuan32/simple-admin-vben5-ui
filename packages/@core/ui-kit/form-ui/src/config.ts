@@ -6,6 +6,8 @@ import type {
   VbenFormAdapterOptions,
 } from './types';
 
+import { h } from 'vue';
+
 import {
   VbenButton,
   VbenCheckbox,
@@ -15,10 +17,10 @@ import {
   VbenSelect,
 } from '@vben-core/shadcn-ui';
 import { globalShareState } from '@vben-core/shared/global-state';
-import { defineRule } from 'vee-validate';
-import { h } from 'vue';
 
 import VbenFormFieldArray from './components/form-field-array.vue';
+import { warnDeprecatedOnce } from './deprecation';
+import { registerFormRules } from './rule-registry';
 
 const DEFAULT_MODEL_PROP_NAME = 'modelValue';
 
@@ -44,24 +46,25 @@ export const COMPONENT_BIND_EVENT_MAP: Partial<
 export function setupVbenForm<
   T extends BaseFormComponentType = BaseFormComponentType,
 >(options: VbenFormAdapterOptions<T>) {
-  const { config, defineRules } = options;
+  const { config, defineRules, rules } = options;
 
-  const {
-    disabledOnChangeListener = true,
-    disabledOnInputListener = true,
-    emptyStateValue = undefined,
-  } = (config || {}) as FormCommonConfig;
+  const { changeEventFallback = false, emptyStateValue = undefined } =
+    (config || {}) as FormCommonConfig;
 
   Object.assign(DEFAULT_FORM_COMMON_CONFIG, {
-    disabledOnChangeListener,
-    disabledOnInputListener,
+    changeEventFallback,
     emptyStateValue,
   });
 
   if (defineRules) {
-    for (const key of Object.keys(defineRules)) {
-      defineRule(key, defineRules[key as never]);
-    }
+    warnDeprecatedOnce(
+      'setup-vben-form-define-rules',
+      '[Vben Form] `setupVbenForm({ defineRules })` is deprecated. Use `setupVbenForm({ rules })` instead.',
+    );
+    registerFormRules(defineRules);
+  }
+  if (rules) {
+    registerFormRules(rules);
   }
 
   const baseModelPropName =

@@ -28,6 +28,8 @@ const javascript: OxlintConfig = {
     'default-case-last': 'error',
     eqeqeq: ['error', 'always'],
     'eslint/no-unreachable': 'error',
+    // 抛出嵌套三元运算格式错误，禁止使用嵌套三元运算。
+    'no-nested-ternary': 'error',
     'new-cap': [
       'error',
       {
@@ -41,7 +43,7 @@ const javascript: OxlintConfig = {
     'no-caller': 'error',
     'no-case-declarations': 'error',
     'no-console': ['error', { allow: ['warn', 'error'] }],
-    'no-control-regex': 'off',
+    'no-control-regex': 'error',
     'no-debugger': 'error',
     'no-empty': ['error', { allowEmptyCatch: true }],
     'no-fallthrough': 'error',
@@ -68,6 +70,8 @@ const javascript: OxlintConfig = {
     ],
     'no-template-curly-in-string': 'error',
     'no-throw-literal': 'error',
+    'no-unassigned-vars': 'error',
+    'no-unexpected-multiline': 'error',
     'no-unused-expressions': [
       'error',
       {
@@ -108,6 +112,12 @@ const javascript: OxlintConfig = {
     'prefer-rest-params': 'error',
     'prefer-spread': 'error',
     'prefer-template': 'error',
+    'preserve-caught-error': [
+      'error',
+      {
+        requireCatchParameter: false,
+      },
+    ],
     'symbol-description': 'error',
     'unicode-bom': ['error', 'never'],
     'use-isnan': [
