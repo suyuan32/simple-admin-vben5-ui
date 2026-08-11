@@ -51,7 +51,7 @@ const defaultPreferences: Preferences = {
     settingShow: true,
   },
   footer: {
-    enable: false,
+    enable: true,
     fixed: false,
     height: 32,
   },
