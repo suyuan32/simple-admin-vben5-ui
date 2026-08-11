@@ -1,9 +1,12 @@
+import type { Component, DefineComponent } from 'vue';
+
 import type {
   AccessModeType,
   GenerateMenuAndRoutesOptions,
   RouteRecordRaw,
 } from '@vben/types';
-import type { Component, DefineComponent } from 'vue';
+
+import { defineComponent, h } from 'vue';
 
 import {
   cloneDeep,
@@ -14,7 +17,6 @@ import {
   isString,
   mapTree,
 } from '@vben/utils';
-import { defineComponent, h } from 'vue';
 
 async function generateAccessible(
   mode: AccessModeType,
@@ -147,7 +149,14 @@ async function generateRoutes(
     }
     const firstChild = route.children[0];
 
-    if (!firstChild?.path || firstChild.path.startsWith('/')) {
+    if (!firstChild?.path) {
+      return route;
+    }
+
+    // simple-admin 后端菜单约定：所有层级的 path 均为绝对路径（如 /sys/user）。
+    // 父级目录自身无 component，需直接指向第一个子级作为回退，否则点击面包屑父级会空白。
+    if (firstChild.path.startsWith('/')) {
+      route.redirect = firstChild.path;
       return route;
     }
 
