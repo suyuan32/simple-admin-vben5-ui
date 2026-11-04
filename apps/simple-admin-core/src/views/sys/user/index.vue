@@ -210,15 +210,15 @@ async function handleForceLogout(record: any) {
 </script>
 
 <template>
-  <Row>
-    <Col :span="5">
+  <Row class="h-full min-h-0">
+    <Col class="h-full min-h-0" :span="5">
       <Page auto-content-height>
         <Card :title="$t('sys.department.userDepartment')" style="height: 100%">
           <Tree :tree-data="treeData" block-node @select="selectDepartment" />
         </Card>
       </Page>
     </Col>
-    <Col :span="19">
+    <Col class="h-full min-h-0" :span="19">
       <Page auto-content-height>
         <FormModal />
         <Grid>

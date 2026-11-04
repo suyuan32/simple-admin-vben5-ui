@@ -160,6 +160,15 @@ function createStorageAdapter(
   }
 }
 
+// ========== 行样式合并 ==========
+
+// vxe 的 RowStyle 类型是 Partial<CSSStyleDeclaration>（带数字索引签名），
+// 这里仅做类型层面收窄，让下面的合并通过类型检查；运行时值是用户配置
+// 的普通样式对象，展开合并行为与收窄前完全一致（不做键过滤）。
+function asStyleRecord(style: unknown): Record<string, string> {
+  return style as Record<string, string>;
+}
+
 // ========== maxSize 淘汰 ==========
 
 /**
@@ -206,13 +215,31 @@ export function useViewedRow<T = any>(
   const persist = useDebounceFn(persistImmediate, 300);
 
   // ========== 从存储恢复 ==========
+  // 存储快照是异步读取的：加载期间用户清空或移除的已读标记不能被快照复原。
+  let restoring = false;
+  let clearedWhileRestoring = false;
+  const removedWhileRestoring = new Set<number | string>();
+
   async function restoreFromStorage(): Promise<void> {
     if (!adapter) return;
 
+    restoring = true;
+    clearedWhileRestoring = false;
+    removedWhileRestoring.clear();
+
+    let skippedRemovedKey = false;
+
     try {
       const stored = await adapter.getKeys();
+      if (clearedWhileRestoring) {
+        return;
+      }
       if (stored && stored.length > 0) {
         for (const key of stored) {
+          if (removedWhileRestoring.has(key)) {
+            skippedRemovedKey = true;
+            continue;
+          }
           viewedSet.value.add(key);
         }
         if (maxSize > 0) {
@@ -220,29 +247,47 @@ export function useViewedRow<T = any>(
         }
         triggerRef(viewedSet);
       }
+      if (skippedRemovedKey) {
+        // 快照里的 key 被跳过时本地集合没有变化，不会触发防抖写回，
+        // 需要立即把剔除后的集合写回存储，否则下次挂载会再次把它恢复出来。
+        persistImmediate();
+      }
     } catch (error) {
       console.error('[viewedRow] restore failed:', error);
+    } finally {
+      restoring = false;
     }
   }
 
   // 先恢复存储，再合并外部 viewedKeys，确保 viewedKeys 是最新插入的（最后被淘汰）
-  restoreFromStorage().then(() => {
-    if (options.viewedKeys) {
-      const keys = isRef(options.viewedKeys)
-        ? options.viewedKeys.value
-        : options.viewedKeys;
-      updateViewedSet((set) => {
-        let changed = false;
-        for (const key of keys) {
-          if (!set.has(key)) {
-            set.add(key);
-            changed = true;
+  // restoreFromStorage 内部已捕获异常，这里只处理成功路径
+  void restoreFromStorage()
+    .then(() => {
+      if (options.viewedKeys && !clearedWhileRestoring) {
+        const keys = isRef(options.viewedKeys)
+          ? options.viewedKeys.value
+          : options.viewedKeys;
+        updateViewedSet((set) => {
+          let changed = false;
+          for (const key of keys) {
+            if (removedWhileRestoring.has(key)) {
+              continue;
+            }
+            if (!set.has(key)) {
+              set.add(key);
+              changed = true;
+            }
           }
-        }
-        return changed;
-      });
-    }
-  });
+          return changed;
+        });
+      }
+    })
+    .finally(() => {
+      // 加载期间的清除/移除要保留到首次 viewedKeys 合并之后，
+      // 否则这次合并会把刚清掉或移除的 key 又加回来。
+      clearedWhileRestoring = false;
+      removedWhileRestoring.clear();
+    });
 
   // ========== 更新 viewedSet 的统一入口 ==========
   function updateViewedSet(updater: (set: Set<number | string>) => boolean) {
@@ -253,7 +298,7 @@ export function useViewedRow<T = any>(
         enforceMaxSize(viewedSet.value, maxSize);
       }
       triggerRef(viewedSet);
-      persist();
+      void persist();
     }
   }
 
@@ -310,6 +355,9 @@ export function useViewedRow<T = any>(
 
   // ========== 清除 ==========
   function clearViewed() {
+    if (restoring) {
+      clearedWhileRestoring = true;
+    }
     const hadData = viewedSet.value.size > 0;
     viewedSet.value.clear();
 
@@ -326,6 +374,11 @@ export function useViewedRow<T = any>(
 
   // ========== 移除指定 keys ==========
   function removeKeys(keys: Array<number | string>) {
+    if (restoring) {
+      for (const key of keys) {
+        removedWhileRestoring.add(key);
+      }
+    }
     updateViewedSet((set) => {
       let changed = false;
       for (const key of keys) {
@@ -516,7 +569,7 @@ export function applyViewedRowOptions(
     if (!viewedStyle && !originalStyle) return undefined;
     if (!originalStyle) return viewedStyle;
     if (!viewedStyle) return originalStyle;
-    return { ...originalStyle, ...viewedStyle };
+    return { ...asStyleRecord(originalStyle), ...asStyleRecord(viewedStyle) };
   };
 
   // 拦截 CellOperation columns

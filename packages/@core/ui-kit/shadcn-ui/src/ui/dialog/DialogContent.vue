@@ -18,6 +18,7 @@ import {
 } from 'reka-ui';
 
 import DialogOverlay from './DialogOverlay.vue';
+import { useDialogStateEvents } from './use-dialog-state-events';
 
 defineOptions({
   inheritAttrs: false,
@@ -31,6 +32,8 @@ const props = withDefaults(
       class?: HTMLAttributes['class'];
       closeClass?: ClassType;
       closeDisabled?: boolean;
+      /** Remove the overlay immediately when its cached page is inactive. */
+      inactive?: boolean;
       modal?: boolean;
       open?: boolean;
       overlayBlur?: number;
@@ -42,6 +45,7 @@ const props = withDefaults(
     appendTo: 'body',
     animationType: 'slide',
     closeDisabled: false,
+    inactive: false,
     showCloseButton: true,
   },
 );
@@ -52,6 +56,7 @@ const emits = defineEmits<
 const delegatedProps = computed(() => {
   const {
     class: _,
+    inactive: _inactive,
     modal: _modal,
     open: _open,
     showCloseButton: __,
@@ -81,16 +86,14 @@ const position = computed(() => {
 const forwarded = useForwardPropsEmits(delegatedProps, emits);
 
 const contentRef = ref<InstanceType<typeof DialogContent> | null>(null);
-function onAnimationEnd(event: AnimationEvent) {
-  // 只有在 contentRef 的动画结束时才触发 opened/closed 事件
-  if (event.target === contentRef.value?.$el) {
-    if (props.open) {
-      emits('opened');
-    } else {
-      emits('closed');
-    }
-  }
-}
+
+const { handleAnimationEvent } = useDialogStateEvents({
+  contentRef,
+  isOpen: () => props.open,
+  onClosed: () => emits('closed'),
+  onOpened: () => emits('opened'),
+});
+
 defineExpose({
   getContentRef: () => contentRef.value,
 });
@@ -98,7 +101,7 @@ defineExpose({
 
 <template>
   <DialogPortal :to="appendTo">
-    <Transition name="fade">
+    <Transition v-if="!inactive" name="fade">
       <DialogOverlay
         v-if="open && modal"
         :overlay-blur="overlayBlur"
@@ -111,7 +114,8 @@ defineExpose({
       ref="contentRef"
       :style="{ ...(zIndex ? { zIndex } : {}), position }"
       data-slot="dialog-content"
-      @animationend="onAnimationEnd"
+      @animationend="handleAnimationEvent"
+      @animationcancel="handleAnimationEvent"
       v-bind="forwarded"
       :class="
         cn(

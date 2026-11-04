@@ -9,6 +9,7 @@ import {
   SCROLL_FIXED_CLASS,
   useLayoutFooterStyle,
   useLayoutHeaderStyle,
+  useLayoutViewportHeight,
 } from '@vben-core/composables';
 import { IconifyIcon } from '@vben-core/icons';
 import { VbenIconButton } from '@vben-core/shadcn-ui';
@@ -92,6 +93,7 @@ const HEADER_TRIGGER_DISTANCE = 12;
 
 // side是否处于hover状态展开菜单中
 const sidebarExpandOnHovering = ref(false);
+const mobileSidebarOpen = ref(false);
 const headerIsHidden = ref(false);
 const mainRef = ref<HTMLElement | null>(null);
 const contentRef = ref<HTMLElement | null>(null);
@@ -105,6 +107,7 @@ const {
   onScroll: handleLayoutScroll,
 });
 
+useLayoutViewportHeight();
 const { setLayoutHeaderHeight } = useLayoutHeaderStyle();
 const { setLayoutFooterHeight } = useLayoutFooterStyle();
 
@@ -159,6 +162,18 @@ const getSideCollapseWidth = computed(() => {
     : sideCollapseWidth;
 });
 
+const activeSidebarCollapse = computed({
+  get: () =>
+    props.isMobile ? !mobileSidebarOpen.value : sidebarCollapse.value,
+  set: (value: boolean) => {
+    if (props.isMobile) {
+      mobileSidebarOpen.value = !value;
+      return;
+    }
+    sidebarCollapse.value = value;
+  },
+});
+
 /**
  * 动态获取侧边区域是否可见
  */
@@ -197,7 +212,7 @@ const getSidebarWidth = computed(() => {
 
   if ((isHeaderMixedNav.value || isSidebarMixedNav.value) && !isMobile) {
     width = sidebarMixedWidth;
-  } else if (sidebarCollapse.value) {
+  } else if (activeSidebarCollapse.value) {
     width = isMobile ? 0 : getSideCollapseWidth.value;
   } else {
     width = sidebarWidth;
@@ -246,7 +261,9 @@ const showSidebar = computed(() => {
 /**
  * 遮罩可见性
  */
-const maskVisible = computed(() => !sidebarCollapse.value && props.isMobile);
+const maskVisible = computed(
+  () => !activeSidebarCollapse.value && props.isMobile,
+);
 
 const mainStyle = computed(() => {
   let width = '100%';
@@ -263,7 +280,8 @@ const mainStyle = computed(() => {
     const isSideNavEffective =
       (isSidebarMixedNav.value || isHeaderMixedNav.value) &&
       sidebarExpandOnHover.value &&
-      sidebarExtraVisible.value;
+      sidebarExtraVisible.value &&
+      !activeSidebarCollapse.value;
 
     if (isSideNavEffective) {
       const sideCollapseWidth = props.sidebarMixedWidth;
@@ -307,12 +325,12 @@ const tabbarStyle = computed((): CSSProperties => {
       : getSideCollapseWidth.value;
 
     // 设置 marginLeft，根据侧边栏是否折叠来决定
-    marginLeft = sidebarCollapse.value
+    marginLeft = activeSidebarCollapse.value
       ? getSideCollapseWidth.value
       : onHoveringWidth;
 
     // 设置 tabbar 的宽度，计算方式为 100% 减去侧边栏的宽度
-    width = `calc(100% - ${sidebarCollapse.value ? getSidebarWidth.value : onHoveringWidth}px)`;
+    width = `calc(100% - ${activeSidebarCollapse.value ? getSidebarWidth.value : onHoveringWidth}px)`;
   } else {
     // 默认情况下，tabbar 的宽度为 100%
     width = '100%';
@@ -356,6 +374,7 @@ const layoutScrollStyle = computed((): CSSProperties => {
 const contentStyle = computed((): CSSProperties => {
   const { footerEnable, footerFixed, footerHeight } = props;
   return {
+    minHeight: footerEnable && !footerFixed ? undefined : 0,
     paddingBottom: `${footerEnable && footerFixed ? footerHeight : 0}px`,
   };
 });
@@ -439,9 +458,9 @@ const showHeaderLogo = computed(() => {
 
 watch(
   () => props.isMobile,
-  (val) => {
-    if (val) {
-      sidebarCollapse.value = true;
+  (isMobile) => {
+    if (isMobile) {
+      mobileSidebarOpen.value = false;
     }
   },
   {
@@ -542,12 +561,12 @@ function resolveHeaderVisibilityOnScroll() {
 }
 
 function handleClickMask() {
-  sidebarCollapse.value = true;
+  activeSidebarCollapse.value = true;
 }
 
 function handleHeaderToggle() {
   if (props.isMobile) {
-    sidebarCollapse.value = false;
+    activeSidebarCollapse.value = false;
   } else {
     emit('toggleSidebar');
   }
@@ -560,11 +579,17 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
 </script>
 
 <template>
-  <div class="relative flex h-full min-h-0 w-full overflow-hidden">
+  <div
+    data-layout-region="layout"
+    :data-layout="currentLayout"
+    :data-mobile="isMobile"
+    :data-sidebar-collapsed="activeSidebarCollapse"
+    class="relative flex h-full min-h-0 w-full overflow-hidden"
+  >
     <LayoutSidebar
       v-if="sidebarEnableState"
       v-model:draggable="sidebarDraggable"
-      v-model:collapse="sidebarCollapse"
+      v-model:collapse="activeSidebarCollapse"
       v-model:expand-on-hover="sidebarExpandOnHover"
       v-model:expand-on-hovering="sidebarExpandOnHovering"
       v-model:extra-collapse="sidebarExtraCollapse"
@@ -573,6 +598,7 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
       :show-fixed-button="sidebarFixedButton"
       :collapse-width="getSideCollapseWidth"
       :dom-visible="!isMobile"
+      :expanded-width="sidebarWidth"
       :extra-width="sidebarExtraWidth"
       :fixed-extra="sidebarExpandOnHover"
       :header-height="sidebarHeaderHeight"
@@ -580,6 +606,7 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
         isSidebarMixedNav || isHeaderMixedNav ? sidebarExtraTitleHeight : 0
       "
       :is-sidebar-mixed="isSidebarMixedNav || isHeaderMixedNav"
+      :is-mobile="isMobile"
       :margin-top="sidebarMarginTop"
       :mixed-width="sidebarMixedWidth"
       :show="showSidebar"
@@ -611,10 +638,12 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
 
     <div
       ref="mainRef"
-      class="relative flex min-h-0 flex-1 flex-col overflow-hidden transition-all duration-300 ease-in"
+      data-layout-region="main"
+      class="relative flex min-h-0 flex-1 flex-col overflow-hidden"
     >
       <Teleport defer :disabled="headerFixed" :to="layoutStaticHeaderTarget">
         <div
+          data-layout-region="header"
           :class="[
             {
               'shadow-[0_16px_24px_hsl(var(--background))]': headerHasShadow,
@@ -622,7 +651,7 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
             SCROLL_FIXED_CLASS,
           ]"
           :style="headerWrapperStyle"
-          class="shrink-0 overflow-hidden transition-[transform,left,width] duration-200"
+          class="shrink-0 overflow-hidden transition-transform duration-150"
         >
           <LayoutHeader
             v-if="headerVisible"
@@ -643,10 +672,14 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
             <template #toggle-button>
               <VbenIconButton
                 v-if="showHeaderToggleButton"
+                data-layout-action="toggle-sidebar"
                 class="my-0 mr-1 rounded-md"
                 @click="handleHeaderToggle"
               >
-                <IconifyIcon v-if="showSidebar" icon="ep:fold" />
+                <IconifyIcon
+                  v-if="isMobile ? !activeSidebarCollapse : showSidebar"
+                  icon="ep:fold"
+                />
                 <IconifyIcon v-else icon="ep:expand" />
               </VbenIconButton>
             </template>
@@ -666,8 +699,9 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
       <div
         :id="idLayoutScroll"
         ref="contentRef"
+        data-layout-region="scroll"
         :style="layoutScrollStyle"
-        class="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto"
+        class="flex min-h-0 flex-1 flex-col overflow-x-hidden overflow-y-auto bg-background-deep"
       >
         <div :id="idLayoutStaticHeader" class="contents"></div>
 
@@ -702,11 +736,33 @@ const layoutStaticHeaderTarget = `#${idLayoutStaticHeader}`;
       </div>
     </div>
     <slot name="extra"></slot>
-    <div
-      v-if="maskVisible"
-      :style="maskStyle"
-      class="fixed top-0 left-0 size-full bg-overlay transition-[background-color] duration-200"
-      @click="handleClickMask"
-    ></div>
+    <Transition name="mobile-sidebar-mask">
+      <div
+        v-if="maskVisible"
+        data-layout-region="sidebar-mask"
+        :style="maskStyle"
+        class="fixed top-0 left-0 size-full bg-overlay"
+        @click="handleClickMask"
+      ></div>
+    </Transition>
   </div>
 </template>
+
+<style scoped>
+.mobile-sidebar-mask-enter-active,
+.mobile-sidebar-mask-leave-active {
+  transition: opacity 300ms ease;
+}
+
+.mobile-sidebar-mask-enter-from,
+.mobile-sidebar-mask-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-sidebar-mask-enter-active,
+  .mobile-sidebar-mask-leave-active {
+    transition-duration: 0ms;
+  }
+}
+</style>

@@ -12,11 +12,11 @@ import type {
   NavigationStyleType,
   PageTransitionType,
   PreferencesButtonPositionType,
+  SupportedLanguagesType,
   TabsStyleType,
   ThemeModeType,
 } from '@vben-core/typings';
 
-type SupportedLanguagesType = 'en-US' | 'zh-CN';
 type CustomPreferencesValue = boolean | number | string;
 
 interface CustomPreferencesOption<TValue extends string = string> {
@@ -76,10 +76,9 @@ type CustomPreferencesField<
   string extends Extract<keyof TCustomPreferences, string>
     ? AnyCustomPreferencesField
     : {
-        [K in Extract<
-          keyof TCustomPreferences,
-          string
-        >]: TCustomPreferences[K] extends boolean
+        [
+          K in Extract<keyof TCustomPreferences, string>
+        ]: TCustomPreferences[K] extends boolean
           ? CustomPreferencesSwitchField<K>
           : TCustomPreferences[K] extends number
             ? CustomPreferencesNumberField<K>
@@ -357,7 +356,7 @@ interface TransitionPreferences {
   // /** 是否开启页面加载loading */
   loading: boolean;
   /** 页面切换动画 */
-  name: PageTransitionType | string;
+  name: PageTransitionType | (string & {});
   /** 是否开启页面加载进度动画 */
   progress: boolean;
 }

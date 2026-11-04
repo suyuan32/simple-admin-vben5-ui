@@ -31,7 +31,7 @@ withDefaults(
   },
 );
 
-const selectValue = defineModel<string>();
+const selectValue = defineModel<string | undefined>({ default: undefined });
 
 const slots = useSlots();
 </script>

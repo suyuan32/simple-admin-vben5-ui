@@ -1,11 +1,9 @@
 <script lang="ts" setup>
 import type { SetupContext } from 'vue';
-import type { RouteLocationNormalizedLoaded } from 'vue-router';
 
 import type { MenuRecordRaw } from '@vben/types';
 
-import { computed, onMounted, useSlots, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, useSlots, watch } from 'vue';
 
 import { useRefresh } from '@vben/hooks';
 import { $t, i18n } from '@vben/locales';
@@ -38,7 +36,10 @@ import { useLayoutScroll } from './use-layout-scroll';
 
 defineOptions({ name: 'BasicLayout' });
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
+  logoSrc: '',
+  logoSrcDark: '',
+  logoText: '',
   avatar: '',
   text: '',
 });
@@ -50,9 +51,26 @@ const emit = defineEmits<{
 }>();
 
 interface Props {
+  /** 自定义 Logo 图片地址，不传则使用偏好设置默认值 */
+  logoSrc?: string;
+  /** 自定义暗色主题 Logo 图片地址 */
+  logoSrcDark?: string;
+  /** 自定义 Logo 文本，不传则使用偏好设置默认值 */
+  logoText?: string;
+  /** 用户头像图片地址 */
   avatar?: string;
+  /** 用户文本（如用户名） */
   text?: string;
 }
+
+/** 最终使用的 Logo 图片地址（自定义优先，否则使用默认） */
+const finalLogoSrc = computed(() => props.logoSrc || preferences.logo.source);
+/** 最终使用的暗色 Logo 图片地址 */
+const finalLogoSrcDark = computed(
+  () => props.logoSrcDark || preferences.logo.sourceDark,
+);
+/** 最终使用的 Logo 文本（自定义优先，否则使用默认应用名称） */
+const finalLogoText = computed(() => props.logoText || preferences.app.name);
 
 const {
   isDark,
@@ -203,25 +221,6 @@ function clickLogo() {
   emit('clickLogo');
 }
 
-function autoCollapseMenuByRouteMeta(route: RouteLocationNormalizedLoaded) {
-  // 只在双列模式下生效
-  if (
-    ['header-mixed-nav', 'sidebar-mixed-nav'].includes(
-      preferences.app.layout,
-    ) &&
-    route.meta &&
-    route.meta.hideInMenu
-  ) {
-    sidebarExtraVisible.value = false;
-  }
-}
-
-const route = useRoute();
-
-onMounted(() => {
-  autoCollapseMenuByRouteMeta(route);
-});
-
 watch(
   () => preferences.app.layout,
   async (val) => {
@@ -323,9 +322,9 @@ const headerSlots = computed(() => {
         :fit="preferences.logo.fit"
         :class="logoClass"
         :collapsed="logoCollapsed"
-        :src="preferences.logo.source"
-        :src-dark="preferences.logo.sourceDark"
-        :text="preferences.app.name"
+        :src="finalLogoSrc"
+        :src-dark="finalLogoSrcDark"
+        :text="finalLogoText"
         :show-text="preferences.logo.showText"
         :logo-mode="preferences.logo.logoMode"
         :full-logo-height="preferences.logo.fullLogoHeight"
@@ -419,8 +418,8 @@ const headerSlots = computed(() => {
       <VbenLogo
         v-if="preferences.logo.enable"
         :fit="preferences.logo.fit"
+        :text="finalLogoText"
         :show-text="preferences.logo.showText"
-        :text="preferences.app.name"
         :theme="sidebarThemeSub"
       >
         <template v-if="$slots['logo-text']" #text>

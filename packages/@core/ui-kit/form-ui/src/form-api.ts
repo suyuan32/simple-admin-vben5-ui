@@ -4,10 +4,12 @@ import type {
   BaseFormComponentType,
   FormActions,
   FormFieldName,
+  FormFieldSchema,
   FormFieldValue,
   FormResetOptions,
   FormResetState,
   FormSchema,
+  FormValuePatch,
   FormValues,
   FormValueSnapshot,
   VbenFormProps,
@@ -19,10 +21,7 @@ import { Store } from '@vben-core/shared/store';
 import {
   bindMethods,
   cloneDeep,
-  isDate,
-  isDayjsObject,
   isFunction,
-  isObject,
   mergeWithArrayOverride,
   StateHandler,
 } from '@vben-core/shared/utils';
@@ -30,7 +29,11 @@ import {
 import { warnDeprecatedOnce } from './deprecation';
 import { resolveFieldNamePath } from './field-name';
 import { decodeFormValues, encodeFormValues } from './form-codec';
-import { updateFormSchemaList } from './form-render/schema';
+import {
+  getFormFieldSchemas,
+  removeFormSchemaByFields,
+  updateFormSchemaList,
+} from './form-render/schema';
 import { formatFormValues } from './form-value-transform';
 
 type FormApiProps<
@@ -45,6 +48,42 @@ type FormApiSchema<
   T extends BaseFormComponentType,
   P extends Record<string, any>,
 > = FormSchema<T, P, TValues>;
+
+type FormApiFieldSchema<
+  TValues extends FormValues,
+  T extends BaseFormComponentType,
+  P extends Record<string, any>,
+> = FormFieldSchema<T, P, TValues>;
+
+function isPlainFormObject(value: unknown): value is Record<string, unknown> {
+  if (value === null || typeof value !== 'object') {
+    return false;
+  }
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === null || prototype === Object.prototype;
+}
+
+function mergeFormValuePatch(
+  currentValue: unknown,
+  nextValue: unknown,
+  visited = new WeakMap<object, Record<string, unknown>>(),
+): unknown {
+  if (!isPlainFormObject(nextValue)) {
+    return cloneDeep(nextValue);
+  }
+
+  const cached = visited.get(nextValue);
+  if (cached) {
+    return cached;
+  }
+
+  const result = isPlainFormObject(currentValue) ? cloneDeep(currentValue) : {};
+  visited.set(nextValue, result);
+  for (const [key, value] of Object.entries(nextValue)) {
+    result[key] = mergeFormValuePatch(result[key], value, visited);
+  }
+  return result;
+}
 
 function getDefaultState<
   TFormValues extends FormValues,
@@ -78,7 +117,7 @@ function getDefaultState<
 export class FormApi<
   TFormValues extends FormValues = FormValues,
   T extends BaseFormComponentType = BaseFormComponentType,
-  P extends Record<string, any> = Record<never, never>,
+  P extends Record<string, any> = Record<string, never>,
   TSubmitValues extends FormValues = TFormValues,
 > {
   // private api: Pick<VbenFormProps, 'handleReset' | 'handleSubmit'>;
@@ -135,7 +174,12 @@ export class FormApi<
   }
 
   formatValues(rawValues: Readonly<TFormValues>): TSubmitValues;
-  /** @deprecated Declare the submit type on `useVbenForm` instead. */
+  /**
+   * @deprecated Declare the submit type on `useVbenForm` instead.
+   */
+  // TResult 仅出现在返回位（显式类型实参消费方依赖它收窄结果类型），
+  // 属于有意的公共 API 兼容重载，非内部冗余泛型。
+  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters
   formatValues<TResult extends FormValues>(
     rawValues: Readonly<FormValues>,
   ): TResult;
@@ -160,6 +204,9 @@ export class FormApi<
    * @param fieldName 字段名
    * @returns 组件实例
    */
+  // T 仅出现在返回位（调用方以显式类型实参获取具体组件实例，
+  // 如 getFieldComponentRef<InputInstance>('field')），是有意的公共 API。
+  // oxlint-disable-next-line typescript/no-unnecessary-type-parameters
   getFieldComponentRef<T = ComponentPublicInstance>(
     fieldName: string,
   ): T | undefined {
@@ -273,7 +320,7 @@ export class FormApi<
                 chain.map(async (api) => {
                   const validateResult = await api.validate();
                   if (!validateResult.valid) {
-                    return;
+                    return undefined;
                   }
                   const rawValues = toRaw((await api.getValues()) || {});
                   return rawValues;
@@ -286,6 +333,7 @@ export class FormApi<
               return results;
             } catch (error) {
               console.error('Validation error:', error);
+              return undefined;
             }
           };
         }
@@ -331,13 +379,10 @@ export class FormApi<
    * @param fields
    */
   async removeSchemaByFields(fields: string[]) {
-    const fieldSet = new Set(fields);
     const schema = this.state?.schema ?? [];
 
-    const filterSchema = schema.filter((item) => !fieldSet.has(item.fieldName));
-
     this.setState({
-      schema: filterSchema,
+      schema: removeFormSchemaByFields(schema, fields),
     });
   }
 
@@ -452,7 +497,11 @@ export class FormApi<
       );
     }
     const formValues = decodeFormValues(codec, values);
-    await this.setValues(formValues, filterFields, shouldValidate);
+    await this.setValues(
+      formValues as FormValuePatch<TFormValues>,
+      filterFields,
+      shouldValidate,
+    );
   }
 
   /**
@@ -462,29 +511,38 @@ export class FormApi<
    * @param shouldValidate
    */
   async setValues(
-    fields: Partial<TFormValues>,
+    fields: FormValuePatch<TFormValues>,
     filterFields: boolean = true,
     shouldValidate: boolean = false,
   ) {
     const form = await this.getForm();
     if (!filterFields) {
-      form.setValues(fields, shouldValidate);
+      // FormValuePatch 允许嵌套属性省略，宽于 FormActions.setValues 的
+      // Partial<TFormValues>；运行时按浅合并接受任意形状，断言仅为
+      // 类型层面的收敛（上游既有写法）。泛型体按约束检查时该断言看似
+      // 多余（约束即 Record<string, any>，两侧同型），具体实例化时才
+      // 体现差异，故压制 no-unnecessary-type-assertion。
+      // oxlint-disable-next-line typescript/no-unnecessary-type-assertion
+      await form.setValues(fields as Partial<TFormValues>, shouldValidate);
       return;
     }
 
-    const schemaFieldPaths = (this.state?.schema ?? []).map(
+    const currentValues = toRaw(form.values ?? {}) as Record<string, unknown>;
+    const mergedFields = Object.fromEntries(
+      Object.entries(fields).map(([key, value]) => [
+        key,
+        mergeFormValuePatch(currentValues[key], value),
+      ]),
+    );
+
+    const schemaFieldPaths = getFormFieldSchemas(this.state?.schema ?? []).map(
       (schema) => resolveFieldNamePath(schema.fieldName).pathSegments,
     );
     const filterValue = (
       value: unknown,
       parentPath: string[] = [],
     ): unknown => {
-      if (
-        !isObject(value) ||
-        Array.isArray(value) ||
-        isDate(value) ||
-        isDayjsObject(value)
-      ) {
+      if (!isPlainFormObject(value)) {
         return value;
       }
 
@@ -510,8 +568,8 @@ export class FormApi<
       }
       return result;
     };
-    const filteredFields = filterValue(fields) as Partial<TFormValues>;
-    form.setValues(filteredFields as Partial<TFormValues>, shouldValidate);
+    const filteredFields = filterValue(mergedFields) as Partial<TFormValues>;
+    await form.setValues(filteredFields, shouldValidate);
   }
 
   async submit(e?: Event) {
@@ -532,7 +590,7 @@ export class FormApi<
   }
 
   unmount() {
-    this.form?.reset?.();
+    void this.form?.reset?.();
     // this.state = null;
     this.componentRefMap = new Map();
     this.latestSubmissionValues = null;
@@ -540,7 +598,7 @@ export class FormApi<
     this.stateHandler.reset();
   }
 
-  updateSchema(schema: Partial<FormApiSchema<TFormValues, T, P>>[]) {
+  updateSchema(schema: Partial<FormApiFieldSchema<TFormValues, T, P>>[]) {
     const updated: Partial<FormApiSchema<TFormValues, T, P>>[] = [...schema];
     const hasField = updated.every(
       (item) => Reflect.has(item, 'fieldName') && item.fieldName,
@@ -575,7 +633,7 @@ export class FormApi<
 
   async validateAndSubmit() {
     const { valid } = await this.validate();
-    if (!valid) return;
+    if (!valid) return undefined;
     return this.submitValues();
   }
 
@@ -620,8 +678,8 @@ export class FormApi<
   }
 
   private updateState() {
-    const currentSchema = this.state?.schema ?? [];
-    const prevSchema = this.prevState?.schema ?? [];
+    const currentSchema = getFormFieldSchemas(this.state?.schema ?? []);
+    const prevSchema = getFormFieldSchemas(this.prevState?.schema ?? []);
     // 进行了删除schema操作
     if (currentSchema.length < prevSchema.length) {
       const currentFields = new Set(
@@ -631,7 +689,7 @@ export class FormApi<
         (item) => !currentFields.has(item.fieldName),
       );
       for (const schema of deletedSchema) {
-        this.form?.setFieldValue?.(
+        void this.form?.setFieldValue?.(
           schema.fieldName,
           undefined as FormFieldValue<TFormValues, string>,
         );
@@ -659,7 +717,7 @@ export class FormApi<
     this.legacyTransformWarningState = warningState;
 
     const hasValueFormat = (
-      items: FormApiSchema<TFormValues, T, P>[],
+      items: FormApiFieldSchema<TFormValues, T, P>[],
     ): boolean => {
       return items.some((schema) => {
         if (schema.valueFormat) {
@@ -669,7 +727,9 @@ export class FormApi<
         return Array.isArray(children) && hasValueFormat(children);
       });
     };
-    const usesValueFormat = hasValueFormat(warningState.schema);
+    const usesValueFormat = hasValueFormat(
+      getFormFieldSchemas(warningState.schema),
+    );
     const usesFieldMappingTime =
       (warningState.fieldMappingTime?.length ?? 0) > 0;
     const usesArrayToStringFields =

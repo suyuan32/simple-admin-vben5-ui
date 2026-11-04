@@ -65,6 +65,7 @@ export const useAccessStore = defineStore('core-access', {
             }
           }
         }
+        return undefined;
       }
       return findMenu(this.accessMenus, path);
     },

@@ -4,8 +4,12 @@ import type {
   FormActions,
   FormContextApi,
   FormFieldOptions,
+  FormFieldSchema,
+  FormGroupSchema,
   FormItemDependencies,
+  FormSchema,
   FormValidationResult,
+  FormValuePatch,
   FormValueSnapshot,
   VbenFormAdapterOptions,
   VbenFormProps,
@@ -88,7 +92,7 @@ describe('form public types', () => {
   it('propagates form value types through public APIs and callbacks', () => {
     const options: VbenFormProps<
       BaseFormComponentType,
-      Record<never, never>,
+      Record<string, never>,
       AccountFormValues
     > = {
       handleSubmit(values, rawValues) {
@@ -119,9 +123,15 @@ describe('form public types', () => {
         rawValues: Readonly<AccountFormValues>;
         values: AccountFormValues;
       }>();
-      expectTypeOf(typedFormApi.setValues)
+      expectTypeOf(typedFormApi.setValues.bind(typedFormApi))
         .parameter(0)
-        .toEqualTypeOf<Partial<AccountFormValues>>();
+        .toEqualTypeOf<FormValuePatch<AccountFormValues>>();
+      expectTypeOf<
+        FormValuePatch<AccountFormValues>['profile']
+      >().toEqualTypeOf<undefined | { nickname?: string }>();
+      expectTypeOf<FormValuePatch<AccountFormValues>['roles']>().toEqualTypeOf<
+        string[] | undefined
+      >();
       expectTypeOf(typedFormApi.form.values).toEqualTypeOf<AccountFormValues>();
       expectTypeOf(contextApi.getFieldValue('email')).toEqualTypeOf<string>();
       expectTypeOf(
@@ -173,7 +183,7 @@ describe('form public types', () => {
   it('keeps form and submit values distinct with a codec', () => {
     const options: VbenFormProps<
       BaseFormComponentType,
-      Record<never, never>,
+      Record<string, never>,
       AccountFormValues,
       AccountSubmitValues
     > = {
@@ -209,7 +219,7 @@ describe('form public types', () => {
     const [, formApi] = useVbenForm<
       AccountFormValues,
       BaseFormComponentType,
-      Record<never, never>,
+      Record<string, never>,
       AccountSubmitValues
     >(options);
 
@@ -222,7 +232,7 @@ describe('form public types', () => {
     expectTypeOf(formApi.getValueSnapshot()).resolves.toEqualTypeOf<
       FormValueSnapshot<AccountFormValues, AccountSubmitValues>
     >();
-    expectTypeOf(formApi.setSubmitValues)
+    expectTypeOf(formApi.setSubmitValues.bind(formApi))
       .parameter(0)
       .toEqualTypeOf<AccountSubmitValues>();
   });
@@ -262,6 +272,57 @@ describe('form public types', () => {
     expectTypeOf(
       formApi.getRawValues(),
     ).resolves.toEqualTypeOf<AccountFormValues>();
+  });
+
+  it('discriminates group schemas from field schemas by type', () => {
+    const [, formApi] = useVbenForm<AccountFormValues>({
+      schema: [
+        { component: 'VbenInput', fieldName: 'email' },
+        {
+          children: [{ component: 'VbenInput', fieldName: 'profile.nickname' }],
+          defaultCollapsed: true,
+          title: 'Profile',
+          type: 'group',
+        },
+      ],
+    });
+
+    expectTypeOf<FormSchema>().toEqualTypeOf<
+      FormFieldSchema | FormGroupSchema
+    >();
+    expectTypeOf<FormGroupSchema['fieldName']>().toEqualTypeOf<undefined>();
+    expectTypeOf<FormGroupSchema['component']>().toEqualTypeOf<undefined>();
+    expectTypeOf<FormGroupSchema['children']>().toEqualTypeOf<
+      FormFieldSchema[]
+    >();
+    // updateSchema 只接受字段更新，分组本身不可被更新
+    expectTypeOf(formApi.updateSchema.bind(formApi))
+      .parameter(0)
+      .toEqualTypeOf<
+        Partial<
+          FormFieldSchema<
+            BaseFormComponentType,
+            Record<string, never>,
+            AccountFormValues
+          >
+        >[]
+      >();
+
+    // @ts-expect-error 分组不能声明 fieldName
+    const invalidGroup: FormSchema = {
+      children: [],
+      fieldName: 'group',
+      type: 'group',
+    };
+    // @ts-expect-error 数组子字段不能是分组
+    const invalidArrayChildren: FormSchema = {
+      children: [{ children: [], type: 'group' }],
+      fieldName: 'contacts',
+      type: 'array',
+    };
+
+    expectTypeOf(invalidGroup).toMatchTypeOf<FormSchema>();
+    expectTypeOf(invalidArrayChildren).toMatchTypeOf<FormSchema>();
   });
 
   it('exposes canonical names alongside deprecated aliases', () => {

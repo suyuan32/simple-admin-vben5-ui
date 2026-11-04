@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
 
+import type { LanguageOption } from '@vben/constants';
+import type { SupportedLanguagesType } from '@vben/locales';
 import type { AnyFunction } from '@vben/types';
 
-import { computed, ref, useTemplateRef, watch } from 'vue';
+import type { ClassType } from '@vben-core/typings';
 
-import { SUPPORT_LANGUAGES } from '@vben/constants';
+import { computed, onUnmounted, ref, useTemplateRef, watch } from 'vue';
+
+import { onSupportLanguagesChange } from '@vben/constants';
 import { useHoverToggle, useRefresh } from '@vben/hooks';
 import {
   createIconifyIcon,
@@ -56,6 +60,15 @@ interface Props {
    */
   avatar?: string;
   /**
+   * 头像是否显示在线圆点
+   * @default true
+   */
+  avatarDot?: boolean;
+  /**
+   * 头像在线圆点样式
+   */
+  avatarDotClass?: ClassType;
+  /**
    * @zh_CN 描述
    */
   description?: string;
@@ -88,6 +101,8 @@ defineOptions({
 
 const props = withDefaults(defineProps<Props>(), {
   avatar: '',
+  avatarDot: true,
+  avatarDotClass: 'bottom-0 right-1 border-2 size-4 bg-green-500',
   description: '',
   menus: () => [],
   tagText: '',
@@ -278,15 +293,22 @@ function handleNotificationSelect(event?: Event) {
 
 // 语言切换 - 阻止 Radix 默认关闭外层 dropdown，就地展开/收起 locale 列表
 const showLanguageList = ref(false);
+const languageList = ref<LanguageOption[]>([]);
+const unsubLang = onSupportLanguagesChange((langs) => {
+  languageList.value = [...langs];
+});
+onUnmounted(unsubLang);
 function handleLanguageToggleSelect(event?: Event) {
   event?.preventDefault();
   showLanguageList.value = !showLanguageList.value;
 }
-async function handleLocaleChange(event: Event, value: 'en-US' | 'zh-CN') {
+async function handleLocaleChange(event: Event, value: string) {
   // 阻止默认关闭，让用户能继续看到选择结果；选完手动收起
   event.preventDefault();
-  updatePreferences({ app: { locale: value } });
-  await loadLocaleMessages(value);
+  // 菜单项来自运行时语言列表（可为自定义语言），此处为运行时边界断言
+  const locale = value as SupportedLanguagesType;
+  updatePreferences({ app: { locale } });
+  await loadLocaleMessages(locale);
   showLanguageList.value = false;
   openPopover.value = false;
 }
@@ -361,7 +383,13 @@ if (preferences.shortcutKeys.enable) {
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
         <div class="flex-center hover:text-accent-foreground">
-          <VbenAvatar :alt="text" :src="avatar" class="size-8" dot />
+          <VbenAvatar
+            :alt="text"
+            :src="avatar"
+            class="size-8"
+            :dot="avatarDot"
+            :dot-class="avatarDotClass"
+          />
         </div>
       </div>
     </DropdownMenuTrigger>
@@ -372,8 +400,8 @@ if (preferences.shortcutKeys.enable) {
             :alt="text"
             :src="avatar"
             class="size-12"
-            dot
-            dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
+            :dot="avatarDot"
+            :dot-class="avatarDotClass"
           />
           <div class="ml-2 w-full">
             <div
@@ -480,7 +508,7 @@ if (preferences.shortcutKeys.enable) {
           </DropdownMenuItem>
           <template v-if="showLanguageList">
             <DropdownMenuItem
-              v-for="lang in SUPPORT_LANGUAGES"
+              v-for="lang in languageList"
               :key="lang.value"
               class="mx-1 flex cursor-pointer items-center rounded-sm py-1 pl-8 leading-8"
               @select="(e: Event) => handleLocaleChange(e, lang.value)"
