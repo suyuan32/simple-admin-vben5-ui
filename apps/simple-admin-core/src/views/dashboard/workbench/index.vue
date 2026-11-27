@@ -12,7 +12,7 @@ import { openWindow } from '@vben/utils';
 
 import { Card, TypographyTitle } from 'ant-design-vue';
 
-const version = 'v1.8.6';
+const version = 'v1.9.0';
 
 // 同样，这里的 url 也可以使用以 http 开头的外部链接
 const quickNavItems: WorkbenchQuickNavItem[] = [
@@ -84,12 +84,7 @@ function navTo(nav: WorkbenchProjectItem | WorkbenchQuickNavItem) {
         </Card>
       </div>
       <div class="w-full lg:w-2/5">
-        <WorkbenchQuickNav
-          :items="quickNavItems"
-          class="mt-5 lg:mt-0"
-          title="快捷导航"
-          @click="navTo"
-        />
+        <WorkbenchQuickNav :items="quickNavItems" class="mt-5 lg:mt-0" title="快捷导航" @click="navTo" />
       </div>
     </div>
   </div>
